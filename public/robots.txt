@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stifinmulia.com/sitemap-index.xml

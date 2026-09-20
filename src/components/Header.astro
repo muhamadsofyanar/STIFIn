@@ -1,0 +1,51 @@
+---
+import Brand from './Brand.astro';
+import { waLink } from '../data/site';
+const path = Astro.url.pathname;
+const links = [
+  ['Tes STIFIn', '/tes-stifin/'],
+  ['Jadi Promotor', '/jadi-promotor/'],
+  ['Kerja Sama', '/kerja-sama/'],
+  ['Artikel', '/artikel/'],
+  ['Tentang', '/tentang/'],
+];
+---
+<header class="header">
+  <div class="container nav-wrap">
+    <Brand />
+    <button class="menu-button" aria-label="Buka menu" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+    <nav id="main-nav" class="nav" aria-label="Navigasi utama">
+      {links.map(([label, href]) => <a class:list={{ active: path.startsWith(href) }} href={href}>{label}</a>)}
+      <a class="button" href={waLink('Assalamu’alaikum, saya ingin berkonsultasi tentang Tes STIFIn.')} target="_blank" rel="noreferrer">Konsultasi</a>
+    </nav>
+  </div>
+</header>
+<script>
+  const button = document.querySelector('.menu-button');
+  const nav = document.querySelector('#main-nav');
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    nav?.classList.toggle('open', !open);
+    document.body.classList.toggle('menu-open', !open);
+  });
+</script>
+<style>
+  .header { position: sticky; z-index: 40; top: 0; border-bottom: 1px solid rgba(220,231,226,.85); background: rgba(251,252,250,.9); backdrop-filter: blur(16px); }
+  .nav-wrap { display: flex; min-height: 74px; align-items: center; justify-content: space-between; }
+  .nav { display: flex; align-items: center; gap: 25px; font-size: .92rem; font-weight: 700; }
+  .nav > a:not(.button) { position: relative; padding: 26px 0; }
+  .nav > a:not(.button)::after { position: absolute; right: 0; bottom: 18px; left: 0; height: 2px; border-radius: 4px; background: var(--amber-500); content: ''; opacity: 0; transform: scaleX(.5); transition: .2s ease; }
+  .nav > a.active::after, .nav > a:hover::after { opacity: 1; transform: scaleX(1); }
+  .nav .button { min-height: 42px; padding: 9px 17px; }
+  .menu-button { display: none; width: 44px; height: 44px; padding: 10px; border: 0; border-radius: 12px; background: var(--green-100); }
+  .menu-button span { display: block; height: 2px; margin: 5px 0; background: var(--green-950); }
+  @media (max-width: 900px) {
+    .menu-button { display: block; }
+    .nav { position: fixed; top: 74px; right: 0; bottom: 0; left: 0; display: none; align-items: stretch; flex-direction: column; gap: 0; padding: 20px 20px 100px; overflow: auto; background: var(--paper); }
+    .nav.open { display: flex; }
+    .nav > a:not(.button) { padding: 19px 8px; border-bottom: 1px solid var(--line); font-size: 1.12rem; }
+    .nav > a:not(.button)::after { display: none; }
+    .nav .button { margin-top: 24px; }
+  }
+</style>

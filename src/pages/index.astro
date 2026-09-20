@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { waLink } from '../data/site';
+const journeys = [
+  { icon: '01', title: 'Kenali Potensi Diri', text: 'Ikuti proses tes dan konsultasi hasil untuk memahami kecenderungan diri dalam konsep STIFIn.', href: '/tes-stifin/', cta: 'Pelajari Tes' },
+  { icon: '02', title: 'Tumbuh sebagai Promotor', text: 'Bangun kompetensi, jaringan, dan layanan dengan pembinaan serta sistem kerja yang terarah.', href: '/jadi-promotor/', cta: 'Lihat Jalur Promotor' },
+  { icon: '03', title: 'Berkolaborasi dengan Kami', text: 'Rancang program untuk sekolah, kampus, komunitas, keluarga, atau organisasi.', href: '/kerja-sama/', cta: 'Ajukan Kerja Sama' },
+];
+---
+<BaseLayout>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Edukasi dan Pengembangan Manusia</span>
+        <h1>Kenali potensi.<br /><em>Tumbuh dengan arah.</em></h1>
+        <p class="lead">STIFIn Mulia menghadirkan edukasi, tes, pembinaan promotor, dan kemitraan berbasis konsep STIFIn dengan kultur ilmu, sistem, akhlak, dan pelayanan.</p>
+        <div class="actions">
+          <a class="button" href={waLink('Assalamu’alaikum, saya ingin berkonsultasi dan mendaftar Tes STIFIn.')} target="_blank" rel="noreferrer">Daftar Tes STIFIn</a>
+          <a class="button secondary" href="/jadi-promotor/">Jelajahi Peluang Promotor</a>
+        </div>
+        <div class="trust"><span>Online-first</span><span>Tes secara langsung</span><span>Konsultasi terarah</span></div>
+      </div>
+      <div class="hero-visual" aria-label="Ekosistem pengembangan STIFIn Mulia">
+        <div class="orbit"><b>Potensi</b><span>Ilmu</span><span>Sistem</span><span>Nilai</span><span>Komunitas</span></div>
+        <div class="mini-card"><small>Wilayah utama</small><strong>Bandung Raya<br />dan Sumedang</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow">Pilih tujuan Anda</span><h2>Satu ekosistem, tiga jalur pertumbuhan</h2><p class="lead">Setiap pengunjung memperoleh jalur yang jelas sesuai kebutuhannya.</p></div></div>
+      <div class="grid-3">
+        {journeys.map((item) => <article class="card"><span class="card-icon">{item.icon}</span><h3>{item.title}</h3><p>{item.text}</p><a class="text-link" href={item.href}>{item.cta} →</a></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container about-grid">
+      <div><span class="eyebrow">Bukan sekadar tes</span><h2>Hasil menjadi awal proses belajar dan bertumbuh</h2></div>
+      <div><p class="lead">Kami menempatkan tes sebagai pintu masuk untuk mengenali kecenderungan diri. Setelahnya, peserta memperoleh konsultasi hasil, bahan edukasi, dan pilihan tindak lanjut yang relevan.</p><div class="notice">Tes STIFIn bukan diagnosis medis atau psikologis. Penjelasan kecenderungan selalu ditempatkan dalam konsep STIFIn.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow">Proses layanan</span><h2>Sederhana, jelas, dan mudah diakses</h2></div><a class="button secondary" href="/tes-stifin/">Lihat penjelasan lengkap</a></div>
+      <div class="steps"><article class="step"><h3>Konsultasi awal</h3><p>Ceritakan kebutuhan dan tentukan layanan yang sesuai.</p></article><article class="step"><h3>Booking jadwal</h3><p>Pilih waktu dan lokasi tes langsung yang tersedia.</p></article><article class="step"><h3>Pelaksanaan tes</h3><p>Proses tes dilakukan secara offline sesuai standar yang berlaku.</p></article><article class="step"><h3>Konsultasi hasil</h3><p>Pahami hasil dan susun langkah tindak lanjut yang realistis.</p></article></div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="container founder-grid">
+      <div class="portrait"><span>MS</span></div>
+      <div><span class="eyebrow">Pengelola STIFIn Mulia</span><h2>Muhamad Sofyan AR</h2><p class="lead">Branch Manager STIFIn Genetic Indonesia Cabang Pekalongan yang berdomisili dan mengembangkan basis operasional di Bandung Raya. Saat ini menempuh studi Ilmu Al-Qur’an dan Tafsir di UIN Bandung.</p><p>Perpaduan pengalaman organisasi, pembinaan manusia, dan disiplin akademik membentuk layanan yang menekankan amanah, adab, data, serta perbaikan berkelanjutan.</p><a class="button secondary" href="/tentang/">Baca profil dan arah gerakan</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container final-cta"><span class="eyebrow">Mulai dari satu percakapan</span><h2>Apa tujuan pertumbuhan Anda saat ini?</h2><p>Kami akan membantu memilih langkah awal yang paling relevan.</p><div class="actions"><a class="button" href={waLink('Assalamu’alaikum, saya ingin berkonsultasi dengan tim STIFIn Mulia.')} target="_blank" rel="noreferrer">Konsultasi via WhatsApp</a><a class="button secondary" href="/kerja-sama/">Ajukan Program Kolaborasi</a></div></div>
+  </section>
+</BaseLayout>
+<style>
+  .hero { position: relative; overflow: hidden; padding: clamp(72px, 10vw, 130px) 0 94px; background: radial-gradient(circle at 78% 20%, #d7ecd9 0, transparent 31%), linear-gradient(140deg, #fbfcfa 50%, #eef6f1); }
+  .hero::after { position: absolute; right: -10vw; bottom: -40vw; width: 70vw; height: 70vw; border: 1px solid rgba(10,103,87,.13); border-radius: 50%; content: ''; }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 70px; }
+  h1 { max-width: 760px; margin-bottom: 25px; }
+  h1 em { color: var(--green-700); font-family: Georgia, serif; font-weight: 500; }
+  .trust { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 34px; color: var(--muted); font-size: .85rem; font-weight: 700; }
+  .trust span::before { margin-right: 7px; color: var(--lime-500); content: '●'; }
+  .hero-visual { position: relative; display: grid; min-height: 470px; place-items: center; }
+  .orbit { position: relative; display: grid; width: min(72vw, 390px); aspect-ratio: 1; place-items: center; border: 1px solid rgba(10,103,87,.22); border-radius: 50%; background: rgba(255,255,255,.62); box-shadow: var(--shadow); }
+  .orbit::before { position: absolute; width: 64%; aspect-ratio: 1; border: 1px dashed rgba(10,103,87,.28); border-radius: 50%; content: ''; }
+  .orbit b { z-index: 2; display: grid; width: 122px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: var(--green-950); color: white; font-size: 1.2rem; }
+  .orbit span { position: absolute; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--green-900); font-size: .8rem; font-weight: 800; }
+  .orbit span:nth-of-type(1) { top: 13%; left: 12%; }.orbit span:nth-of-type(2) { top: 15%; right: 8%; }.orbit span:nth-of-type(3) { right: 6%; bottom: 16%; }.orbit span:nth-of-type(4) { bottom: 13%; left: 5%; }
+  .mini-card { position: absolute; right: -10px; bottom: 20px; padding: 18px 20px; border-radius: 18px; background: var(--amber-500); box-shadow: var(--shadow); }
+  .mini-card small, .mini-card strong { display: block; }.mini-card small { margin-bottom: 5px; color: #654100; font-weight: 700; }
+  .text-link { color: var(--green-800); font-weight: 800; }
+  .about-grid, .founder-grid { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(40px, 8vw, 100px); }
+  .portrait { display: grid; min-height: 400px; place-items: center; border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius-lg); background: linear-gradient(145deg, #0b6d5c, #052c25); }
+  .portrait span { display: grid; width: 130px; aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; color: #bce070; font-family: Georgia, serif; font-size: 2.6rem; }
+  .founder-grid .button { margin-top: 16px; }
+  .final-cta { padding: clamp(45px, 8vw, 80px); border: 1px solid var(--line); border-radius: var(--radius-lg); background: white; text-align: center; box-shadow: var(--shadow); }
+  .final-cta .actions { justify-content: center; }
+  @media (max-width: 900px) { .hero-grid, .about-grid, .founder-grid { grid-template-columns: 1fr; } .hero-visual { min-height: 380px; } .founder-grid .portrait { min-height: 300px; } }
+  @media (max-width: 620px) { .hero { padding-top: 58px; } .hero-visual { min-height: 310px; } .mini-card { right: 0; bottom: -2px; } .trust { gap: 9px 16px; } }
+</style>

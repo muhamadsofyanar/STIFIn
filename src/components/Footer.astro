@@ -1,0 +1,24 @@
+---
+import Brand from './Brand.astro';
+import { site } from '../data/site';
+---
+<footer class="footer">
+  <div class="container footer-grid">
+    <div><Brand light /><p>{site.description}</p></div>
+    <div><strong>Layanan</strong><a href="/tes-stifin/">Tes STIFIn</a><a href="/jadi-promotor/">Jadi Promotor</a><a href="/kerja-sama/">Kerja Sama</a></div>
+    <div><strong>Informasi</strong><a href="/tentang/">Tentang Kami</a><a href="/artikel/">Artikel Edukasi</a><a href="/faq/">Pertanyaan Umum</a></div>
+    <div><strong>Wilayah Utama</strong><p>Bandung, Kabupaten Bandung, Bandung Barat, Cimahi, dan Sumedang.</p></div>
+  </div>
+  <div class="container bottom"><span>© {new Date().getFullYear()} STIFIn Mulia.</span><span>Pengembangan manusia dengan ilmu, sistem, dan nilai.</span></div>
+</footer>
+<style>
+  .footer { padding: 74px 0 28px; background: var(--green-950); color: white; }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 48px; }
+  .footer p { max-width: 380px; margin-top: 18px; color: #bed3cc; font-size: .92rem; }
+  .footer strong { display: block; margin-bottom: 18px; }
+  .footer a { display: block; margin: 10px 0; color: #bed3cc; font-size: .92rem; }
+  .footer a:hover { color: white; }
+  .bottom { display: flex; justify-content: space-between; gap: 24px; margin-top: 54px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); color: #9dbab0; font-size: .82rem; }
+  @media (max-width: 850px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; gap: 30px; } .bottom { flex-direction: column; } }
+</style>
