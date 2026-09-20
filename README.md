@@ -1,6 +1,8 @@
-# STIFIn Mulia Website v1.7.0
+# STIFIn Mulia Website v1.8.0
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
+
+Versi 1.8 mengubah pengalaman website dari sekadar pusat informasi menjadi pendamping keputusan. Beranda memisahkan jalur calon peserta dan calon promotor. Landing tes membantu pengunjung memilih kebutuhan personal sebelum mengisi form. Landing promotor menjelaskan pekerjaan nyata, menyediakan cek kesiapan interaktif, serta menerima calon yang belum mempunyai jaringan khusus. Enam artikel baru menggunakan alur WHY–WHAT–HOW–CTA untuk menjawab keraguan sebelum tes, kebutuhan setelah tes, masalah belajar anak, kesiapan promotor, sepuluh peserta pertama, dan follow up menuju WSL 1. CTA artikel kini menyesuaikan kategori pembaca.
 
 Versi 1.7 memperbaiki halaman testimoni agar lebih aman untuk konversi dan lebih rapi di ponsel. Tautan menuju situs sumber dihapus dari halaman testimoni, komponen bukti sosial, dan catatan sumber artikel; asal materi tetap ditampilkan sebagai teks. Crop foto kini diatur per narasumber, kolase ponsel memakai lingkaran dengan ukuran terkunci, kartu testimoni memakai foto proporsional, tersedia navigasi kategori, dan seluruh CTA utama diarahkan kembali ke formulir Tes STIFIn milik STIFIn Mulia.
 

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CentralProof from '../components/CentralProof.astro';
 import AuthorityProof from '../components/AuthorityProof.astro';
+import VisitorConcierge from '../components/VisitorConcierge.astro';
 const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0,3);
 const stages = [
   { number: '01', label: 'Mulai dari tes', title: 'Kenali pola diri', text: 'Tes menjadi pintu masuk untuk mengenali Mesin Kecerdasan dan personaliti genetik Anda.' },
@@ -15,6 +16,8 @@ const stages = [
   <section class="hero"><div class="container hero-grid"><div class="hero-copy"><span class="eyebrow">Gerakan 100 Tes STIFIn</span><h1>Kenali pola diri.<br /><em>Mulai langkah yang lebih berarti.</em></h1><p class="lead">Kami ingin membantu lebih banyak orang berhenti menebak-nebak dirinya. Mulailah dari Tes STIFIn, pahami cara kerja diri Anda, lalu susun langkah nyata untuk belajar, bekerja, berkeluarga, dan bertumbuh.</p><div class="actions"><a class="button" data-wa-intent="beranda-tes" href="/ikut-tes-stifin/#daftar">Saya Mau Tes STIFIn</a><a class="button secondary" href="/jaringan-promotor/">Cari Tes di Kota Saya</a></div><p class="microcopy">Isi nama, WhatsApp, kota, dan kebutuhan Anda. Tim membantu mengecek jadwal, lokasi, serta langkah berikutnya.</p></div><div class="hero-visual"><figure class="visual-main"><img src="/images/kegiatan/layanan-peserta.webp" width="1200" height="800" alt="Pendampingan peserta STIFIn Mulia" /><figcaption><span>Tes adalah awal</span><strong>Kenal diri, belajar, lalu berdampak</strong></figcaption></figure><figure class="visual-small"><img src="/images/kegiatan/pelaksanaan-tes.webp" width="1200" height="800" alt="Pelaksanaan Tes STIFIn" /></figure><div class="brand-stamp"><small>Satu gerakan</small><strong>100 orang<br />lebih mengenal diri</strong></div></div></div></section>
 
   <section class="section-tight"><div class="container proof-strip"><div><strong>Prosesnya jelas</strong><span>Mulai dari konsultasi, tes, hingga penjelasan hasil.</span></div><div><strong>Hasilnya dibawa ke kehidupan</strong><span>Bahas belajar, keluarga, profesi, bisnis, dan relasi.</span></div><div><strong>Bisa bertumbuh lebih jauh</strong><span>Lanjutkan ke WSL 1 dan jalur promotor saat Anda siap.</span></div></div></section>
+
+  <VisitorConcierge />
 
   <section class="section movement"><div class="container movement-grid"><div><span class="eyebrow">Mengapa gerakan ini hadir</span><h2>Banyak orang bekerja keras, tetapi belum memahami cara terbaik dirinya bergerak</h2></div><div><p class="lead">Ketika cara belajar, cara berkomunikasi, atau arah profesi terasa selalu dipaksakan, masalahnya belum tentu kurang kemampuan. Bisa jadi pendekatan yang dipakai tidak selaras dengan pola diri.</p><p>Gerakan 100 Tes STIFIn mengajak keluarga, pendidik, profesional, dan calon promotor memulai dari satu fondasi: mengenali diri sebelum menentukan strategi. Target 100 bukan sekadar angka; setiap peserta diharapkan pulang membawa satu pemahaman baru dan satu langkah yang dapat dijalankan.</p><a class="text-link" href="/tes-stifin/">Pelajari proses Tes STIFIn →</a></div></div></section>
 
