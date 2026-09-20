@@ -4,15 +4,19 @@ const { compact = false, light = false } = Astro.props;
 ---
 <a class:list={['brand', { compact, light }]} href="/" aria-label="Beranda STIFIn Mulia">
   <img class="mark" src="/images/logo-stifin-mulia.png" width="52" height="52" alt="" aria-hidden="true" />
-  {!compact && <span class="word"><strong>STIFIn</strong><b>Mulia</b></span>}
+  {!compact && <span class="word"><span><strong>STIFIn</strong><b>Mulia</b></span><small>Kenali · Tumbuh · Berdampak</small></span>}
 </a>
 <style>
-  .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--green-950); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--green-950); }
   .mark { display: block; width: 50px; height: 50px; object-fit: contain; }
-  .word { display: flex; align-items: baseline; gap: 5px; font-size: 1.06rem; letter-spacing: -.025em; }
+  .word,.word>span { display: flex; }
+  .word { align-items: start; flex-direction: column; line-height: 1; }
+  .word>span { align-items: baseline; gap: 5px; font-size: 1.08rem; letter-spacing: -.025em; }
   .word strong { font-weight: 850; }
   .word b { color: var(--green-700); font-weight: 650; }
+  .word small { margin-top: 6px; color: var(--muted); font-size: .58rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
   .light { color: white; }
   .light .word b { color: #a7d659; }
+  .light .word small { color: #a9c1b7; }
   @media(max-width:420px){.mark{width:44px;height:44px}.word{font-size:1rem}}
 </style>

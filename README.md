@@ -1,4 +1,4 @@
-# STIFIn Mulia Website v0.8
+# STIFIn Mulia Website v0.9
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -69,6 +69,15 @@ Secara default seluruh kode cabang harus berhasil. Jika respons kosong, format A
 Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
 
 Jangan menulis token di `.env`, source code, GitHub, log deployment, atau chat.
+
+## Perubahan v0.9
+
+- Sistem warna diselaraskan dengan identitas hijau STIFIn Mulia (`#043F2B`, `#065234`, putih hangat, dan aksen lime).
+- Headline memakai tipografi editorial agar hierarki teks lebih khas dan tidak menyerupai template umum.
+- Hero beranda menggunakan dokumentasi kegiatan nyata dengan komposisi editorial, bukan ilustrasi orbit generik.
+- Kartu, langkah, formulir, harga, FAQ, galeri, artikel, CTA, dan footer mendapat ritme visual baru yang konsisten.
+- Menu mobile diubah menjadi panel responsif dengan backdrop, animasi, status aksesibilitas, serta dukungan tombol Escape.
+- Tampilan Open Graph diselaraskan dengan branding baru.
 
 ## Perubahan v0.8
 

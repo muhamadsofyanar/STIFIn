@@ -7,7 +7,9 @@ const { title, text, message, secondaryHref, secondaryLabel } = Astro.props;
   <div class="container callout"><div><span class="eyebrow">Langkah berikutnya</span><h2>{title}</h2><p class="lead">{text}</p></div><div class="actions"><a class="button" data-wa-intent="callout" href={waLink(message)} target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a>{secondaryHref && secondaryLabel && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}</div></div>
 </section>
 <style>
-  .callout { display: flex; align-items: end; justify-content: space-between; gap: 48px; padding: clamp(38px, 7vw, 76px); border-radius: var(--radius-lg); background: var(--green-950); color: white; }
+  .callout { position:relative;overflow:hidden;display: flex; align-items: end; justify-content: space-between; gap: 48px; padding: clamp(38px, 7vw, 76px); border-radius: var(--radius-lg); background:linear-gradient(135deg,var(--green-950),#06583a); color: white;box-shadow:var(--shadow); }
+  .callout::after{position:absolute;right:-80px;top:-105px;width:260px;height:260px;border:55px solid rgba(255,255,255,.06);border-radius:50%;content:''}
+  .callout>div{position:relative;z-index:1}
   .callout p { color: #c5d9d2; }
   .callout > div:first-child { max-width: 700px; }
   .callout .actions { flex: 0 0 auto; }

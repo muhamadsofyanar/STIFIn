@@ -6,7 +6,9 @@ const { eyebrow, title, description } = Astro.props;
   <div class="container"><span class="eyebrow">{eyebrow}</span><h1>{title}</h1><p class="lead">{description}</p><slot /></div>
 </section>
 <style>
-  .page-hero { position: relative; overflow: hidden; padding: clamp(72px, 9vw, 118px) 0; background: radial-gradient(circle at 86% 18%, #d6ecd9, transparent 30%), linear-gradient(145deg, #fbfcfa, #eef6f1); }
-  .page-hero::after { position: absolute; right: -120px; bottom: -220px; width: 520px; height: 520px; border: 1px solid rgba(10,103,87,.15); border-radius: 50%; content: ''; }
-  h1 { max-width: 930px; margin-bottom: 24px; font-size: clamp(2.4rem, 6vw, 4.7rem); }
+  .page-hero { position: relative; overflow: hidden; padding: clamp(78px, 9vw, 125px) 0; border-bottom:1px solid var(--line);background: linear-gradient(115deg, #f7f8f4 0 68%, #e3eee6 68%); }
+  .page-hero::before { position:absolute;top:-130px;right:8%;width:280px;height:280px;border:52px solid rgba(131,169,71,.1);border-radius:50%;content:''; }
+  .page-hero::after { position: absolute; right: -120px; bottom: -220px; width: 520px; height: 520px; border: 1px solid rgba(4,63,43,.15); border-radius: 50%; content: ''; }
+  .page-hero :global(.container){position:relative;z-index:1}
+  h1 { max-width: 970px; margin-bottom: 24px; font-size: clamp(2.65rem, 6vw, 5rem);line-height:1.03;text-wrap:balance; }
 </style>
