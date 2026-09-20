@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Callout from '../components/Callout.astro';
+import CentralProof from '../components/CentralProof.astro';
 ---
 <BaseLayout title="WSL 1 STIFIn | Dari Hasil Tes Menjadi Pemahaman" description="Pelajari fondasi STIFIn melalui WSL 1 agar hasil tes dapat diterapkan dalam keluarga, belajar, pekerjaan, dan perjalanan menjadi promotor.">
   <PageHero eyebrow="Lanjutan setelah Tes STIFIn" title="Sudah tahu hasilnya? Sekarang pahami cara membacanya." description="WSL 1 membantu Anda keluar dari kebiasaan menghafal tipe. Anda belajar melihat pola, memahami perbedaan, dan menghubungkan konsep STIFIn dengan situasi yang benar-benar Anda alami."><div class="actions"><a class="button" href="/ikut-wsl-1/#daftar">Saya Tertarik WSL 1</a></div></PageHero>
@@ -19,5 +20,6 @@ import Callout from '../components/Callout.astro';
   <section class="section"><div class="container faq"><span class="eyebrow">Pertanyaan yang sering muncul</span><details open><summary>Apakah harus sudah tes sebelum mengikuti WSL 1?</summary><p>WSL 1 dirancang sebagai pendalaman setelah Anda memiliki hasil tes, sehingga contoh dan latihan dapat langsung dihubungkan dengan diri sendiri.</p></details><details><summary>Apakah setelah WSL 1 otomatis menjadi promotor?</summary><p>Tidak otomatis. WSL 1 membangun fondasi pemahaman. Jalur promotor memiliki proses, persyaratan, dan pendampingan tersendiri yang dijelaskan sebelum Anda memutuskan.</p></details><details><summary>Apakah WSL 1 hanya untuk calon promotor?</summary><p>Tidak. Peserta tes, orang tua, pasangan, pendidik, profesional, dan pemimpin tim dapat menggunakannya untuk memahami konsep secara lebih utuh.</p></details></div></section>
 
   <Callout title="Siap melanjutkan dari hasil menuju pemahaman?" text="Kirim hasil tes, kota, dan tujuan belajar Anda. Tim STIFIn Mulia akan membantu mengecek agenda WSL 1 yang tersedia." message="Assalamu’alaikum, saya ingin mengikuti WSL 1. Nama: ... Kota: ... Hasil Tes STIFIn: ... Tujuan saya belajar: ..." />
+  <CentralProof mode="wsl" />
 </BaseLayout>
 <style>.quote{padding:clamp(30px,5vw,52px);border-radius:var(--radius-lg);background:var(--green-950);color:white;box-shadow:var(--shadow)}.quote small,.quote strong{display:block}.quote small{margin-bottom:24px;color:#cfe0ae;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.quote strong{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.25}.bridge{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,8vw,100px);align-items:start}.faq{max-width:900px}.faq details{padding:22px 0;border-bottom:1px solid var(--line)}.faq summary{cursor:pointer;color:var(--green-950);font-size:1.1rem;font-weight:850}.faq details p{padding-top:12px}@media(max-width:800px){.bridge{grid-template-columns:1fr}}</style>

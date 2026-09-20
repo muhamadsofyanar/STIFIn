@@ -1,0 +1,66 @@
+---
+interface Props { mode?: 'home' | 'test' | 'wsl' | 'promotor' }
+const { mode = 'home' } = Astro.props;
+
+const reactions = [
+  { quote: '“Gua banget.”', note: 'Reaksi spontan ketika peserta merasa penjelasan dekat dengan dirinya.' },
+  { quote: '“Kok bisa pas sih?”', note: 'Ungkapan yang dicatat dalam materi jaringan setelah hasil dijelaskan.' },
+  { quote: '“Kok bisa ya?”', note: 'Rasa ingin tahu yang dapat menjadi awal untuk belajar lebih jauh.' },
+  { quote: '“Jadi malu aku seperti ditelanjangi.”', note: 'Cara peserta menggambarkan pengalaman merasa sangat dikenali.' },
+];
+
+const applications = [
+  { label: 'Learning', title: 'Belajar lebih menyenangkan dan efektif', text: 'Kenali pintu masuk belajar yang lebih selaras dengan kekuatan alami, lalu uji dalam kebiasaan sehari-hari.' },
+  { label: 'Parenting', title: 'Mengasuh dengan pendekatan yang lebih tepat', text: 'Baca kebutuhan orang tua dan anak agar arahan, dukungan, dan komunikasi tidak memakai satu cara untuk semua.' },
+  { label: 'Profession', title: 'Menyusun arah profesi dengan lebih sadar', text: 'Hubungkan pola diri dengan kompetensi, minat, nilai, pengalaman, dan peluang yang benar-benar tersedia.' },
+];
+
+const promoterAreas = [
+  ['Learning', 'Membantu peserta menemukan strategi belajar yang lebih mudah dijalankan.'],
+  ['Parenting', 'Membuka percakapan keluarga tentang perbedaan anak dan orang tua.'],
+  ['Profession', 'Menjadi pintu masuk pembahasan karier, peran, dan pengembangan diri.'],
+  ['Business', 'Menghubungkan pola diri dengan cara memulai, menjalankan, dan menumbuhkan usaha.'],
+  ['Marketing', 'Membaca perbedaan cara orang menerima pesan dan mengambil keputusan.'],
+  ['Human Resources', 'Memperkaya dialog tentang komunikasi, penempatan, dan kerja sama tim.'],
+];
+---
+
+{mode === 'home' && <section class="central-proof proof-home">
+  <div class="proof-container">
+    <div class="proof-heading"><span class="proof-kicker">Pengalaman yang sering terdengar di jaringan STIFIn</span><h2>Saat penjelasan terasa dekat, rasa penasaran berubah menjadi pemahaman.</h2><p>Materi resmi jaringan mencatat ungkapan spontan yang berulang setelah peserta menerima penjelasan hasil. Kami menampilkannya sebagai gambaran pengalaman dalam ekosistem STIFIn—bukan sebagai testimoni langsung peserta STIFIn Mulia.</p></div>
+    <div class="reaction-grid">{reactions.map((item) => <blockquote><strong>{item.quote}</strong><p>{item.note}</p></blockquote>)}</div>
+    <div class="proof-story"><figure><img src="/images/kegiatan/layanan-peserta.webp" width="1200" height="800" alt="Peserta menerima pendampingan dan penjelasan hasil" loading="lazy" /><figcaption>Dokumentasi kegiatan layanan dalam jaringan STIFIn.</figcaption></figure><div><span class="proof-kicker">Nilainya dimulai setelah hasil dibaca</span><h3>Tiga ruang penerapan yang dekat dengan kehidupan</h3><div class="application-list">{applications.map((item) => <article><small>{item.label}</small><h4>{item.title}</h4><p>{item.text}</p></article>)}</div><a class="proof-button" href="/ikut-tes-stifin/#daftar">Mulai dari Tes STIFIn</a></div></div>
+    <p class="source-note">Sumber ungkapan dan tema penerapan: materi pembelajaran STIFIn Institute/SGI yang tersedia pada jaringan. Hasil dan pengalaman tiap orang dapat berbeda.</p>
+  </div>
+</section>}
+
+{mode === 'test' && <section class="central-proof proof-test">
+  <div class="proof-container proof-split">
+    <div><span class="proof-kicker">Apa yang sering dirasakan setelah penjelasan?</span><h2>Bukan sekadar menerima hasil, tetapi merasa punya bahasa untuk membaca diri.</h2><p class="proof-lead">Empat ungkapan berikut dicatat dalam materi jaringan STIFIn sebagai reaksi yang kerap muncul. Reaksi ini bukan janji bahwa setiap peserta akan merasakan hal yang sama.</p><div class="reaction-grid compact">{reactions.map((item) => <blockquote><strong>{item.quote}</strong></blockquote>)}</div></div>
+    <aside class="history-card"><span>Catatan historis sumber</span><strong>352 orang</strong><p>disebut mengikuti tes ulang sekitar satu bulan setelah tes pertama.</p><div><b>3 orang</b><small>dilaporkan memperoleh hasil berbeda dalam catatan tersebut.</small></div><p class="history-caveat">Angka ini adalah laporan historis dalam buku <em>Konsep PALUGADA</em>, bukan audit independen STIFIn Mulia dan bukan jaminan hasil individual.</p></aside>
+  </div>
+  <div class="proof-container"><p class="source-note">Sumber: STIFIn Institute, <em>Konsep PALUGADA</em>. Kutipan ditampilkan singkat dan kontekstual; penjelasan saat tes tetap diperlukan.</p></div>
+</section>}
+
+{mode === 'wsl' && <section class="central-proof proof-wsl">
+  <div class="proof-container"><div class="proof-heading"><span class="proof-kicker">Dari hasil menuju penerapan</span><h2>WSL 1 membantu Anda mengubah “saya tipe apa?” menjadi “bagaimana saya bertumbuh?”</h2><p>Materi tematik jaringan menunjukkan bahwa konsep STIFIn dibawa ke persoalan nyata. WSL 1 membangun fondasi agar pembahasan berikutnya tidak berhenti pada label.</p></div><div class="application-cards">{applications.map((item, index) => <article><b>0{index + 1}</b><small>{item.label}</small><h3>{item.title}</h3><p>{item.text}</p></article>)}</div><div class="proof-action"><p><strong>Hasil tes adalah pintu masuk.</strong> Pembelajaran membantu Anda memahami hubungan antarpola, bertanya dengan lebih baik, dan memilih tindakan yang dapat dievaluasi.</p><a class="proof-button" href="/ikut-wsl-1/#daftar">Tanyakan Jadwal WSL 1</a></div><p class="source-note">Tema manfaat dirangkum dari workbook STIFIn Learning, Parenting, dan Profession dalam fasilitas pembelajaran jaringan. Manfaat bergantung pada pemahaman dan penerapan peserta.</p></div>
+</section>}
+
+{mode === 'promotor' && <section class="central-proof proof-promotor">
+  <div class="proof-container"><div class="proof-heading"><span class="proof-kicker">Lebih dari menjual satu layanan</span><h2>Promotor memiliki banyak pintu untuk menghadirkan percakapan yang relevan.</h2><p>Fasilitas tematik jaringan memberi bahan untuk melayani peserta setelah tes. Inilah yang membuat promotor dapat bertumbuh sebagai edukator dan pendamping, bukan hanya penghubung transaksi.</p></div><div class="promoter-proof"><div class="area-grid">{promoterAreas.map(([title, text], index) => <article><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div><figure><img src="/images/kegiatan/pembelajaran-promotor.webp" width="1200" height="800" alt="Kegiatan pembelajaran promotor dalam jaringan STIFIn" loading="lazy" /><figcaption><strong>Belajar sebelum melayani.</strong> Materi, praktik, komunitas, dan pendampingan menjadi bekal untuk membangun kepercayaan.</figcaption></figure></div><div class="proof-action"><p>Anda tidak harus menguasai semuanya sekaligus. Mulai dari Tes STIFIn, WSL 1, lalu bangun kompetensi dan layanan secara bertahap.</p><a class="proof-button" href="/gabung-promotor/#daftar">Petakan Jalur Saya</a></div><p class="source-note">Ruang penerapan dirangkum dari workbook Learning, Parenting, Profession, Business, Marketing, dan Human Resources yang tersedia dalam sumber jaringan. Foto merupakan dokumentasi kegiatan jaringan.</p></div>
+</section>}
+
+<style>
+  .central-proof{padding:clamp(72px,9vw,112px) 0;background:#f4f8f3;color:var(--ink)}
+  .proof-container{width:min(calc(100% - 40px),1170px);margin-inline:auto}
+  .proof-heading{max-width:850px;margin-bottom:38px}.proof-heading h2,.proof-split h2{margin:10px 0 17px;font-size:clamp(2rem,4.5vw,3.7rem);line-height:1.07;text-wrap:balance}.proof-heading>p,.proof-lead{font-size:1.05rem;line-height:1.75}
+  .proof-kicker{color:var(--green-700);font-size:.75rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+  .reaction-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.reaction-grid blockquote{margin:0;padding:25px;border:1px solid var(--line);border-radius:18px;background:white;box-shadow:var(--shadow-soft)}.reaction-grid strong{display:block;color:var(--green-950);font-family:var(--font-display);font-size:clamp(1.25rem,2.2vw,1.8rem)}.reaction-grid p{margin:12px 0 0;font-size:.82rem;line-height:1.6}.reaction-grid.compact{grid-template-columns:1fr 1fr;margin-top:28px}.reaction-grid.compact blockquote{padding:20px}.reaction-grid.compact strong{font-size:1.35rem}
+  .proof-story{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(32px,6vw,75px);align-items:center;margin-top:55px}.proof-story figure,.promoter-proof figure{overflow:hidden;margin:0;border-radius:22px;background:var(--green-950);box-shadow:var(--shadow)}.proof-story img,.promoter-proof img{display:block;width:100%;height:420px;object-fit:cover}.proof-story figcaption,.promoter-proof figcaption{padding:15px 18px;color:#c6d8d1;font-size:.78rem}.application-list{display:grid;gap:0;margin:22px 0 28px}.application-list article{padding:17px 0;border-bottom:1px solid var(--line)}.application-list small,.application-cards small{color:var(--green-700);font-weight:900;letter-spacing:.08em;text-transform:uppercase}.application-list h4{margin:5px 0}.application-list p{margin:0;font-size:.88rem}
+  .proof-button{display:inline-flex;min-height:50px;align-items:center;padding:12px 20px;border-radius:11px;background:var(--green-950);color:white;font-weight:850}.source-note{margin:30px 0 0;padding-top:17px;border-top:1px solid var(--line);color:var(--muted);font-size:.72rem;line-height:1.6}
+  .proof-test{background:linear-gradient(145deg,#eef5ee,#e2eee5)}.proof-split{display:grid;grid-template-columns:1.18fr .82fr;gap:clamp(35px,7vw,90px);align-items:center}.history-card{padding:clamp(28px,5vw,48px);border:1px solid #c5d8cb;border-radius:24px;background:var(--green-950);color:white;box-shadow:var(--shadow)}.history-card>span{color:#cfe0ae;font-size:.75rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.history-card>strong{display:block;margin:18px 0 2px;font-family:var(--font-display);font-size:clamp(3rem,7vw,5.5rem);line-height:1}.history-card>p{color:#c5d8d0}.history-card>div{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin:24px 0;padding:19px;border-radius:15px;background:rgba(255,255,255,.09)}.history-card b{font-size:1.8rem}.history-card small{color:#c5d8d0}.history-card .history-caveat{font-size:.72rem;line-height:1.55}
+  .proof-wsl{background:white}.application-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.application-cards article{padding:28px;border:1px solid var(--line);border-radius:18px;background:#f7faf6}.application-cards b{display:grid;width:42px;height:42px;place-items:center;margin-bottom:28px;border-radius:12px;background:var(--green-100);color:var(--green-800)}.application-cards h3{margin:11px 0}.application-cards p{margin:0}.proof-action{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:26px;padding:24px 27px;border-radius:17px;background:#e4efdf}.proof-action p{max-width:760px;margin:0}
+  .proof-promotor{background:linear-gradient(145deg,#eff5ef,#e0ece4)}.promoter-proof{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:stretch}.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.area-grid article{padding:22px;border:1px solid var(--line);border-radius:16px;background:white}.area-grid span{color:var(--green-700);font-size:.72rem;font-weight:900}.area-grid h3{margin:11px 0 7px}.area-grid p{margin:0;font-size:.84rem}.promoter-proof figure{display:flex;flex-direction:column}.promoter-proof img{flex:1;min-height:420px}.promoter-proof figcaption strong{display:block;color:white}
+  @media(max-width:900px){.reaction-grid{grid-template-columns:1fr 1fr}.proof-story,.proof-split,.promoter-proof{grid-template-columns:1fr}.application-cards{grid-template-columns:1fr}.proof-action{align-items:flex-start;flex-direction:column}.promoter-proof figure{order:-1}.promoter-proof img{height:330px;min-height:0}}
+  @media(max-width:560px){.proof-container{width:min(calc(100% - 28px),1170px)}.reaction-grid,.reaction-grid.compact,.area-grid{grid-template-columns:1fr}.central-proof{padding:65px 0}.proof-story img{height:310px}.history-card>div{grid-template-columns:1fr}.proof-action .proof-button{width:100%;justify-content:center}}
+</style>

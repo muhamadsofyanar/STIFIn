@@ -30,11 +30,14 @@ const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID || '';
   </head>
   <body class="campaign-body">
     <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
-    <header class="campaign-header"><div class="campaign-container header-inner"><div class="campaign-brand"><img src="/images/logo-stifin-mulia.png" width="48" height="48" alt="Logo STIFIn Mulia" /><div><strong>STIFIn Mulia</strong><small>Kenali · Tumbuh · Berdampak</small></div></div><a class="header-contact" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Bantuan WhatsApp</a></div></header>
+    <header class="campaign-header"><div class="campaign-container header-inner"><div class="campaign-brand"><img src="/images/brand-stifin-mulia-mark.webp" width="48" height="48" alt="Logo STIFIn Mulia" /><div><strong>STIFIn Mulia</strong><small>Kenali · Tumbuh · Berdampak</small></div></div><a class="header-contact" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Bantuan WhatsApp</a></div></header>
     <main id="main-content"><slot /></main>
     <footer class="campaign-footer"><div class="campaign-container"><strong>STIFIn Mulia</strong><span> · </span><a href="/privasi/">Kebijakan Privasi</a><p>© {new Date().getFullYear()} STIFIn Mulia. Informasi jadwal dan biaya dikonfirmasi sebelum pelaksanaan.</p></div></footer>
   </body>
 </html>
 <style is:global>
   .campaign-body{background:#f7f8f4}.campaign-container{width:min(calc(100% - 32px),1120px);margin-inline:auto}.campaign-header{position:relative;z-index:20;border-bottom:1px solid var(--line);background:rgba(255,255,255,.96)}.header-inner{display:flex;min-height:72px;align-items:center;justify-content:space-between;gap:20px}.campaign-brand{display:flex;align-items:center;gap:10px;color:var(--green-950)}.campaign-brand img{width:46px;height:46px;object-fit:contain}.campaign-brand strong,.campaign-brand small{display:block}.campaign-brand strong{font-size:1.04rem}.campaign-brand small{color:var(--muted);font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.header-contact{padding:9px 13px;border:1px solid var(--line);border-radius:10px;color:var(--green-800);font-size:.78rem;font-weight:800}.campaign-footer{padding:34px 0;background:var(--green-950);color:white;text-align:center}.campaign-footer a{color:#d9edb5;text-decoration:underline}.campaign-footer p{margin:8px 0 0;color:#bcd0c8;font-size:.78rem}@media(max-width:540px){.campaign-container{width:min(calc(100% - 24px),1120px)}.header-contact{font-size:0;width:44px;height:44px;padding:0}.header-contact::after{content:'WA';display:grid;height:100%;place-items:center;font-size:.75rem}.campaign-brand small{display:none}}
+</style>
+<style is:global>
+  .campaign-brand img{border-radius:50%;object-fit:cover}
 </style>
