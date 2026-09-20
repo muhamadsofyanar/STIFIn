@@ -1,4 +1,4 @@
-# STIFIn Mulia Website v0.9
+# STIFIn Mulia Website v1.0
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -69,6 +69,15 @@ Secara default seluruh kode cabang harus berhasil. Jika respons kosong, format A
 Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
 
 Jangan menulis token di `.env`, source code, GitHub, log deployment, atau chat.
+
+## Perubahan v1.0
+
+- Seluruh navigasi dan CTA ditulis ulang dari sudut pandang calon peserta, calon promotor, dan lembaga.
+- Pencarian jaringan kini memakai bahasa “Tes di Kota Saya” dan tidak memberi kesan wilayah layanan dibatasi.
+- Halaman promotor menjelaskan manfaat profesi melalui gaji/kompetensi, laba, rating/reputasi, cinta/relasi, dan bahagia/makna.
+- Kalkulator interaktif menampilkan margin kotor berdasarkan voucher Rp165.000, harga tes Rp550.000–Rp650.000, volume peserta, dan estimasi kembali modal.
+- Halaman tentang, FAQ, artikel, halaman kota, dan program lembaga dibuat lebih hangat, yakin, dan berorientasi pada hasil yang dicari pengunjung.
+- Catatan legal dan kehati-hatian tetap tersedia pada halaman khusus tanpa mendominasi alur penjualan.
 
 ## Perubahan v0.9
 

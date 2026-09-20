@@ -4,11 +4,11 @@ import { waLink } from '../data/site';
 const path = Astro.url.pathname;
 const links = [
   ['Tes STIFIn', '/tes-stifin/'],
-  ['Cari Promotor', '/jaringan-promotor/'],
-  ['Jadi Promotor', '/jadi-promotor/'],
-  ['Kerja Sama', '/kerja-sama/'],
-  ['Artikel', '/artikel/'],
-  ['Tentang', '/tentang/'],
+  ['Tes di Kota Saya', '/jaringan-promotor/'],
+  ['Peluang Promotor', '/jadi-promotor/'],
+  ['Untuk Lembaga', '/kerja-sama/'],
+  ['Belajar STIFIn', '/artikel/'],
+  ['Tentang Kami', '/tentang/'],
 ];
 ---
 <header class="header">
@@ -56,7 +56,7 @@ const links = [
     .menu-button { display: flex; }
     .nav { position: fixed; z-index:2; top: 78px; right: 0; bottom: 0; left:auto; display: flex; width:min(88vw,390px);align-items: stretch; flex-direction: column; gap: 0; padding: 22px 22px max(100px,env(safe-area-inset-bottom)); overflow-y: auto; background: #fbfcf9;box-shadow:-24px 30px 60px rgba(4,63,43,.18);opacity:0;visibility:hidden;transform:translateX(104%);transition:transform .25s ease,opacity .2s ease,visibility .2s ease; }
     .nav.open { opacity:1;visibility:visible;transform:translateX(0); }
-    .nav::before{content:'Pilih tujuan Anda';display:block;padding:8px 8px 18px;color:var(--green-800);font-family:var(--font-display);font-size:1.45rem;font-weight:700}
+    .nav::before{content:'Apa yang ingin Anda lakukan?';display:block;padding:8px 8px 18px;color:var(--green-800);font-family:var(--font-display);font-size:1.45rem;font-weight:700}
     .nav > a:not(.button) { padding: 17px 8px; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
     .nav > a:not(.button)::after { display: none; }
     .nav .button { margin-top: 24px; }

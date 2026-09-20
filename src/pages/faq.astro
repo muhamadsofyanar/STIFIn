@@ -3,17 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Callout from '../components/Callout.astro';
 const faqs = [
-  ['Apa hubungan STIFIn Mulia dengan STIFIn dan SGI?', 'STIFIn Mulia dikelola oleh Muhamad Sofyan AR, Branch Manager STIFIn Genetic Indonesia Cabang Pekalongan. STIFIn Mulia tergabung dalam jaringan STIFIn Genetic Indonesia dan menjalankan layanan berdasarkan ketentuan resmi yang berlaku. Hubungan tersebut merupakan jaringan kerja dan layanan, bukan hubungan atasan dan bawahan.'],
+  ['Apa hubungan STIFIn Mulia dengan STIFIn dan SGI?', 'STIFIn Mulia dikelola oleh Muhamad Sofyan AR, Branch Manager STIFIn Genetic Indonesia Cabang Pekalongan, dan terhubung dalam jaringan STIFIn Genetic Indonesia untuk layanan tes, pembelajaran, serta pengembangan promotor.'],
   ['Apakah Tes STIFIn dapat dilakukan dari jarak jauh?', 'Pendaftaran dan konsultasi dapat dilakukan dari jarak jauh. Proses tes dilakukan dengan bertemu langsung.'],
-  ['Apakah hasil tes menentukan masa depan seseorang?', 'Tidak. Hasil digunakan sebagai bahan mengenali kecenderungan dalam konsep STIFIn. Hasil tidak menjamin prestasi, karier, relasi, atau keberhasilan tertentu.'],
-  ['Apakah tes ini merupakan pemeriksaan psikologi atau medis?', 'Tidak. Tes STIFIn tidak diposisikan sebagai diagnosis medis, psikologis, atau pengganti pemeriksaan profesional.'],
-  ['Di wilayah mana layanan tersedia?', 'Fokus utama berada di Bandung Raya dan Sumedang. Wilayah lain dapat dilayani sesuai ketersediaan promotor, jadwal kegiatan, dan ketentuan resmi.'],
+  ['Apa manfaat hasil Tes STIFIn?', 'Hasil membantu Anda mengenali kecenderungan cara berpikir, belajar, bekerja, dan berkomunikasi dalam konsep STIFIn. Penjelasan hasil membantu menghubungkannya dengan situasi nyata Anda.'],
+  ['Bagaimana menempatkan hasil Tes STIFIn?', 'Gunakan hasil sebagai peta pengenalan diri dan bahan berdiskusi. Untuk persoalan kesehatan atau psikologis, tetap padukan dengan pendampingan tenaga profesional di bidangnya.'],
+  ['Di wilayah mana layanan tersedia?', 'STIFIn Mulia berbasis di Bandung dan terhubung dengan jaringan STIFIn di berbagai kota. Sebutkan kota Anda agar tim membantu mencari promotor dan jadwal yang tersedia.'],
   ['Apakah sekolah atau komunitas dapat mengadakan tes kelompok?', 'Bisa. Program kelompok dimulai dari diskusi kebutuhan, jumlah peserta, lokasi, jadwal, PIC, dan bentuk konsultasi hasil.'],
   ['Bagaimana cara menjadi promotor?', 'Mulai dengan membaca biaya dan isi program, lalu hubungi kami untuk mengikuti sesi penjelasan. Setelah itu, Anda dapat mendaftar dan mengikuti pembelajaran resmi.'],
 ];
 ---
 <BaseLayout title="FAQ | STIFIn Mulia" description="Jawaban atas pertanyaan umum tentang tes, promotor, wilayah layanan, dan kerja sama STIFIn Mulia.">
-  <PageHero eyebrow="Pertanyaan Umum" title="Hal yang perlu diketahui sebelum mendaftar" description="Temukan jawaban singkat tentang tes, program promotor, wilayah layanan, dan kerja sama."></PageHero>
+  <PageHero eyebrow="Pertanyaan Umum" title="Jawaban sebelum Anda memulai" description="Temukan informasi praktis tentang tes, hasil, peluang promotor, layanan kota, dan program untuk lembaga."></PageHero>
   <section class="section"><div class="container faq-list">{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}</div></section>
   <Callout title="Belum menemukan jawaban?" text="Sampaikan pertanyaan Anda melalui WhatsApp. Tim akan membantu menjawabnya." message="Assalamu’alaikum, saya memiliki pertanyaan tentang layanan STIFIn Mulia: ..." />
 </BaseLayout>

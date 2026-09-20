@@ -7,7 +7,7 @@ export const site = {
   owner: 'Muhamad Sofyan AR',
   role: 'Branch Manager STIFIn Genetic Indonesia Cabang Pekalongan',
   network: 'Tergabung dalam jaringan STIFIn Genetic Indonesia',
-  location: 'Bandung Raya dan Sumedang',
+  location: 'Berbasis di Bandung, terhubung melalui jaringan STIFIn',
   whatsapp: '6281333362649',
   phoneDisplay: '0813-3336-2649',
   email: 'halo@stifinmulia.com',
