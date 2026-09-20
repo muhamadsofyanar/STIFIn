@@ -7,7 +7,7 @@ const articles = defineCollection({
     title: z.string(),
     description: z.string(),
     keyAnswer: z.string(),
-    category: z.enum(['Mengenal STIFIn', 'Keluarga dan Parenting', 'Belajar dan Pendidikan', 'Karier dan Profesi', 'Bisnis dan Kepemimpinan']),
+    category: z.enum(['Mengenal STIFIn', 'Keluarga dan Parenting', 'Belajar dan Pendidikan', 'Karier dan Profesi', 'Bisnis dan Kepemimpinan', 'Finansial dan Rezeki', 'Tafsir Al-Qamar']),
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
     readingTime: z.number().int().positive(),

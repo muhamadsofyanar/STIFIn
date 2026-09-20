@@ -1,6 +1,8 @@
-# STIFIn Mulia Website v1.0
+# STIFIn Mulia Website v1.1
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
+
+Versi 1.1 memusatkan perjalanan pengunjung pada Gerakan 100 Tes STIFIn: Tes → penjelasan hasil → WSL 1 → promotor aktif → lebih banyak orang terlayani. Pusat pengetahuan diperluas dengan artikel penerapan STIFIn dan Ruang Tafsir Al-Qamar yang dipisahkan secara editorial.
 
 ## Menjalankan secara lokal
 
