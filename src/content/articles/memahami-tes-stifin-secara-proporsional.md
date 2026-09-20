@@ -59,4 +59,4 @@ Jika Anda belum tes, mulailah dengan menjelaskan kebutuhan Anda kepada tim STIFI
 
 ### Sumber dan pendekatan editorial
 
-Artikel ini merangkum materi pengantar *Konsep PALUGADA*, materi jaringan STIFIn, dan informasi pada [situs resmi STIFIn](https://stifin.com/) dengan bahasa baru. Klaim dalam materi sumber ditempatkan sebagai bagian dari konsep STIFIn, bukan sebagai diagnosis atau jaminan hasil.
+Artikel ini merangkum materi pengantar *Konsep PALUGADA*, materi jaringan STIFIn, dan informasi pada situs resmi STIFIn dengan bahasa baru. Klaim dalam materi sumber ditempatkan sebagai bagian dari konsep STIFIn, bukan sebagai diagnosis atau jaminan hasil.

@@ -1,6 +1,8 @@
-# STIFIn Mulia Website v1.6.0
+# STIFIn Mulia Website v1.7.0
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
+
+Versi 1.7 memperbaiki halaman testimoni agar lebih aman untuk konversi dan lebih rapi di ponsel. Tautan menuju situs sumber dihapus dari halaman testimoni, komponen bukti sosial, dan catatan sumber artikel; asal materi tetap ditampilkan sebagai teks. Crop foto kini diatur per narasumber, kolase ponsel memakai lingkaran dengan ukuran terkunci, kartu testimoni memakai foto proporsional, tersedia navigasi kategori, dan seluruh CTA utama diarahkan kembali ke formulir Tes STIFIn milik STIFIn Mulia.
 
 Versi 1.6 menambahkan halaman `/testimoni/` dan sistem authority proof pada seluruh funnel utama. Sembilan testimoni bernama dari figur publik, psikolog, praktisi pendidikan, dan profesional diringkas dari publikasi resmi STIFIn. Foto berasal dari galeri testimoni STIFIn.com, dioptimalkan secara lokal ke WebP, dan selalu disertai keterangan sumber. Pengunjung kini dapat membedakan testimoni jaringan STIFIn dari dokumentasi atau layanan langsung STIFIn Mulia.
 

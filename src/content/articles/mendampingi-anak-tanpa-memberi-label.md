@@ -60,4 +60,4 @@ Saat berkonsultasi dengan STIFIn Mulia, ceritakan usia anak, situasi yang ingin 
 
 ### Sumber dan pendekatan editorial
 
-Artikel ini dikembangkan dari *Workbook STIFIn Parenting*, *Workbook STIFIn Teaching*, materi pengantar STIFIn, dan tema parenting pada [pusat informasi resmi STIFIn](https://stifin.com/). Isi ditulis ulang secara independen dan dilengkapi batas penggunaan untuk melindungi kepentingan anak.
+Artikel ini dikembangkan dari *Workbook STIFIn Parenting*, *Workbook STIFIn Teaching*, materi pengantar STIFIn, dan tema parenting pada pusat informasi resmi STIFIn. Isi ditulis ulang secara independen dan dilengkapi batas penggunaan untuk melindungi kepentingan anak.

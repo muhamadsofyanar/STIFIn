@@ -62,4 +62,4 @@ Saat menghubungi STIFIn Mulia, sertakan tahap karier, dua pilihan yang sedang di
 
 ### Sumber dan pendekatan editorial
 
-Artikel ini dikembangkan dari *Workbook Profesi*, materi konsep STIFIn, serta topik profesi pada [koleksi ebook dan jurnal resmi STIFIn](https://stifin.com/page/ebook). Isi telah diparafrasekan dan tidak menjanjikan kecocokan atau keberhasilan profesi tertentu.
+Artikel ini dikembangkan dari *Workbook Profesi*, materi konsep STIFIn, serta topik profesi pada koleksi ebook dan jurnal resmi STIFIn. Isi telah diparafrasekan dan tidak menjanjikan kecocokan atau keberhasilan profesi tertentu.
