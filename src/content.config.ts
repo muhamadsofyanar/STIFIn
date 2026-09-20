@@ -6,9 +6,12 @@ const articles = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    keyAnswer: z.string(),
     category: z.enum(['Mengenal STIFIn', 'Keluarga dan Parenting', 'Belajar dan Pendidikan', 'Karier dan Profesi', 'Bisnis dan Kepemimpinan']),
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
+    readingTime: z.number().int().positive(),
+    audience: z.string(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),

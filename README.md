@@ -1,4 +1,4 @@
-# STIFIn Mulia Website v0.7
+# STIFIn Mulia Website v0.8
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -69,6 +69,16 @@ Secara default seluruh kode cabang harus berhasil. Jika respons kosong, format A
 Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
 
 Jangan menulis token di `.env`, source code, GitHub, log deployment, atau chat.
+
+## Perubahan v0.8
+
+- Delapan artikel pilar panjang: pengantar tes, parenting, learning, profesi, couple, bisnis, tim, dan leadership.
+- Setiap artikel memakai alur masalah, alasan, konsep, penerapan, evaluasi, batas penggunaan, dan CTA kontekstual.
+- Pusat artikel baru dengan jalur baca berdasarkan kebutuhan dan pilihan editor.
+- Transparansi audiens, waktu baca, tanggal pembaruan, pendekatan editorial, serta sumber materi.
+- Klaim dari materi sumber diposisikan sebagai bagian dari konsep STIFIn, bukan diagnosis, ramalan, atau jaminan hasil.
+- `stifingenetic.com` tidak digunakan sebagai sumber karena saat pemeriksaan domain tersebut menampilkan konten yang tidak terkait STIFIn.
+- Dokumen TAFSIR tidak dicampurkan ke artikel umum karena membutuhkan jalur editorial dan penelaahan keagamaan tersendiri.
 
 ## Perubahan v0.7
 
