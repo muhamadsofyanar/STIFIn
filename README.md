@@ -1,8 +1,23 @@
-# STIFIn Mulia Website v1.1
+# STIFIn Mulia Website v1.2
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
 Versi 1.1 memusatkan perjalanan pengunjung pada Gerakan 100 Tes STIFIn: Tes → penjelasan hasil → WSL 1 → promotor aktif → lebih banyak orang terlayani. Pusat pengetahuan diperluas dengan artikel penerapan STIFIn dan Ruang Tafsir Al-Qamar yang dipisahkan secara editorial.
+
+Versi 1.2 menambahkan landing page khusus iklan di `/ikut-tes-stifin/`, halaman konfirmasi `/terima-kasih-tes/`, form lead dengan UTM dan `fbclid`, webhook opsional untuk n8n/CRM, Meta Pixel opsional, sticky CTA mobile, serta menu mobile layar penuh pada website utama.
+
+## Landing page iklan dan form lead
+
+Atur dua variabel berikut sebagai **Build Variable** di Coolify:
+
+```text
+PUBLIC_STIFIN_LEAD_WEBHOOK_URL=https://alamat-n8n-anda/webhook/stifin-lead
+PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
+```
+
+`PUBLIC_STIFIN_LEAD_WEBHOOK_URL` menerima `POST` JSON berisi nama, WhatsApp, kota, kebutuhan, jumlah peserta, waktu, halaman sumber, varian landing page, UTM, `fbclid`, dan `gclid`. Webhook n8n harus mengizinkan permintaan dari `https://stifinmulia.com`. Setelah data diproses, halaman mengarahkan calon peserta ke `/terima-kasih-tes/` dan menyiapkan pesan WhatsApp pusat.
+
+Jika webhook belum diisi, formulir tetap melanjutkan calon peserta ke halaman terima kasih dan WhatsApp, tetapi lead belum tersimpan ke CRM. Pixel juga hanya aktif bila ID Meta Pixel sudah diisi.
 
 ## Menjalankan secara lokal
 

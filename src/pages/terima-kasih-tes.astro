@@ -1,0 +1,24 @@
+---
+import CampaignLayout from '../layouts/CampaignLayout.astro';
+import { site } from '../data/site';
+---
+<CampaignLayout title="Terima Kasih | Permintaan Jadwal Tes STIFIn" description="Permintaan jadwal Tes STIFIn Anda telah diterima.">
+  <section class="thanks"><div class="campaign-container thanks-grid"><div class="thanks-main"><span class="success-mark">✓</span><span class="campaign-kicker">Data Anda sudah diproses</span><h1>Terima kasih. Sekarang lanjutkan satu langkah melalui WhatsApp.</h1><p class="lead">Tim STIFIn Mulia akan membantu mengecek jadwal, lokasi, dan biaya Tes STIFIn di kota Anda. Agar lebih cepat, tekan tombol di bawah dan kirim pesan yang sudah kami siapkan.</p><a id="continue-wa" class="thanks-button" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Lanjutkan ke WhatsApp</a><p class="small-note">Nomor pusat STIFIn Mulia: {site.phoneDisplay}</p></div><aside><strong>Apa yang terjadi berikutnya?</strong><ol><li>Tim membaca kota dan kebutuhan tes Anda.</li><li>Ketersediaan promotor serta jadwal diperiksa.</li><li>Lokasi dan biaya dikonfirmasi sebelum Anda memutuskan.</li><li>Setelah tes, Anda menerima hasil dan penjelasan dasar.</li></ol><div class="reminder"><b>Belum perlu membayar sekarang.</b><span>Konfirmasi seluruh informasi terlebih dahulu melalui WhatsApp.</span></div></aside></div></section>
+  <section class="after"><div class="campaign-container"><span class="campaign-kicker">Sambil menunggu balasan</span><h2>Siapkan satu pertanyaan yang paling ingin Anda jawab melalui tes.</h2><div class="question-grid"><div><strong>Belajar</strong><span>Bagaimana saya atau anak saya lebih mudah memulai dan menjaga konsistensi?</span></div><div><strong>Keluarga</strong><span>Mengapa pesan yang sama dapat diterima secara berbeda?</span></div><div><strong>Profesi</strong><span>Kekuatan apa yang layak lebih serius saya kembangkan?</span></div></div></div></section>
+  <script>
+    const link = document.querySelector<HTMLAnchorElement>('#continue-wa');
+    let lead: Record<string,string> = {};
+    try { lead = JSON.parse(sessionStorage.getItem('stifinLead') || '{}'); } catch {}
+    const message = [
+      'Assalamu’alaikum, saya sudah mengisi form jadwal Tes STIFIn di stifinmulia.com.',
+      `Nama: ${lead.name || '...'}`,
+      `Kota: ${lead.city || '...'}`,
+      `Tes untuk: ${lead.need || '...'}`,
+      `Jumlah peserta: ${lead.participant_count || '...'}`,
+      `Sumber: ${lead.utm_source || 'website'} / ${lead.utm_campaign || '-'}`,
+      'Mohon informasi jadwal dan biaya yang tersedia.'
+    ].join('\n');
+    if (link) link.href = `${link.href}?text=${encodeURIComponent(message)}`;
+  </script>
+</CampaignLayout>
+<style>.thanks{min-height:70vh;padding:clamp(65px,10vw,125px) 0;background:radial-gradient(circle at 82% 10%,rgba(131,169,71,.18),transparent 25rem),#f7f8f4}.thanks-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(40px,8vw,95px);align-items:center}.success-mark{display:grid;width:60px;height:60px;margin-bottom:25px;place-items:center;border-radius:50%;background:var(--green-950);color:white;font-size:1.55rem;font-weight:900}.thanks h1{max-width:760px;font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.03;text-wrap:balance}.thanks-button{display:inline-flex;min-height:56px;align-items:center;justify-content:center;margin-top:22px;padding:13px 22px;border-radius:12px;background:var(--green-950);color:white;font-weight:850;box-shadow:var(--shadow-soft)}.small-note{margin-top:11px;font-size:.8rem}.thanks aside{padding:clamp(26px,4vw,42px);border:1px solid var(--line);border-radius:22px;background:white;box-shadow:var(--shadow)}.thanks aside>strong{font-family:var(--font-display);font-size:1.5rem}.thanks ol{padding-left:21px}.thanks li{margin:14px 0;color:var(--muted)}.reminder{padding:16px;border-radius:12px;background:var(--green-100)}.reminder b,.reminder span{display:block}.reminder span{margin-top:4px;color:var(--muted);font-size:.82rem}.after{padding:80px 0;background:white;text-align:center}.after h2{max-width:820px;margin-inline:auto}.question-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:35px;text-align:left}.question-grid div{padding:23px;border:1px solid var(--line);border-radius:15px}.question-grid strong,.question-grid span{display:block}.question-grid span{margin-top:7px;color:var(--muted);font-size:.88rem}@media(max-width:800px){.thanks-grid,.question-grid{grid-template-columns:1fr}}</style>

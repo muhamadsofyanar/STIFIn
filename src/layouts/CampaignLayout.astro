@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+interface Props { title: string; description: string; pixelEvent?: 'PageView' | 'Lead' }
+const { title, description, pixelEvent = 'PageView' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID || '';
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL('/images/og-default.png', Astro.site)} />
+    <meta name="theme-color" content="#043f2b" />
+    <link rel="icon" href="/icons/favicon.png" type="image/png" sizes="64x64" />
+    <title>{title}</title>
+    {pixelId && <script is:inline define:vars={{ pixelId, pixelEvent }}>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', pixelId);
+      fbq('track', pixelEvent);
+    </script>}
+  </head>
+  <body class="campaign-body">
+    <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+    <header class="campaign-header"><div class="campaign-container header-inner"><div class="campaign-brand"><img src="/images/logo-stifin-mulia.png" width="48" height="48" alt="Logo STIFIn Mulia" /><div><strong>STIFIn Mulia</strong><small>Kenali · Tumbuh · Berdampak</small></div></div><a class="header-contact" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Bantuan WhatsApp</a></div></header>
+    <main id="main-content"><slot /></main>
+    <footer class="campaign-footer"><div class="campaign-container"><strong>STIFIn Mulia</strong><span> · </span><a href="/privasi/">Kebijakan Privasi</a><p>© {new Date().getFullYear()} STIFIn Mulia. Informasi jadwal dan biaya dikonfirmasi sebelum pelaksanaan.</p></div></footer>
+  </body>
+</html>
+<style is:global>
+  .campaign-body{background:#f7f8f4}.campaign-container{width:min(calc(100% - 32px),1120px);margin-inline:auto}.campaign-header{position:relative;z-index:20;border-bottom:1px solid var(--line);background:rgba(255,255,255,.96)}.header-inner{display:flex;min-height:72px;align-items:center;justify-content:space-between;gap:20px}.campaign-brand{display:flex;align-items:center;gap:10px;color:var(--green-950)}.campaign-brand img{width:46px;height:46px;object-fit:contain}.campaign-brand strong,.campaign-brand small{display:block}.campaign-brand strong{font-size:1.04rem}.campaign-brand small{color:var(--muted);font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.header-contact{padding:9px 13px;border:1px solid var(--line);border-radius:10px;color:var(--green-800);font-size:.78rem;font-weight:800}.campaign-footer{padding:34px 0;background:var(--green-950);color:white;text-align:center}.campaign-footer a{color:#d9edb5;text-decoration:underline}.campaign-footer p{margin:8px 0 0;color:#bcd0c8;font-size:.78rem}@media(max-width:540px){.campaign-container{width:min(calc(100% - 24px),1120px)}.header-contact{font-size:0;width:44px;height:44px;padding:0}.header-contact::after{content:'WA';display:grid;height:100%;place-items:center;font-size:.75rem}.campaign-brand small{display:none}}
+</style>
