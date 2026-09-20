@@ -25,7 +25,7 @@ STIFIn Mulia adalah ekosistem edukasi dan pengembangan manusia berbasis konsep S
 
 ### Pesan inti
 
-**Kenali potensi. Tumbuh dengan arah.**
+**Kenali potensi. Tentukan langkah.**
 
 ## 3. Audiens
 

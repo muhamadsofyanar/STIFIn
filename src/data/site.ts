@@ -1,9 +1,9 @@
 export const site = {
   name: 'STIFIn Mulia',
   domain: 'stifinmulia.com',
-  tagline: 'Kenali potensi. Tumbuh dengan arah.',
+  tagline: 'Kenali potensi. Tentukan langkah.',
   description:
-    'Ekosistem edukasi, tes, pembinaan, dan kemitraan pengembangan manusia berbasis konsep STIFIn.',
+    'Tempat belajar, mengikuti tes, menjadi promotor, dan membangun kerja sama berbasis konsep STIFIn.',
   owner: 'Muhamad Sofyan AR',
   role: 'Branch Manager STIFIn Genetic Indonesia Cabang Pekalongan',
   location: 'Bandung Raya dan Sumedang',

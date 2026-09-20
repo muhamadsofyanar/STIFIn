@@ -38,3 +38,10 @@ Ubah data bisnis pada `src/data/site.ts`, terutama:
 ## Batas publikasi
 
 Periksa harga, wilayah, penggunaan merek, ketentuan promotor, alat tes, dan kebijakan resmi sebelum dipublikasikan. Jangan mengunggah materi sumber berhak cipta sebagai file publik.
+
+Halaman promotor saat ini menampilkan harga program dari sumber pengembangan:
+
+- pembayaran penuh Rp8.000.000
+- pembayaran bertahap Rp10.000.000
+
+Konfirmasi kembali angka tersebut sebelum website dipublikasikan karena kebijakan resmi dapat berubah.

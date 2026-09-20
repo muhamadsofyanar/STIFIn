@@ -5,7 +5,7 @@ import PageHero from '../../components/PageHero.astro';
 const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
 <BaseLayout title="Artikel Edukasi | STIFIn Mulia" description="Artikel edukasi tentang konsep STIFIn, belajar, keluarga, karier, bisnis, dan kepemimpinan.">
-  <PageHero eyebrow="Pusat Edukasi" title="Pengetahuan yang membantu Anda mengambil langkah" description="Artikel disusun dengan bahasa yang jelas, batas klaim yang bertanggung jawab, dan fokus pada penerapan yang relevan."></PageHero>
+  <PageHero eyebrow="Pusat Edukasi" title="Pengetahuan yang membantu Anda mengambil langkah" description="Artikel disusun dengan bahasa yang jelas, tidak berlebihan, dan mudah digunakan dalam kehidupan sehari-hari."></PageHero>
   <section class="section"><div class="container"><div class="filters" aria-label="Kategori artikel"><span>Semua</span><span>Mengenal STIFIn</span><span>Keluarga</span><span>Pendidikan</span><span>Karier</span><span>Kepemimpinan</span></div><div class="articles">{articles.map((article) => <article class="article-card"><div class="thumb"><span>{article.data.category}</span></div><div><small>{article.data.category} · {article.data.publishedAt.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}</small><h2><a href={`/artikel/${article.id}/`}>{article.data.title}</a></h2><p>{article.data.description}</p><a class="read" href={`/artikel/${article.id}/`}>Baca artikel →</a></div></article>)}</div></div></section>
 </BaseLayout>
 <style>

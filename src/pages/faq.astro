@@ -3,17 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Callout from '../components/Callout.astro';
 const faqs = [
-  ['Apakah Tes STIFIn dapat dilakukan online?', 'Administrasi, konsultasi awal, dan konsultasi hasil dapat berlangsung online. Pelaksanaan tes dilakukan secara langsung atau offline.'],
+  ['Apakah Tes STIFIn dapat dilakukan dari jarak jauh?', 'Pendaftaran dan konsultasi dapat dilakukan dari jarak jauh. Proses tes dilakukan dengan bertemu langsung.'],
   ['Apakah hasil tes menentukan masa depan seseorang?', 'Tidak. Hasil digunakan sebagai bahan mengenali kecenderungan dalam konsep STIFIn. Hasil tidak menjamin prestasi, karier, relasi, atau keberhasilan tertentu.'],
   ['Apakah tes ini merupakan pemeriksaan psikologi atau medis?', 'Tidak. Tes STIFIn tidak diposisikan sebagai diagnosis medis, psikologis, atau pengganti pemeriksaan profesional.'],
-  ['Di wilayah mana layanan tersedia?', 'Fokus utama berada di Bandung Raya dan Sumedang. Wilayah lain dilayani berdasarkan ketersediaan promotor, node lokal, agenda kelompok, dan ketentuan resmi.'],
+  ['Di wilayah mana layanan tersedia?', 'Fokus utama berada di Bandung Raya dan Sumedang. Wilayah lain dapat dilayani sesuai ketersediaan promotor, jadwal kegiatan, dan ketentuan resmi.'],
   ['Apakah sekolah atau komunitas dapat mengadakan tes kelompok?', 'Bisa. Program kelompok dimulai dari diskusi kebutuhan, jumlah peserta, lokasi, jadwal, PIC, dan bentuk konsultasi hasil.'],
-  ['Bagaimana cara menjadi promotor?', 'Mulai dari konsultasi peluang dan opportunity sharing. Tahap berikutnya mengikuti persyaratan, pembelajaran, dan ketentuan resmi yang sedang berlaku.'],
+  ['Bagaimana cara menjadi promotor?', 'Mulai dengan membaca biaya dan isi program, lalu hubungi kami untuk mengikuti sesi penjelasan. Setelah itu, Anda dapat mendaftar dan mengikuti pembelajaran resmi.'],
 ];
 ---
 <BaseLayout title="FAQ | STIFIn Mulia" description="Jawaban atas pertanyaan umum tentang tes, promotor, wilayah layanan, dan kerja sama STIFIn Mulia.">
-  <PageHero eyebrow="Pertanyaan Umum" title="Informasi penting sebelum Anda mengambil langkah" description="Kami menyusun jawaban singkat agar proses tes, promotor, dan kolaborasi dapat dipahami sejak awal."></PageHero>
+  <PageHero eyebrow="Pertanyaan Umum" title="Hal yang perlu diketahui sebelum mendaftar" description="Temukan jawaban singkat tentang tes, program promotor, wilayah layanan, dan kerja sama."></PageHero>
   <section class="section"><div class="container faq-list">{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}</div></section>
-  <Callout title="Belum menemukan jawaban?" text="Sampaikan pertanyaan Anda melalui WhatsApp. Tim akan membantu sesuai konteks kebutuhan." message="Assalamu’alaikum, saya memiliki pertanyaan tentang layanan STIFIn Mulia: ..." />
+  <Callout title="Belum menemukan jawaban?" text="Sampaikan pertanyaan Anda melalui WhatsApp. Tim akan membantu menjawabnya." message="Assalamu’alaikum, saya memiliki pertanyaan tentang layanan STIFIn Mulia: ..." />
 </BaseLayout>
 <style>.faq-list{max-width:860px}.faq-list details{padding:25px 0;border-bottom:1px solid var(--line)}.faq-list summary{color:var(--green-950);font-size:1.08rem;font-weight:800;cursor:pointer}.faq-list p{margin:13px 0 0}</style>
