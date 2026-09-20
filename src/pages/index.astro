@@ -52,9 +52,20 @@ const journeys = [
 
   <section class="section dark">
     <div class="container founder-grid">
-      <div class="portrait"><span>MS</span></div>
+      <div class="portrait"><img src="/images/muhamad-sofyan-ar.webp" width="900" height="1200" alt="Muhamad Sofyan AR, pengelola STIFIn Mulia" loading="lazy" /></div>
       <div><span class="eyebrow">Pengelola STIFIn Mulia</span><h2>Muhamad Sofyan AR</h2><p class="lead">Branch Manager STIFIn Genetic Indonesia Cabang Pekalongan yang tinggal dan menjalankan kegiatan utama di Bandung Raya. Saat ini menempuh studi Ilmu Al-Qur’an dan Tafsir di UIN Bandung.</p><p>STIFIn Mulia tergabung dalam jaringan STIFIn Genetic Indonesia. Layanan dijalankan dengan tiga pegangan: amanah, sistem kerja yang jelas, dan pembinaan yang dapat dilakukan bersama.</p><a class="button secondary" href="/tentang/">Kenali STIFIn Mulia</a></div>
     </div>
+  </section>
+
+  <section class="section network-section">
+    <div class="container network-grid">
+      <div><span class="eyebrow">Jaringan layanan</span><h2>Tinggal di luar Bandung? Kami bantu carikan promotor</h2><p class="lead">STIFIn Mulia terhubung dengan kepala cabang dan promotor di berbagai wilayah Indonesia serta luar negeri. Sampaikan kota Anda melalui WhatsApp. Tim akan memeriksa ketersediaan dan menghubungkan Anda dengan promotor yang sesuai.</p><div class="actions"><a class="button" href={waLink('Assalamu’alaikum, saya ingin Tes STIFIn dan membutuhkan promotor di wilayah: ... Kota/Kabupaten: ... Provinsi/Negara: ...')} target="_blank" rel="noreferrer">Cari Promotor via WhatsApp</a><a class="button secondary" href="/jaringan-promotor/">Lihat Jaringan Layanan</a></div></div>
+      <div class="coverage"><div><strong>Indonesia</strong><span>Pencarian berdasarkan kota dan provinsi</span></div><div><strong>Luar negeri</strong><span>Ketersediaan diperiksa melalui jaringan promotor</span></div><div><strong>Satu pintu</strong><span>Semua permintaan masuk melalui STIFIn Mulia</span></div></div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container"><div class="section-head"><div><span class="eyebrow">Dokumentasi nyata</span><h2>Kegiatan tes, pembelajaran, dan jaringan</h2><p class="lead">Dokumentasi kegiatan menunjukkan proses layanan dan pembinaan yang telah dijalankan.</p></div></div><div class="gallery"><figure><img src="/images/kegiatan/pelaksanaan-tes.webp" width="1200" height="800" alt="Pelaksanaan Tes STIFIn menggunakan alat pemindai" loading="lazy" /><figcaption>Pelaksanaan tes</figcaption></figure><figure><img src="/images/kegiatan/pembelajaran-promotor.webp" width="1200" height="800" alt="Kegiatan pembelajaran dan pengembangan promotor STIFIn" loading="lazy" /><figcaption>Pembelajaran promotor</figcaption></figure><figure><img src="/images/kegiatan/jaringan-promotor.webp" width="1200" height="800" alt="Pertemuan jaringan promotor dan pengelola STIFIn" loading="lazy" /><figcaption>Jaringan promotor</figcaption></figure><figure><img src="/images/kegiatan/pertemuan-jaringan.webp" width="1200" height="800" alt="Pertemuan pengelola STIFIn dengan jaringan mitra" loading="lazy" /><figcaption>Pertemuan jaringan</figcaption></figure></div></div>
   </section>
 
   <section class="section">
@@ -79,11 +90,12 @@ const journeys = [
   .mini-card small, .mini-card strong { display: block; }.mini-card small { margin-bottom: 5px; color: #654100; font-weight: 700; }
   .text-link { color: var(--green-800); font-weight: 800; }
   .about-grid, .founder-grid { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(40px, 8vw, 100px); }
-  .portrait { display: grid; min-height: 400px; place-items: center; border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius-lg); background: linear-gradient(145deg, #0b6d5c, #052c25); }
-  .portrait span { display: grid; width: 130px; aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; color: #bce070; font-family: Georgia, serif; font-size: 2.6rem; }
+  .portrait { min-height: 400px; overflow:hidden; border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius-lg); background: linear-gradient(145deg, #0b6d5c, #052c25); }
+  .portrait img{display:block;width:100%;height:100%;min-height:400px;object-fit:cover;object-position:center 30%}
   .founder-grid .button { margin-top: 16px; }
+  .network-section{background:linear-gradient(145deg,#f7fbf8,#edf7f1)}.network-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(35px,7vw,90px);align-items:center}.coverage{display:grid;gap:12px}.coverage div{padding:24px;border:1px solid var(--line);border-radius:var(--radius-sm);background:white}.coverage strong,.coverage span{display:block}.coverage strong{margin-bottom:5px;color:var(--green-950);font-size:1.1rem}.coverage span{color:var(--muted);font-size:.9rem}.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.gallery figure{position:relative;overflow:hidden;margin:0;border-radius:var(--radius);background:var(--green-950)}.gallery img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform .35s ease}.gallery figure:hover img{transform:scale(1.025)}.gallery figcaption{position:absolute;right:14px;bottom:14px;padding:8px 12px;border-radius:999px;background:rgba(6,60,50,.9);color:white;font-size:.8rem;font-weight:800}
   .final-cta { padding: clamp(45px, 8vw, 80px); border: 1px solid var(--line); border-radius: var(--radius-lg); background: white; text-align: center; box-shadow: var(--shadow); }
   .final-cta .actions { justify-content: center; }
-  @media (max-width: 900px) { .hero-grid, .about-grid, .founder-grid { grid-template-columns: 1fr; } .hero-visual { min-height: 380px; } .founder-grid .portrait { min-height: 300px; } }
-  @media (max-width: 620px) { .hero { padding-top: 58px; } .hero-visual { min-height: 310px; } .mini-card { right: 0; bottom: -2px; } .trust { gap: 9px 16px; } }
+  @media (max-width: 900px) { .hero-grid, .about-grid, .founder-grid,.network-grid { grid-template-columns: 1fr; } .hero-visual { min-height: 380px; } .founder-grid .portrait { min-height: 300px; } }
+  @media (max-width: 620px) { .hero { padding-top: 58px; } .hero-visual { min-height: 310px; } .mini-card { right: 0; bottom: -2px; } .trust { gap: 9px 16px; }.gallery{grid-template-columns:1fr} }
 </style>

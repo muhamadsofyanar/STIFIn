@@ -45,3 +45,18 @@ Halaman promotor saat ini menampilkan harga program dari sumber pengembangan:
 - pembayaran bertahap Rp10.000.000
 
 Konfirmasi kembali angka tersebut sebelum website dipublikasikan karena kebijakan resmi dapat berubah.
+
+## Sinkronisasi jaringan promotor
+
+Website dapat membaca data agregat promotor aktif dari API STIFIn saat proses build. Data publik hanya berisi kota, provinsi, jumlah promotor aktif, dan jumlah cabang. Email, nomor telepon, PassID, tanggal lahir, saldo, dan data pribadi lain tidak disimpan pada website.
+
+Atur environment variable berikut di Coolify:
+
+```text
+STIFIN_API_BASE=https://apro.stifin.id/api
+STIFIN_BRANCH_CODES=KODE-CABANG-1,KODE-CABANG-2
+STIFIN_API_AUTH_HEADER=Authorization
+STIFIN_API_AUTH_VALUE=Bearer TOKEN_RESMI
+```
+
+`STIFIN_API_AUTH_HEADER` dan `STIFIN_API_AUTH_VALUE` hanya diisi jika API resmi mewajibkan autentikasi. Jangan menulis token di source code atau GitHub.

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Callout from '../../components/Callout.astro';
+import { networkLocations, type NetworkLocation } from '../../data/network';
+export function getStaticPaths() {
+  return networkLocations.map((location) => ({ params: { slug: location.slug }, props: { location } }));
+}
+const { location } = Astro.props as { location: NetworkLocation };
+---
+<BaseLayout title={`Tes STIFIn di ${location.city}, ${location.province} | STIFIn Mulia`} description={`Cari promotor Tes STIFIn di ${location.city}, ${location.province}. STIFIn Mulia membantu menghubungkan Anda dengan promotor aktif melalui WhatsApp.`}>
+  <PageHero eyebrow={`Promotor STIFIn ${location.province}`} title={`Tes STIFIn di ${location.city}`} description={`Sistem mencatat ${location.promoters} promotor aktif pada jaringan wilayah ini. Ketersediaan jadwal dan lokasi tes akan diperiksa oleh tim STIFIn Mulia.`}></PageHero>
+  <section class="section"><div class="container local-grid"><div><span class="eyebrow">Data wilayah</span><h2>Promotor tersedia melalui jaringan</h2><p class="lead">Data berasal dari sinkronisasi sistem cabang. Nomor pribadi promotor tidak dipublikasikan. Hubungi STIFIn Mulia agar tim dapat memeriksa promotor, lokasi, dan jadwal yang sesuai.</p></div><div class="local-card"><span>Kota atau area</span><strong>{location.city}</strong><span>Provinsi</span><strong>{location.province}</strong><span>Promotor aktif tercatat</span><strong>{location.promoters}</strong></div></div></section>
+  <Callout title={`Cari jadwal Tes STIFIn di ${location.city}`} text="Kirimkan jumlah peserta dan waktu yang diinginkan. Tim akan membantu menghubungkan Anda dengan promotor yang tersedia." message={`Assalamu’alaikum, saya ingin Tes STIFIn di ${location.city}, ${location.province}. Jumlah peserta: ... Waktu yang diinginkan: ...`} />
+</BaseLayout>
+<style>.local-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(35px,7vw,90px);align-items:start}.local-card{display:grid;grid-template-columns:1fr auto;gap:14px 25px;padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow)}.local-card span{color:var(--muted)}.local-card strong{color:var(--green-950)}@media(max-width:760px){.local-grid{grid-template-columns:1fr}}</style>
