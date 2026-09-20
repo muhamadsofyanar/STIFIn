@@ -12,6 +12,7 @@ export interface NetworkSummary {
   requestedBranches: number;
   successfulBranches: number;
   failedBranches: number;
+  emptyBranches?: number;
   locations: number;
   promoters: number;
 }

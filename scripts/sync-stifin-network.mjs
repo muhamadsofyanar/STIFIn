@@ -53,6 +53,7 @@ await Promise.all(Array.from({ length: Math.min(concurrency, branchCodes.length)
 
 const successful = results.filter((result) => result.ok);
 const failed = results.filter((result) => !result.ok);
+const empty = successful.filter((result) => result.rows.length === 0);
 const successRate = successful.length / branchCodes.length;
 if (successRate < minSuccessRate) {
   const failedCodes = failed.map((item) => item.branchCode).join(', ');
@@ -63,14 +64,14 @@ const grouped = new Map();
 for (const result of successful) {
   for (const row of result.rows) {
     if (!isActive(row.Aktif)) continue;
-    const city = normalizeText(row.Area);
-    const province = normalizeText(row.Propinsi);
-    const promoterCode = normalizeText(row.KodeID);
-    const rowBranch = normalizeText(row.Sub || result.branchCode);
-    if (!city || !province || !promoterCode || !rowBranch) continue;
+    const city = meaningfulText(firstValue(row, ['Area', 'Kota', 'Kabupaten', 'City', 'area']));
+    const province = meaningfulText(firstValue(row, ['Propinsi', 'Provinsi', 'Province', 'province']));
+    const promoterCode = meaningfulText(firstValue(row, ['KodeID', 'KodeId', 'kode_id', 'Code', 'code']));
+    const rowBranch = meaningfulText(firstValue(row, ['Sub', 'Cabang', 'Branch', 'branch'])) || result.branchCode;
+    if (!city || !promoterCode || !rowBranch) continue;
 
-    const key = `${slugify(city)}|${slugify(province)}`;
-    if (!key || key === '|') continue;
+    const key = `${slugify(city)}|${slugify(province || 'wilayah')}`;
+    if (!slugify(city)) continue;
     if (!grouped.has(key)) grouped.set(key, { city, province, promoters: new Set(), branches: new Set() });
     grouped.get(key).promoters.add(promoterCode);
     grouped.get(key).branches.add(rowBranch);
@@ -79,7 +80,7 @@ for (const result of successful) {
 
 const locations = [...grouped.values()]
   .map((item) => ({
-    slug: slugify(`${item.city}-${item.province}`),
+    slug: slugify(item.province ? `${item.city}-${item.province}` : item.city),
     city: item.city,
     province: item.province,
     promoters: item.promoters.size,
@@ -107,6 +108,7 @@ const snapshot = {
     requestedBranches: branchCodes.length,
     successfulBranches: successful.length,
     failedBranches: failed.length,
+    emptyBranches: empty.length,
     locations: locations.length,
     promoters: newPromoterTotal,
   },
@@ -115,6 +117,7 @@ const snapshot = {
 
 await writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`);
 console.log(`Jaringan diperbarui: ${locations.length} wilayah, ${newPromoterTotal} promotor, ${successful.length}/${branchCodes.length} cabang berhasil.`);
+if (empty.length) console.warn(`${empty.length} kode cabang merespons tanpa data: ${empty.map((item) => item.branchCode).join(', ')}`);
 
 async function fetchBranch(branchCode) {
   let lastError = new Error('Kesalahan tidak diketahui');
@@ -141,6 +144,20 @@ async function fetchBranch(branchCode) {
 
 function normalizeText(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim();
+}
+
+function meaningfulText(value) {
+  const text = normalizeText(value);
+  if (!text || /^[-–—]+$/.test(text) || /^(null|undefined|n\/?a|tidak ada)$/i.test(text)) return '';
+  return text;
+}
+
+function firstValue(row, keys) {
+  for (const key of keys) {
+    const value = meaningfulText(row?.[key]);
+    if (value) return value;
+  }
+  return '';
 }
 
 function isActive(value) {

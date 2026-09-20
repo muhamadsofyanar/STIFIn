@@ -1,4 +1,4 @@
-# STIFIn Mulia Website v1.3
+# STIFIn Mulia Website v1.3.1
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -7,6 +7,8 @@ Versi 1.1 memusatkan perjalanan pengunjung pada Gerakan 100 Tes STIFIn: Tes → 
 Versi 1.2 menambahkan landing page khusus iklan di `/ikut-tes-stifin/`, halaman konfirmasi `/terima-kasih-tes/`, form lead dengan UTM dan `fbclid`, webhook opsional untuk n8n/CRM, Meta Pixel opsional, sticky CTA mobile, serta menu mobile layar penuh pada website utama.
 
 Versi 1.3 melengkapi integrasi StarSender: setiap lead memiliki `lead_id`, persetujuan WhatsApp dan waktu persetujuan, workflow n8n siap impor, rancangan empat campaign funnel, template welcome/follow-up, SOP pemindahan lead, pengujian, serta panduan pengisian StarSender. Seluruh materi integrasi berada di folder `automation`.
+
+Versi 1.3.1 memperkeras sinkronisasi jaringan: nilai lokasi kosong seperti `-` dan `NULL` tidak lagi ditampilkan sebagai provinsi, variasi nama field API dibaca lebih toleran, kode cabang yang merespons tanpa data dilaporkan saat build, dan halaman kota tetap rapi ketika API tidak menyediakan provinsi.
 
 ## Landing page iklan dan form lead
 
