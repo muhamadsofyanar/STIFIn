@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Callout from '../components/Callout.astro';
 import CentralProof from '../components/CentralProof.astro';
+import AuthorityProof from '../components/AuthorityProof.astro';
 import { waLink } from '../data/site';
 ---
 <BaseLayout title="Peluang Jadi Promotor STIFIn | STIFIn Mulia" description="Pelajari manfaat, modal program, margin layanan, pembelajaran, dan pendampingan untuk membangun profesi sebagai Promotor STIFIn.">
@@ -45,6 +46,7 @@ import { waLink } from '../data/site';
     price?.addEventListener('change', update);
     volume?.addEventListener('input', update);
   </script>
+  <AuthorityProof mode="promotor" compact />
   <CentralProof mode="promotor" />
 </BaseLayout>
 <style>

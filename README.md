@@ -1,6 +1,8 @@
-# STIFIn Mulia Website v1.5.0
+# STIFIn Mulia Website v1.6.0
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
+
+Versi 1.6 menambahkan halaman `/testimoni/` dan sistem authority proof pada seluruh funnel utama. Sembilan testimoni bernama dari figur publik, psikolog, praktisi pendidikan, dan profesional diringkas dari publikasi resmi STIFIn. Foto berasal dari galeri testimoni STIFIn.com, dioptimalkan secara lokal ke WebP, dan selalu disertai keterangan sumber. Pengunjung kini dapat membedakan testimoni jaringan STIFIn dari dokumentasi atau layanan langsung STIFIn Mulia.
 
 Versi 1.5 memperkuat bukti sosial pada tujuh halaman utama funnel. Reaksi peserta dan catatan historis dari *Konsep PALUGADA* ditampilkan dengan atribusi yang transparan; manfaat Learning, Parenting, Profession, Business, Marketing, dan Human Resources dirangkum dari fasilitas pembelajaran jaringan. Dua aset logo baru diterapkan pada header dan footer tanpa menambah beban gambar besar. CTA beranda kini mengarahkan calon peserta ke form agar setiap minat dapat dicatat dan ditindaklanjuti melalui workflow StarSender.
 

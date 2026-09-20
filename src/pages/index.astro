@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CentralProof from '../components/CentralProof.astro';
+import AuthorityProof from '../components/AuthorityProof.astro';
 const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0,3);
 const stages = [
   { number: '01', label: 'Mulai dari tes', title: 'Kenali pola diri', text: 'Tes menjadi pintu masuk untuk mengenali Mesin Kecerdasan dan personaliti genetik Anda.' },
@@ -17,6 +18,7 @@ const stages = [
 
   <section class="section movement"><div class="container movement-grid"><div><span class="eyebrow">Mengapa gerakan ini hadir</span><h2>Banyak orang bekerja keras, tetapi belum memahami cara terbaik dirinya bergerak</h2></div><div><p class="lead">Ketika cara belajar, cara berkomunikasi, atau arah profesi terasa selalu dipaksakan, masalahnya belum tentu kurang kemampuan. Bisa jadi pendekatan yang dipakai tidak selaras dengan pola diri.</p><p>Gerakan 100 Tes STIFIn mengajak keluarga, pendidik, profesional, dan calon promotor memulai dari satu fondasi: mengenali diri sebelum menentukan strategi. Target 100 bukan sekadar angka; setiap peserta diharapkan pulang membawa satu pemahaman baru dan satu langkah yang dapat dijalankan.</p><a class="text-link" href="/tes-stifin/">Pelajari proses Tes STIFIn →</a></div></div></section>
 
+  <AuthorityProof mode="home" />
   <CentralProof mode="home" />
 
   <section class="section soft"><div class="container"><div class="section-head"><div><span class="eyebrow">Satu perjalanan pertumbuhan</span><h2>Dari mengenal diri sampai membantu orang lain</h2><p class="lead">Anda tidak harus memutuskan semuanya hari ini. Mulai dari tes, alami manfaatnya, lalu lanjutkan sesuai kesiapan.</p></div></div><div class="growth-path">{stages.map((stage) => <article><span>{stage.number}</span><small>{stage.label}</small><h3>{stage.title}</h3><p>{stage.text}</p></article>)}</div></div></section>

@@ -1,6 +1,7 @@
 ---
 import CampaignLayout from '../layouts/CampaignLayout.astro';
 import CentralProof from '../components/CentralProof.astro';
+import AuthorityProof from '../components/AuthorityProof.astro';
 import { site } from '../data/site';
 const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
 ---
@@ -10,6 +11,7 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
 
   <section class="confidence"><div class="campaign-container confidence-grid"><div><strong>Proses yang jelas</strong><span>Dari pengecekan jadwal sampai penjelasan hasil.</span></div><div><strong>Untuk kebutuhan nyata</strong><span>Belajar, keluarga, profesi, bisnis, atau relasi.</span></div><div><strong>Tidak berhenti pada hasil</strong><span>Dapat dilanjutkan melalui pembelajaran WSL 1.</span></div></div></section>
 
+  <AuthorityProof mode="test" compact />
   <CentralProof mode="test" />
 
   <section class="campaign-section"><div class="campaign-container problem-grid"><div><span class="campaign-kicker">Pernah merasa seperti ini?</span><h2>Anda sudah berusaha, tetapi cara yang dipakai terasa tidak benar-benar cocok.</h2></div><div class="problem-list"><article><b>01</b><div><strong>Sulit memahami cara belajar diri atau anak</strong><p>Sudah mencoba berbagai metode, tetapi konsistensi dan semangat cepat turun.</p></div></article><article><b>02</b><div><strong>Niat baik sering salah diterima</strong><p>Komunikasi dengan pasangan, anak, atau rekan mudah berubah menjadi salah paham.</p></div></article><article><b>03</b><div><strong>Belum yakin kekuatan mana yang perlu dikembangkan</strong><p>Banyak pilihan tersedia, tetapi belum memiliki bahasa untuk membaca pola diri.</p></div></article></div></div></section>
