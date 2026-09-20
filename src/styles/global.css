@@ -109,35 +109,34 @@ p { color: var(--muted); }
 .prose h3 { margin-top: 2em; }
 .prose li { margin-bottom: 8px; color: var(--muted); }
 .prose a { color: var(--green-800); font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
-.mobile-cta { display: none; }
+.proof-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--line);
+}
+.proof-strip > div { padding: 24px; background: var(--white); }
+.proof-strip strong, .proof-strip span { display: block; }
+.proof-strip strong { margin-bottom: 6px; color: var(--green-950); }
+.proof-strip span { color: var(--muted); font-size: .92rem; }
+.split { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px, 8vw, 100px); align-items: start; }
+.check-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.check-list li { position: relative; padding: 18px 20px 18px 52px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); color: var(--muted); }
+.check-list li::before { position: absolute; top: 18px; left: 19px; display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: var(--green-100); color: var(--green-800); content: '✓'; font-size: .8rem; font-weight: 900; }
+.microcopy { margin-top: 12px; color: var(--muted); font-size: .85rem; }
 @media (max-width: 900px) {
-  .grid-3, .steps { grid-template-columns: 1fr 1fr; }
+  .grid-3, .steps, .proof-strip { grid-template-columns: 1fr 1fr; }
   .section-head { align-items: start; flex-direction: column; }
 }
 @media (max-width: 620px) {
-  body { padding-bottom: 72px; }
   .container { width: min(calc(100% - 24px), var(--container)); }
   .section { padding: 68px 0; }
-  .grid-3, .steps { grid-template-columns: 1fr; }
+  .grid-3, .steps, .proof-strip, .split { grid-template-columns: 1fr; }
   .card { padding: 24px; }
   .actions .button { width: 100%; }
-  .mobile-cta {
-    position: fixed;
-    z-index: 50;
-    right: 12px;
-    bottom: 10px;
-    left: 12px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding: 8px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: rgba(255,255,255,.94);
-    box-shadow: 0 12px 40px rgba(6,60,50,.18);
-    backdrop-filter: blur(12px);
-  }
-  .mobile-cta .button { min-height: 46px; padding: 10px; font-size: .88rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }

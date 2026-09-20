@@ -1,4 +1,4 @@
-# STIFIn Mulia Website v0.6
+# STIFIn Mulia Website v0.7
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -66,9 +66,20 @@ Secara default seluruh kode cabang harus berhasil. Jika respons kosong, format A
 
 ### Autentikasi API
 
-Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile v0.6 memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
+Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
 
 Jangan menulis token di `.env`, source code, GitHub, log deployment, atau chat.
+
+## Perubahan v0.7
+
+- Penulisan ulang seluruh halaman penjualan: beranda, Tes STIFIn, Program Promotor, kerja sama, pencarian jaringan, dan halaman kota.
+- Headline kini menyebut audiens, masalah, dan langkah yang ditawarkan dengan lebih spesifik.
+- Fitur dijelaskan bersama manfaat dan konteks penggunaan nyata, tanpa menambah klaim hasil.
+- Alur informasi diurutkan dari kecocokan, manfaat, proses, biaya, batas layanan, hingga tindakan berikutnya.
+- Pesan WhatsApp dibuat lebih terstruktur agar percakapan pertama langsung memiliki konteks.
+- Bukti foto kegiatan dan transparansi proses ditempatkan dekat keputusan utama.
+- Tombol CTA mengambang dihapus agar tidak mengganggu proses membaca dan tidak menghasilkan klik yang belum matang.
+- Paragraf, kartu, tipografi, serta formulir diringkas untuk pemindaian cepat di ponsel.
 
 ## Perubahan v0.6
 
