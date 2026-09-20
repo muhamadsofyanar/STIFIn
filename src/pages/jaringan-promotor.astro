@@ -3,17 +3,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Callout from '../components/Callout.astro';
 import { site } from '../data/site';
-import { networkLocations } from '../data/network';
+import { networkGeneratedAt, networkLocations, networkSummary } from '../data/network';
+
 const regions = ['Sumatera', 'Jawa', 'Kalimantan', 'Sulawesi', 'Bali dan Nusa Tenggara', 'Maluku dan Papua', 'Luar Indonesia'];
+const updatedAt = networkGeneratedAt ? new Date(networkGeneratedAt) : null;
+const updatedLabel = updatedAt?.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta' });
+const ageDays = updatedAt ? Math.floor((Date.now() - updatedAt.getTime()) / 86400000) : null;
+const isStale = ageDays !== null && ageDays > 45;
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Jaringan Promotor STIFIn',
+  url: new URL('/jaringan-promotor/', Astro.site).toString(),
+  description: 'Pencarian wilayah layanan dan promotor Tes STIFIn melalui STIFIn Mulia.',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: networkLocations.length,
+    itemListElement: networkLocations.map((location, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: `${location.city}, ${location.province}`,
+      url: new URL(`/promotor/${location.slug}/`, Astro.site).toString(),
+    })),
+  },
+};
 ---
-<BaseLayout title="Cari Promotor STIFIn di Indonesia | STIFIn Mulia" description="Cari promotor Tes STIFIn berdasarkan kota dan provinsi. STIFIn Mulia membantu menghubungkan calon peserta dengan promotor yang tersedia melalui WhatsApp.">
+<BaseLayout title="Cari Promotor STIFIn di Indonesia | STIFIn Mulia" description="Cari promotor Tes STIFIn berdasarkan kota dan provinsi. STIFIn Mulia membantu menghubungkan calon peserta dengan promotor yang tersedia melalui WhatsApp." schema={collectionSchema}>
   <PageHero eyebrow="Jaringan Promotor" title="Cari promotor Tes STIFIn di kota Anda" description="Sampaikan kota, kabupaten, provinsi, atau negara tempat Anda tinggal. STIFIn Mulia akan memeriksa jaringan dan membantu menghubungkan Anda dengan promotor yang tersedia."><div class="actions"><a class="button" href="#cari">Cari Berdasarkan Wilayah</a><a class="button secondary" href="/tes-stifin/">Pelajari Proses Tes</a></div></PageHero>
 
-  <section id="cari" class="section"><div class="container search-grid"><div><span class="eyebrow">Pencarian satu pintu</span><h2>Tidak perlu mencari nomor promotor sendiri</h2><p class="lead">Permintaan Anda masuk melalui WhatsApp STIFIn Mulia. Tim akan memeriksa ketersediaan promotor, lalu membantu proses penghubungan.</p><div class="notice">Nomor pribadi promotor tidak ditampilkan pada website. Cara ini membantu menjaga data pribadi dan memastikan calon peserta menerima kontak yang sudah diperiksa.</div></div><form id="network-form" class="network-form" data-wa-number={site.whatsapp}><label>Kota atau kabupaten<input id="network-city" name="city" required placeholder="Contoh: Balikpapan" /></label><label>Provinsi atau negara<input id="network-province" name="province" required placeholder="Contoh: Kalimantan Timur" /></label><label>Kebutuhan<select id="network-need" name="need"><option>Tes STIFIn pribadi</option><option>Tes STIFIn keluarga</option><option>Tes kelompok atau lembaga</option><option>Menjadi promotor</option></select></label><button class="button" type="submit">Kirim Permintaan via WhatsApp</button></form></div></section>
+  <section id="cari" class="section"><div class="container search-grid"><div><span class="eyebrow">Pencarian satu pintu</span><h2>Tidak perlu mencari nomor promotor sendiri</h2><p class="lead">Permintaan Anda masuk melalui WhatsApp STIFIn Mulia. Tim akan memeriksa ketersediaan promotor, lalu membantu proses penghubungan.</p><div class="notice">Nomor pribadi promotor tidak ditampilkan pada website. Data wilayah bersifat informasi jaringan dan bukan jaminan jadwal tes tersedia pada waktu tertentu.</div></div><form id="network-form" class="network-form" data-wa-number={site.whatsapp}><label>Nama<input id="network-name" name="name" autocomplete="name" required placeholder="Nama Anda" /></label><label>Kota atau kabupaten<input id="network-city" name="city" autocomplete="address-level2" required placeholder="Contoh: Balikpapan" /></label><label>Provinsi<input id="network-province" name="province" autocomplete="address-level1" required placeholder="Contoh: Kalimantan Timur" /></label><label>Negara<input id="network-country" name="country" autocomplete="country-name" value="Indonesia" required /></label><label>Kebutuhan<select id="network-need" name="need"><option>Tes STIFIn pribadi</option><option>Tes STIFIn keluarga</option><option>Tes kelompok atau lembaga</option><option>Menjadi promotor</option></select></label><button class="button" type="submit">Kirim Permintaan via WhatsApp</button><small>Data formulir tidak disimpan di website; pesan akan dibuka di WhatsApp Anda.</small></form></div></section>
 
-  <section class="section soft"><div class="container"><div class="section-head"><div><span class="eyebrow">Cakupan pencarian</span><h2>Jaringan wilayah yang dapat diperiksa</h2><p class="lead">Ketersediaan promotor berbeda pada setiap kota dan jadwal. Tim akan melakukan konfirmasi sebelum memberikan kontak.</p></div></div><div class="region-grid">{regions.map((region) => <div>{region}</div>)}</div></div></section>
+  {networkLocations.length > 0 ? <section class="section soft"><div class="container"><div class="section-head"><div><span class="eyebrow">Data jaringan aktif</span><h2>Wilayah yang tercatat dari sistem</h2><p class="lead">Tersedia {networkSummary.promoters} promotor aktif pada {networkSummary.locations} wilayah yang berhasil disinkronkan.</p>{updatedLabel && <p class:list={{ freshness: true, stale: isStale }}>Pembaruan terakhir: {updatedLabel}{isStale ? ' — perlu diperbarui kembali' : ''}</p>}</div></div><label class="location-search">Cari kota atau provinsi<input id="location-search" type="search" placeholder="Ketik nama kota atau provinsi" autocomplete="off" /></label><p id="location-result" class="result-count" aria-live="polite"></p><div id="location-grid" class="location-grid">{networkLocations.map((location) => <a data-search={`${location.city} ${location.province}`.toLocaleLowerCase('id')} href={`/promotor/${location.slug}/`}><span>{location.province}</span><strong>{location.city}</strong><small>{location.promoters} promotor · {location.branches} cabang</small></a>)}</div></div></section> : <section class="section soft"><div class="container empty-network"><span class="eyebrow">Pencarian manual tersedia</span><h2>Data jaringan belum disinkronkan</h2><p class="lead">Anda tetap dapat mengirim wilayah melalui formulir. Tim STIFIn Mulia akan memeriksa ketersediaannya secara manual.</p></div></section>}
 
-  {networkLocations.length > 0 && <section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Data jaringan aktif</span><h2>Wilayah yang tercatat dari sistem</h2><p class="lead">Data menampilkan jumlah promotor aktif tanpa membuka nomor telepon atau data pribadi.</p></div></div><div class="location-grid">{networkLocations.map((location) => <a href={`/promotor/${location.slug}/`}><span>{location.province}</span><strong>{location.city}</strong><small>{location.promoters} promotor aktif</small></a>)}</div></div></section>}
+  <section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Cakupan pencarian</span><h2>Wilayah yang dapat diperiksa</h2><p class="lead">Ketersediaan berbeda pada setiap kota dan jadwal. Tim akan melakukan konfirmasi sebelum memberikan informasi promotor.</p></div></div><div class="region-grid">{regions.map((region) => <div>{region}</div>)}</div></div></section>
 
   <Callout title="Belum menemukan kota Anda?" text="Tetap kirimkan wilayah Anda. Tim akan memeriksa jaringan kepala cabang dan promotor yang tersedia." message="Assalamu’alaikum, saya ingin mencari promotor STIFIn. Kota/Kabupaten: ... Provinsi/Negara: ... Kebutuhan: ..." />
 </BaseLayout>
@@ -22,13 +44,33 @@ const regions = ['Sumatera', 'Jawa', 'Kalimantan', 'Sulawesi', 'Bali dan Nusa Te
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
     const number = form.dataset.waNumber;
+    const name = (document.querySelector<HTMLInputElement>('#network-name')?.value || '').trim();
     const city = (document.querySelector<HTMLInputElement>('#network-city')?.value || '').trim();
     const province = (document.querySelector<HTMLInputElement>('#network-province')?.value || '').trim();
+    const country = (document.querySelector<HTMLInputElement>('#network-country')?.value || '').trim();
     const need = document.querySelector<HTMLSelectElement>('#network-need')?.value || 'Tes STIFIn';
-    const message = `Assalamu’alaikum, saya ingin mencari promotor STIFIn. Kota/Kabupaten: ${city}. Provinsi/Negara: ${province}. Kebutuhan: ${need}.`;
+    const message = `Assalamu’alaikum, saya ingin mencari promotor STIFIn. Nama: ${name}. Kota/Kabupaten: ${city}. Provinsi: ${province}. Negara: ${country}. Kebutuhan: ${need}. Sumber halaman: ${window.location.pathname}`;
+    const trackedWindow = window as typeof window & { dataLayer?: Array<Record<string, unknown>> };
+    trackedWindow.dataLayer?.push({ event: 'whatsapp_form_submit', intent: need, page_path: window.location.pathname });
     window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
   });
+
+  const search = document.querySelector<HTMLInputElement>('#location-search');
+  const cards = [...document.querySelectorAll<HTMLElement>('#location-grid [data-search]')];
+  const result = document.querySelector<HTMLElement>('#location-result');
+  const updateResult = () => {
+    const query = (search?.value || '').trim().toLocaleLowerCase('id');
+    let visible = 0;
+    cards.forEach((card) => {
+      const matches = !query || (card.dataset.search || '').includes(query);
+      card.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    if (result) result.textContent = query ? `${visible} wilayah ditemukan` : `${cards.length} wilayah tersedia`;
+  };
+  search?.addEventListener('input', updateResult);
+  updateResult();
 </script>
 <style>
-  .search-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(35px,7vw,90px);align-items:start}.network-form{display:grid;gap:16px;padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow)}.network-form label{display:grid;gap:7px;color:var(--green-950);font-size:.9rem;font-weight:800}.network-form input,.network-form select{width:100%;min-height:48px;padding:11px 13px;border:1px solid #bfd2ca;border-radius:12px;background:white;color:var(--ink);font:inherit}.region-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.region-grid div{padding:20px;border:1px solid var(--line);border-radius:var(--radius-sm);background:white;color:var(--green-900);font-weight:850}.location-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.location-grid a{display:grid;gap:5px;padding:22px;border:1px solid var(--line);border-radius:var(--radius-sm);background:white}.location-grid span,.location-grid small{color:var(--muted);font-size:.82rem}.location-grid strong{color:var(--green-950);font-size:1.15rem}@media(max-width:850px){.search-grid{grid-template-columns:1fr}.region-grid,.location-grid{grid-template-columns:1fr 1fr}}@media(max-width:540px){.region-grid,.location-grid{grid-template-columns:1fr}}
+  .search-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(35px,7vw,90px);align-items:start}.network-form{display:grid;gap:16px;padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow)}.network-form label,.location-search{display:grid;gap:7px;color:var(--green-950);font-size:.9rem;font-weight:800}.network-form input,.network-form select,.location-search input{width:100%;min-height:48px;padding:11px 13px;border:1px solid #bfd2ca;border-radius:12px;background:white;color:var(--ink);font:inherit}.network-form small{color:var(--muted)}.region-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.region-grid div{padding:20px;border:1px solid var(--line);border-radius:var(--radius-sm);background:white;color:var(--green-900);font-weight:850}.location-search{max-width:560px}.result-count,.freshness{margin:12px 0 22px;font-size:.9rem}.freshness.stale{color:#8a5410;font-weight:800}.location-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.location-grid a{display:grid;gap:5px;padding:22px;border:1px solid var(--line);border-radius:var(--radius-sm);background:white}.location-grid a[hidden]{display:none}.location-grid span,.location-grid small{color:var(--muted);font-size:.82rem}.location-grid strong{color:var(--green-950);font-size:1.15rem}.empty-network{max-width:800px}@media(max-width:850px){.search-grid{grid-template-columns:1fr}.region-grid,.location-grid{grid-template-columns:1fr 1fr}}@media(max-width:540px){.region-grid,.location-grid{grid-template-columns:1fr}}
 </style>

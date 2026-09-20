@@ -17,7 +17,7 @@ const links = [
     <button class="menu-button" aria-label="Buka menu" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
     <nav id="main-nav" class="nav" aria-label="Navigasi utama">
       {links.map(([label, href]) => <a class:list={{ active: path.startsWith(href) }} href={href}>{label}</a>)}
-      <a class="button" href={waLink('Assalamu’alaikum, saya ingin berkonsultasi tentang Tes STIFIn.')} target="_blank" rel="noreferrer">Konsultasi</a>
+      <a class="button" data-wa-intent="header-konsultasi" href={waLink('Assalamu’alaikum, saya ingin berkonsultasi tentang Tes STIFIn.')} target="_blank" rel="noopener noreferrer">Konsultasi</a>
     </nav>
   </div>
 </header>

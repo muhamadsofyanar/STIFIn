@@ -9,8 +9,20 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 const published = article.data.publishedAt.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+const articleUrl = new URL(`/artikel/${article.id}/`, Astro.site).toString();
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.data.title,
+  description: article.data.description,
+  datePublished: article.data.publishedAt.toISOString(),
+  dateModified: (article.data.updatedAt || article.data.publishedAt).toISOString(),
+  mainEntityOfPage: articleUrl,
+  author: { '@type': 'Organization', name: 'Tim Edukasi STIFIn Mulia' },
+  publisher: { '@id': new URL('/#organization', Astro.site).toString() },
+};
 ---
-<BaseLayout title={`${article.data.title} | STIFIn Mulia`} description={article.data.description}>
+<BaseLayout title={`${article.data.title} | STIFIn Mulia`} description={article.data.description} schema={articleSchema}>
   <article>
     <header class="article-hero"><div class="container"><a class="back" href="/artikel/">← Kembali ke artikel</a><span class="eyebrow">{article.data.category}</span><h1>{article.data.title}</h1><p class="lead">{article.data.description}</p><div class="meta">Diterbitkan {published} · Tim Edukasi STIFIn Mulia</div></div></header>
     <div class="container article-body"><div class="prose"><Content /></div><aside><strong>Catatan penting</strong><p>Isi artikel menjelaskan penerapan dalam konsep STIFIn. Artikel bukan diagnosis medis atau psikologis dan tidak menjanjikan hasil tertentu.</p></aside></div>

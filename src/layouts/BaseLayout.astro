@@ -4,17 +4,25 @@ import Footer from '../components/Footer.astro';
 import MobileCta from '../components/MobileCta.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
-interface Props { title?: string; description?: string; image?: string; noindex?: boolean }
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
 const {
   title = `${site.name} | ${site.tagline}`,
   description = site.description,
   image = '/images/og-default.png',
   noindex = false,
+  schema: pageSchema,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const schema = {
+const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': new URL('/#organization', Astro.site).toString(),
   name: site.name,
   url: new URL('/', Astro.site).toString(),
   description: site.description,
@@ -26,8 +34,20 @@ const schema = {
     contactType: 'customer service',
     availableLanguage: 'Indonesian',
   },
+  email: site.email,
+  sameAs: [site.instagram, site.youtube, site.facebook, site.telegram],
   areaServed: ['Bandung', 'Kabupaten Bandung', 'Bandung Barat', 'Cimahi', 'Sumedang', 'Indonesia'],
 };
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': new URL('/#website', Astro.site).toString(),
+  url: new URL('/', Astro.site).toString(),
+  name: site.name,
+  inLanguage: 'id-ID',
+  publisher: { '@id': new URL('/#organization', Astro.site).toString() },
+};
+const schemas = [organizationSchema, websiteSchema, ...(Array.isArray(pageSchema) ? pageSchema : pageSchema ? [pageSchema] : [])];
 ---
 <!doctype html>
 <html lang="id">
@@ -35,7 +55,7 @@ const schema = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="id_ID" />
@@ -48,13 +68,35 @@ const schema = {
     <meta name="theme-color" content="#063c32" />
     <link rel="icon" href="/icons/favicon.png" type="image/png" sizes="64x64" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
     <title>{title}</title>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
     <Header />
-    <main><slot /></main>
+    <main id="main-content"><slot /></main>
     <Footer />
     <MobileCta />
+    <script>
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const link = target.closest<HTMLAnchorElement>('a[href*="wa.me/"]');
+        if (!link) return;
+
+        const url = new URL(link.href);
+        const currentText = url.searchParams.get('text') || '';
+        if (!currentText.includes('Sumber halaman:')) {
+          url.searchParams.set('text', `${currentText}\nSumber halaman: ${window.location.pathname}`.trim());
+          link.href = url.toString();
+        }
+
+        const intent = link.dataset.waIntent || link.textContent?.trim() || 'WhatsApp';
+        const eventData = { event: 'whatsapp_click', intent, page_path: window.location.pathname };
+        const trackedWindow = window as typeof window & { dataLayer?: Array<Record<string, unknown>> };
+        trackedWindow.dataLayer?.push(eventData);
+        window.dispatchEvent(new CustomEvent('stifin:whatsapp-click', { detail: eventData }));
+      }, { capture: true });
+    </script>
   </body>
 </html>

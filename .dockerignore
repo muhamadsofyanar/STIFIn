@@ -3,3 +3,6 @@ dist
 .astro
 .git
 *.zip
+.env
+.env.*
+!.env.example

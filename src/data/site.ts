@@ -11,8 +11,10 @@ export const site = {
   whatsapp: '6281333362649',
   phoneDisplay: '0813-3336-2649',
   email: 'halo@stifinmulia.com',
-  instagram: '#',
-  youtube: '#',
+  instagram: 'https://www.instagram.com/stifin.mulia',
+  youtube: 'https://www.youtube.com/@STIFInMulia',
+  facebook: 'https://www.facebook.com/stifinmulia',
+  telegram: 'https://t.me/stifinmulia',
 } as const;
 
 export function waLink(message: string) {

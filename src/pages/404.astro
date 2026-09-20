@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Callout from '../components/Callout.astro';
+---
+<BaseLayout title="Halaman Tidak Ditemukan | STIFIn Mulia" description="Halaman yang Anda cari tidak ditemukan." noindex>
+  <section class="not-found"><div class="container"><span class="eyebrow">404</span><h1>Halaman tidak ditemukan</h1><p class="lead">Tautan mungkin berubah atau data wilayah belum tersedia. Gunakan menu utama atau cari promotor melalui jaringan layanan.</p><div class="actions"><a class="button" href="/">Kembali ke Beranda</a><a class="button secondary" href="/jaringan-promotor/">Cari Promotor</a></div></div></section>
+  <Callout title="Butuh bantuan langsung?" text="Sampaikan kebutuhan dan wilayah Anda melalui WhatsApp pusat STIFIn Mulia." message="Assalamu’alaikum, saya membutuhkan bantuan mencari informasi di website STIFIn Mulia." />
+</BaseLayout>
+<style>.not-found{display:grid;min-height:62vh;align-items:center;padding:90px 0;background:linear-gradient(145deg,#fbfcfa,#e8f5ef)}.not-found h1{max-width:800px}.not-found .lead{max-width:660px}</style>

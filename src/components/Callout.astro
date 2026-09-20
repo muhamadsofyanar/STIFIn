@@ -4,7 +4,7 @@ interface Props { title: string; text: string; message: string; secondaryHref?: 
 const { title, text, message, secondaryHref, secondaryLabel } = Astro.props;
 ---
 <section class="section">
-  <div class="container callout"><div><span class="eyebrow">Langkah berikutnya</span><h2>{title}</h2><p class="lead">{text}</p></div><div class="actions"><a class="button" href={waLink(message)} target="_blank" rel="noreferrer">Hubungi via WhatsApp</a>{secondaryHref && secondaryLabel && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}</div></div>
+  <div class="container callout"><div><span class="eyebrow">Langkah berikutnya</span><h2>{title}</h2><p class="lead">{text}</p></div><div class="actions"><a class="button" data-wa-intent="callout" href={waLink(message)} target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a>{secondaryHref && secondaryLabel && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}</div></div>
 </section>
 <style>
   .callout { display: flex; align-items: end; justify-content: space-between; gap: 48px; padding: clamp(38px, 7vw, 76px); border-radius: var(--radius-lg); background: var(--green-950); color: white; }

@@ -1,4 +1,11 @@
 {
   "generatedAt": null,
+  "summary": {
+    "requestedBranches": 0,
+    "successfulBranches": 0,
+    "failedBranches": 0,
+    "locations": 0,
+    "promoters": 0
+  },
   "locations": []
 }

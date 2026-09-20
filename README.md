@@ -1,4 +1,4 @@
-# STIFIn Mulia Website
+# STIFIn Mulia Website v0.6
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -23,7 +23,7 @@ Ubah data bisnis pada `src/data/site.ts`, terutama:
 
 - nomor WhatsApp
 - email
-- tautan Instagram dan YouTube
+- tautan Instagram, YouTube, Facebook, dan Telegram
 - wilayah layanan jika berubah
 
 ## Deploy melalui Coolify
@@ -50,13 +50,34 @@ Konfirmasi kembali angka tersebut sebelum website dipublikasikan karena kebijaka
 
 Website dapat membaca data agregat promotor aktif dari API STIFIn saat proses build. Data publik hanya berisi kota, provinsi, jumlah promotor aktif, dan jumlah cabang. Email, nomor telepon, PassID, tanggal lahir, saldo, dan data pribadi lain tidak disimpan pada website.
 
-Atur environment variable berikut di Coolify:
+Atur environment variable berikut di Coolify dan aktifkan opsi **Build Variable** karena sinkronisasi berlangsung saat image dibangun:
 
 ```text
 STIFIN_API_BASE=https://apro.stifin.id/api
 STIFIN_BRANCH_CODES=KODE-CABANG-1,KODE-CABANG-2
-STIFIN_API_AUTH_HEADER=Authorization
-STIFIN_API_AUTH_VALUE=Bearer TOKEN_RESMI
+STIFIN_SYNC_CONCURRENCY=6
+STIFIN_SYNC_TIMEOUT_MS=15000
+STIFIN_SYNC_RETRIES=2
+STIFIN_MIN_SUCCESS_RATE=1
+STIFIN_MAX_DROP_RATE=0.35
 ```
 
-`STIFIN_API_AUTH_HEADER` dan `STIFIN_API_AUTH_VALUE` hanya diisi jika API resmi mewajibkan autentikasi. Jangan menulis token di source code atau GitHub.
+Secara default seluruh kode cabang harus berhasil. Jika respons kosong, format API berubah, atau jumlah promotor turun lebih dari 35% dibanding snapshot sebelumnya, build dihentikan agar data parsial tidak terbit.
+
+### Autentikasi API
+
+Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile v0.6 memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
+
+Jangan menulis token di `.env`, source code, GitHub, log deployment, atau chat.
+
+## Perubahan v0.6
+
+- Sinkronisasi paralel dengan timeout, retry, validasi format, dan proteksi penurunan data.
+- Tanggal pembaruan dan status kesegaran data jaringan.
+- Pencarian kota/provinsi serta statistik promotor dan cabang.
+- Halaman kota dengan informasi pemesanan, FAQ, wilayah terkait, dan structured data.
+- Structured data Organization, WebSite, CollectionPage, Service, Breadcrumb, dan Article.
+- Sumber halaman otomatis pada pesan WhatsApp dan event konversi tanpa isi pesan.
+- Instagram, YouTube, Facebook, Telegram, email, dan WhatsApp pusat.
+- Halaman privasi, disclaimer, dan 404 khusus.
+- Header keamanan tambahan pada Nginx.
