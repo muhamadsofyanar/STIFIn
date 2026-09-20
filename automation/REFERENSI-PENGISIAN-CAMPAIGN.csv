@@ -1,0 +1,5 @@
+urutan,nama_campaign,device,nomor_pengirim,syntax,welcome_message,ketentuan_masuk,ketentuan_keluar
+1,"01 - LEAD TES STIFIN",mulia,081333362649,"TES#Nama#Kota#Kebutuhan#Jumlah",Aktif,"Form website berhasil dikirim","Sudah ditangani dan jadwal dibahas"
+2,"02 - JADWAL TES",mulia,081333362649,"JADWAL#Nama#Kota#Tanggal",Nonaktif,"Jadwal sedang atau sudah dikonfirmasi","Tes dan penjelasan hasil selesai"
+3,"03 - SELESAI TES",mulia,081333362649,"SELESAI#Nama#Kota",Nonaktif,"Tes dan penjelasan hasil selesai","Menyatakan minat WSL 1 atau promotor"
+4,"04 - WSL1 DAN CALON PROMOTOR",mulia,081333362649,"WSL1#Nama#Kota#Minat",Nonaktif,"Meminta informasi WSL 1 atau jalur promotor","Masuk proses pembelajaran atau pembinaan promotor"

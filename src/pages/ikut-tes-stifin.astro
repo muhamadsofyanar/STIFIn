@@ -41,15 +41,19 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
       if (!form.checkValidity()) { form.reportValidity(); return; }
       const data = new FormData(form);
       if (String(data.get('website') || '')) return;
+      const submittedAt = new Date().toISOString();
       const payload: Record<string,string> = {
+        lead_id: crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
         name: String(data.get('name') || '').trim(),
         phone: cleanPhone(String(data.get('phone') || '')),
         city: String(data.get('city') || '').trim(),
         need: String(data.get('need') || ''),
         participant_count: String(data.get('participant_count') || '1'),
+        consent: data.get('consent') ? 'true' : 'false',
+        consent_at: submittedAt,
         source_page: window.location.pathname,
         landing_variant: params.get('variant') || 'utama',
-        submitted_at: new Date().toISOString(),
+        submitted_at: submittedAt,
       };
       trackingKeys.forEach((key) => payload[key] = params.get(key) || '');
       button?.setAttribute('disabled','true');

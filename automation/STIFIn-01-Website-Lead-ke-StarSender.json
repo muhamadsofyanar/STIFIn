@@ -1,0 +1,147 @@
+{
+  "name": "STIFIn 01 - Website Lead ke StarSender",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Sebelum mengaktifkan\n1. Buat campaign **01 - LEAD TES STIFIN** di StarSender.\n2. Isi ID-nya pada node CONFIG.\n3. Buat credential HTTP Header Auth bernama **StarSender Account API**.\n4. Pilih credential itu pada node StarSender.\n5. Uji dengan Test URL, baru aktifkan Production URL.",
+        "height": 300,
+        "width": 420,
+        "color": 5
+      },
+      "id": "8d7145e0-481c-4a4e-9ea3-f8c109fe2f8a",
+      "name": "PETUNJUK",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-780, -340]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stifin-lead",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://stifinmulia.com, https://www.stifinmulia.com"
+        }
+      },
+      "id": "96b80b67-2eb4-4bdd-986d-6935c38bb51b",
+      "name": "Webhook - Form Website",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-700, 40],
+      "webhookId": "stifin-mulia-lead-v13"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b96abb54-2f23-45a1-bf9d-840278ee75de",
+              "name": "campaign_id_lead",
+              "value": 0,
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "52bc5ea8-e767-42fb-8b5f-f5e1cd073e4a",
+      "name": "CONFIG - Isi Campaign ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-460, 40]
+    },
+    {
+      "parameters": {
+        "jsCode": "const source = $json.body ?? $json;\n\nconst text = (value) => String(value ?? '').trim();\nconst normalizePhone = (value) => {\n  let digits = text(value).replace(/\\D/g, '');\n  if (digits.startsWith('0')) digits = `62${digits.slice(1)}`;\n  if (!digits.startsWith('62')) digits = `62${digits}`;\n  return digits;\n};\nconst safeSyntax = (value) => text(value).replace(/#/g, '-').replace(/\\s+/g, ' ');\n\nconst lead = {\n  lead_id: text(source.lead_id) || `lead-${Date.now()}`,\n  name: safeSyntax(source.name),\n  phone: normalizePhone(source.phone),\n  city: safeSyntax(source.city),\n  need: safeSyntax(source.need),\n  participant_count: safeSyntax(source.participant_count || '1'),\n  consent: text(source.consent).toLowerCase(),\n  consent_at: text(source.consent_at),\n  submitted_at: text(source.submitted_at),\n  source_page: text(source.source_page),\n  landing_variant: text(source.landing_variant || 'utama'),\n  utm_source: text(source.utm_source),\n  utm_medium: text(source.utm_medium),\n  utm_campaign: text(source.utm_campaign),\n  utm_content: text(source.utm_content),\n  utm_term: text(source.utm_term),\n  fbclid: text(source.fbclid),\n  gclid: text(source.gclid),\n  campaign_id_lead: Number($json.campaign_id_lead || 0),\n};\n\nif (!lead.name || !lead.city || !lead.need) throw new Error('Nama, kota, dan kebutuhan wajib diisi.');\nif (!/^62\\d{8,15}$/.test(lead.phone)) throw new Error('Format nomor WhatsApp tidak valid.');\nif (lead.consent !== 'true') throw new Error('Lead belum memberikan persetujuan WhatsApp.');\nif (!Number.isInteger(lead.campaign_id_lead) || lead.campaign_id_lead <= 0) throw new Error('Isi campaign_id_lead pada node CONFIG dengan ID campaign StarSender.');\n\nlead.syntax = `TES#${lead.name}#${lead.city}#${lead.need}#${lead.participant_count}`;\nreturn [{ json: lead }];"
+      },
+      "id": "8b31045c-9cb7-4f5d-9fab-3c10f3a81a26",
+      "name": "Normalize dan Validasi Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-210, 40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.starsender.online/api/campaigns/users",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ campaign_id: $json.campaign_id_lead, number: $json.phone, syntax: $json.syntax, welcome_message: true }) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "63d30cca-2ac2-4e77-bf0f-cd0d7075f93e",
+      "name": "StarSender - Tambah ke Campaign",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [50, 40]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, message: 'Lead diterima dan diteruskan ke StarSender', lead_id: $('Normalize dan Validasi Lead').item.json.lead_id }) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "https://stifinmulia.com"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "41d1e59b-2e66-4d8a-bbf8-134f028cd496",
+      "name": "Respons ke Website",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [310, 40]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook - Form Website": {
+      "main": [[{"node": "CONFIG - Isi Campaign ID", "type": "main", "index": 0}]]
+    },
+    "CONFIG - Isi Campaign ID": {
+      "main": [[{"node": "Normalize dan Validasi Lead", "type": "main", "index": 0}]]
+    },
+    "Normalize dan Validasi Lead": {
+      "main": [[{"node": "StarSender - Tambah ke Campaign", "type": "main", "index": 0}]]
+    },
+    "StarSender - Tambah ke Campaign": {
+      "main": [[{"node": "Respons ke Website", "type": "main", "index": 0}]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "versionId": "bbcb77c2-7a75-4a85-b460-90090a64d5f4",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}
