@@ -8,7 +8,7 @@ interface Props { title?: string; description?: string; image?: string; noindex?
 const {
   title = `${site.name} | ${site.tagline}`,
   description = site.description,
-  image = '/images/og-default.svg',
+  image = '/images/og-default.png',
   noindex = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -19,6 +19,13 @@ const schema = {
   url: new URL('/', Astro.site).toString(),
   description: site.description,
   founder: { '@type': 'Person', name: site.owner },
+  telephone: '+62 813-3336-2649',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+62 813-3336-2649',
+    contactType: 'customer service',
+    availableLanguage: 'Indonesian',
+  },
   areaServed: ['Bandung', 'Kabupaten Bandung', 'Bandung Barat', 'Cimahi', 'Sumedang'],
 };
 ---
@@ -39,7 +46,8 @@ const schema = {
     <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#063c32" />
-    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/favicon.png" type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <title>{title}</title>
   </head>

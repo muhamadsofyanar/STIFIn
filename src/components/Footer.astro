@@ -1,13 +1,13 @@
 ---
 import Brand from './Brand.astro';
-import { site } from '../data/site';
+import { site, waLink } from '../data/site';
 ---
 <footer class="footer">
   <div class="container footer-grid">
     <div><Brand light /><p>{site.description}</p></div>
     <div><strong>Layanan</strong><a href="/tes-stifin/">Tes STIFIn</a><a href="/jadi-promotor/">Jadi Promotor</a><a href="/kerja-sama/">Kerja Sama</a></div>
     <div><strong>Informasi</strong><a href="/tentang/">Tentang Kami</a><a href="/artikel/">Artikel Edukasi</a><a href="/faq/">Pertanyaan Umum</a></div>
-    <div><strong>Wilayah Utama</strong><p>Bandung, Kabupaten Bandung, Bandung Barat, Cimahi, dan Sumedang.</p></div>
+    <div><strong>Hubungi Kami</strong><a href={waLink('Assalamu’alaikum, saya ingin berkonsultasi dengan STIFIn Mulia.')} target="_blank" rel="noreferrer">WhatsApp {site.phoneDisplay}</a><p>Wilayah utama: Bandung Raya dan Sumedang.</p></div>
   </div>
   <div class="container bottom"><span>© {new Date().getFullYear()} STIFIn Mulia.</span><span>Belajar, melayani, dan bertumbuh bersama.</span></div>
 </footer>
