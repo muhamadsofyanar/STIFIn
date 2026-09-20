@@ -1,4 +1,4 @@
-# STIFIn Mulia Website v1.3.1
+# STIFIn Mulia Website v1.4.0
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 
@@ -7,6 +7,8 @@ Versi 1.1 memusatkan perjalanan pengunjung pada Gerakan 100 Tes STIFIn: Tes → 
 Versi 1.2 menambahkan landing page khusus iklan di `/ikut-tes-stifin/`, halaman konfirmasi `/terima-kasih-tes/`, form lead dengan UTM dan `fbclid`, webhook opsional untuk n8n/CRM, Meta Pixel opsional, sticky CTA mobile, serta menu mobile layar penuh pada website utama.
 
 Versi 1.3 melengkapi integrasi StarSender: setiap lead memiliki `lead_id`, persetujuan WhatsApp dan waktu persetujuan, workflow n8n siap impor, rancangan empat campaign funnel, template welcome/follow-up, SOP pemindahan lead, pengujian, serta panduan pengisian StarSender. Seluruh materi integrasi berada di folder `automation`.
+
+Versi 1.4 membentuk growth funnel lengkap Tes → WSL 1 → Promotor. Halaman `/ikut-wsl-1/` dan `/gabung-promotor/` memiliki form kualifikasi, UTM, consent, halaman terima kasih, dan WhatsApp terstruktur. Workflow `STIFIn-02-Multi-Funnel-ke-StarSender.json` mengarahkan setiap lead ke campaign StarSender yang sesuai. Bukti sosial pada landing page diambil dari rangkuman respons peserta dalam buku *Konsep PALUGADA* dan diberi atribusi sebagai pengalaman jaringan pusat, bukan testimoni langsung STIFIn Mulia.
 
 Versi 1.3.1 memperkeras sinkronisasi jaringan: nilai lokasi kosong seperti `-` dan `NULL` tidak lagi ditampilkan sebagai provinsi, variasi nama field API dibaca lebih toleran, kode cabang yang merespons tanpa data dilaporkan saat build, dan halaman kota tetap rapi ketika API tidak menyediakan provinsi.
 
@@ -21,7 +23,7 @@ PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
 
 `PUBLIC_STIFIN_LEAD_WEBHOOK_URL` menerima `POST` JSON berisi ID lead, nama, WhatsApp, kota, kebutuhan, jumlah peserta, persetujuan kontak, waktu persetujuan, halaman sumber, varian landing page, UTM, `fbclid`, dan `gclid`. Webhook n8n harus mengizinkan permintaan dari `https://stifinmulia.com`. Setelah data diproses, halaman mengarahkan calon peserta ke `/terima-kasih-tes/` dan menyiapkan pesan WhatsApp pusat.
 
-Panduan lengkap tersedia di `automation/PANDUAN-STARSENDER-N8N.md`. Impor `automation/STIFIn-01-Website-Lead-ke-StarSender.json` ke n8n, isi ID campaign, pasangkan credential Account API StarSender, uji, lalu aktifkan workflow sebelum redeploy website.
+Panduan terbaru tersedia di `automation/PANDUAN-V1.4-GROWTH-FUNNEL.md`. Impor `automation/STIFIn-02-Multi-Funnel-ke-StarSender.json` ke n8n, isi tiga ID campaign, pasangkan credential Account API StarSender, uji, lalu aktifkan workflow sebelum redeploy website. Nonaktifkan workflow v1.3 karena keduanya menggunakan path webhook `stifin-lead`.
 
 Jika webhook belum diisi, formulir tetap melanjutkan calon peserta ke halaman terima kasih dan WhatsApp, tetapi lead belum tersimpan ke CRM. Pixel juga hanya aktif bila ID Meta Pixel sudah diisi.
 

@@ -1,0 +1,118 @@
+{
+  "name": "STIFIn 02 - Multi Funnel Website ke StarSender",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Sebelum mengaktifkan\n1. Buat campaign **01 - LEAD TES STIFIN**, **04 - MINAT WSL 1**, dan **05 - CALON PROMOTOR**.\n2. Isi ketiga ID pada node CONFIG.\n3. Pilih credential **StarSender Account API** pada node HTTP.\n4. Nonaktifkan workflow lama yang memakai path `stifin-lead`.\n5. Uji ketiga jenis form sebelum mengaktifkan URL produksi.",
+        "height": 330,
+        "width": 440,
+        "color": 5
+      },
+      "id": "b5da9d39-2c4c-4e21-91c4-funnel-note-v14",
+      "name": "PETUNJUK V1.4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-800, -360]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stifin-lead",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://stifinmulia.com, https://www.stifinmulia.com"
+        }
+      },
+      "id": "9c45d3fa-80a8-4c0b-a98e-funnel-webhook-v14",
+      "name": "Webhook - Semua Form Website",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-720, 40],
+      "webhookId": "stifin-mulia-multifunnel-v14"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "config-test-v14", "name": "campaign_id_test", "value": 0, "type": "number" },
+            { "id": "config-wsl-v14", "name": "campaign_id_wsl1", "value": 0, "type": "number" },
+            { "id": "config-promotor-v14", "name": "campaign_id_promotor", "value": 0, "type": "number" }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "f8fd54f2-8129-42f3-ae12-funnel-config-v14",
+      "name": "CONFIG - Isi 3 Campaign ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-470, 40]
+    },
+    {
+      "parameters": {
+        "jsCode": "const source = $json.body ?? $json;\nconst text = (value) => String(value ?? '').trim();\nconst normalizePhone = (value) => {\n  let digits = text(value).replace(/\\D/g, '');\n  if (digits.startsWith('0')) digits = `62${digits.slice(1)}`;\n  if (!digits.startsWith('62')) digits = `62${digits}`;\n  return digits;\n};\nconst safe = (value) => text(value).replace(/#/g, '-').replace(/\\s+/g, ' ');\nconst stage = ['tes','wsl1','promotor'].includes(text(source.funnel_stage).toLowerCase()) ? text(source.funnel_stage).toLowerCase() : 'tes';\nconst campaignMap = { tes: Number($json.campaign_id_test || 0), wsl1: Number($json.campaign_id_wsl1 || 0), promotor: Number($json.campaign_id_promotor || 0) };\nconst lead = {\n  lead_id: text(source.lead_id) || `lead-${Date.now()}`,\n  funnel_stage: stage,\n  lead_source: safe(source.lead_source || source.utm_source || 'website'),\n  name: safe(source.name),\n  phone: normalizePhone(source.phone),\n  city: safe(source.city),\n  need: safe(source.need),\n  participant_count: safe(source.participant_count || '1'),\n  stifin_result: safe(source.stifin_result),\n  learning_goal: safe(source.learning_goal),\n  main_question: safe(source.main_question),\n  profession: safe(source.profession),\n  stifin_status: safe(source.stifin_status),\n  wsl_status: safe(source.wsl_status),\n  network: safe(source.network),\n  promoter_goal: safe(source.promoter_goal),\n  promoter_readiness: safe(source.promoter_readiness),\n  consent: text(source.consent).toLowerCase(),\n  consent_at: text(source.consent_at),\n  submitted_at: text(source.submitted_at),\n  source_page: text(source.source_page),\n  landing_variant: text(source.landing_variant || 'utama'),\n  utm_source: text(source.utm_source),\n  utm_medium: text(source.utm_medium),\n  utm_campaign: text(source.utm_campaign),\n  utm_content: text(source.utm_content),\n  utm_term: text(source.utm_term),\n  fbclid: text(source.fbclid),\n  gclid: text(source.gclid),\n  campaign_id: campaignMap[stage],\n};\nif (!lead.name || !lead.city) throw new Error('Nama dan kota wajib diisi.');\nif (!/^62\\d{8,15}$/.test(lead.phone)) throw new Error('Format nomor WhatsApp tidak valid.');\nif (lead.consent !== 'true') throw new Error('Lead belum memberikan persetujuan WhatsApp.');\nif (!Number.isInteger(lead.campaign_id) || lead.campaign_id <= 0) throw new Error(`Campaign ID untuk tahap ${stage} belum diisi.`);\nif (stage === 'tes') lead.syntax = `TES#${lead.name}#${lead.city}#${lead.need}#${lead.participant_count}`;\nif (stage === 'wsl1') lead.syntax = `WSL1#${lead.name}#${lead.city}#${lead.stifin_result}#${lead.learning_goal}`;\nif (stage === 'promotor') lead.syntax = `PROMOTOR#${lead.name}#${lead.city}#${lead.profession}#${lead.stifin_status}#${lead.wsl_status}`;\nreturn [{ json: lead }];"
+      },
+      "id": "436379f0-7c41-4ccc-aa25-funnel-code-v14",
+      "name": "Normalisasi Segmentasi dan Validasi",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-200, 40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.starsender.online/api/campaigns/users",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ campaign_id: $json.campaign_id, number: $json.phone, syntax: $json.syntax, welcome_message: true }) }}",
+        "options": { "timeout": 15000 }
+      },
+      "id": "2a4c21ec-837a-468f-94a5-funnel-http-v14",
+      "name": "StarSender - Masukkan Sesuai Funnel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [70, 40]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, message: 'Lead diterima dan ditempatkan sesuai tahap funnel', lead_id: $('Normalisasi Segmentasi dan Validasi').item.json.lead_id, funnel_stage: $('Normalisasi Segmentasi dan Validasi').item.json.funnel_stage }) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              { "name": "Access-Control-Allow-Origin", "value": "https://stifinmulia.com" },
+              { "name": "Content-Type", "value": "application/json" }
+            ]
+          }
+        }
+      },
+      "id": "e209a052-e030-42ba-aa48-funnel-response-v14",
+      "name": "Respons ke Website",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [350, 40]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook - Semua Form Website": { "main": [[{ "node": "CONFIG - Isi 3 Campaign ID", "type": "main", "index": 0 }]] },
+    "CONFIG - Isi 3 Campaign ID": { "main": [[{ "node": "Normalisasi Segmentasi dan Validasi", "type": "main", "index": 0 }]] },
+    "Normalisasi Segmentasi dan Validasi": { "main": [[{ "node": "StarSender - Masukkan Sesuai Funnel", "type": "main", "index": 0 }]] },
+    "StarSender - Masukkan Sesuai Funnel": { "main": [[{ "node": "Respons ke Website", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": []
+}

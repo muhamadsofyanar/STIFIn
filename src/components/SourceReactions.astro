@@ -1,0 +1,23 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const reactions = ['“Gua banget.”', '“Kok bisa pas sih?”', '“Kok bisa ya?”', '“Jadi malu aku seperti ditelanjangi.”'];
+---
+<section class:list={['source-reactions', { compact }]} aria-labelledby="source-reactions-title">
+  <div class="campaign-container reaction-wrap">
+    <div class="reaction-copy">
+      <span class="reaction-kicker">Reaksi yang dicatat dalam materi pusat</span>
+      <h2 id="source-reactions-title">Saat hasil terasa dekat dengan pengalaman sehari-hari</h2>
+      <p>Buku <em>Konsep PALUGADA</em> dari STIFIn Institute merangkum respons peserta setelah menerima hasil tes. Ungkapan singkat berikut berasal dari pengalaman jaringan STIFIn secara umum, bukan testimoni khusus layanan STIFIn Mulia.</p>
+    </div>
+    <div class="reaction-grid">
+      {reactions.map((reaction) => <blockquote>{reaction}</blockquote>)}
+    </div>
+  </div>
+  <div class="campaign-container source-note">Sumber: Farid Poniman dan Rahman Andi Mangussara, <em>Konsep PALUGADA</em>, bagian Tingkat Akurasi Tes STIFIn, hlm. 10.</div>
+</section>
+<style>
+  .source-reactions{padding:clamp(64px,8vw,96px) 0;background:#f0f5ef}.reaction-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(35px,7vw,90px);align-items:center}.reaction-kicker{display:inline-block;margin-bottom:14px;color:var(--green-700);font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.reaction-copy h2{font-size:clamp(2rem,4vw,3.2rem);text-wrap:balance}.reaction-copy p{max-width:650px}.reaction-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.reaction-grid blockquote{display:flex;min-height:132px;align-items:flex-end;margin:0;padding:24px;border:1px solid #cad9cf;border-radius:18px;background:white;color:var(--green-950);font-family:var(--font-display);font-size:clamp(1.35rem,2.5vw,2rem);font-weight:700;box-shadow:0 15px 38px rgba(4,63,43,.07)}.reaction-grid blockquote:nth-child(2){background:var(--green-950);color:white}.source-note{margin-top:22px;color:var(--muted);font-size:.72rem}.compact{padding:55px 0}.compact .reaction-wrap{grid-template-columns:1fr}.compact .reaction-copy{max-width:800px}.compact .reaction-grid blockquote{min-height:105px}@media(max-width:760px){.reaction-wrap,.reaction-grid{grid-template-columns:1fr}.reaction-grid blockquote{min-height:95px}.source-reactions{padding:60px 0}}
+</style>

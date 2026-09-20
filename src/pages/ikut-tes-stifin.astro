@@ -1,5 +1,6 @@
 ---
 import CampaignLayout from '../layouts/CampaignLayout.astro';
+import SourceReactions from '../components/SourceReactions.astro';
 import { site } from '../data/site';
 const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
 ---
@@ -8,6 +9,8 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
     <div class="form-card" id="daftar"><span class="form-label">Cek jadwal tanpa kewajiban membayar</span><h2>Di kota mana Anda ingin mengikuti tes?</h2><p>Isi data singkat. Tim STIFIn Mulia akan menghubungi Anda melalui WhatsApp.</p><form id="ad-lead-form" data-webhook={webhookUrl} data-wa={site.whatsapp} novalidate><div class="field"><label for="lead-name">Nama lengkap</label><input id="lead-name" name="name" autocomplete="name" required placeholder="Nama Anda" /></div><div class="field"><label for="lead-phone">Nomor WhatsApp aktif</label><input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="9" placeholder="Contoh: 081333362649" /></div><div class="field"><label for="lead-city">Kota atau kabupaten</label><input id="lead-city" name="city" autocomplete="address-level2" required placeholder="Contoh: Bandung" /></div><div class="field"><label for="lead-need">Tes ini untuk</label><select id="lead-need" name="need" required><option value="">Pilih kebutuhan</option><option>Diri sendiri</option><option>Anak</option><option>Pasangan</option><option>Keluarga</option><option>Kelompok atau lembaga</option></select></div><div class="field"><label for="lead-count">Jumlah calon peserta</label><select id="lead-count" name="participant_count" required><option value="1">1 orang</option><option value="2">2 orang</option><option value="3-5">3–5 orang</option><option value="6-10">6–10 orang</option><option value="11+">Lebih dari 10 orang</option></select></div><div class="hp-field" aria-hidden="true"><label>Alamat situs<input name="website" tabindex="-1" autocomplete="off" /></label></div><label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia dihubungi melalui WhatsApp mengenai jadwal Tes STIFIn dan telah membaca <a href="/privasi/" target="_blank">kebijakan privasi</a>.</span></label><button class="conversion-button" type="submit"><span>Dapatkan Jadwal Tes</span><small>Data Anda dikirim dengan aman</small></button><p id="form-status" class="form-status" aria-live="polite"></p></form><div class="form-trust"><span>✓ Bukan pembayaran</span><span>✓ Jadwal dikonfirmasi</span><span>✓ Satu pintu layanan</span></div></div></div></section>
 
   <section class="confidence"><div class="campaign-container confidence-grid"><div><strong>Proses yang jelas</strong><span>Dari pengecekan jadwal sampai penjelasan hasil.</span></div><div><strong>Untuk kebutuhan nyata</strong><span>Belajar, keluarga, profesi, bisnis, atau relasi.</span></div><div><strong>Tidak berhenti pada hasil</strong><span>Dapat dilanjutkan melalui pembelajaran WSL 1.</span></div></div></section>
+
+  <SourceReactions compact />
 
   <section class="campaign-section"><div class="campaign-container problem-grid"><div><span class="campaign-kicker">Pernah merasa seperti ini?</span><h2>Anda sudah berusaha, tetapi cara yang dipakai terasa tidak benar-benar cocok.</h2></div><div class="problem-list"><article><b>01</b><div><strong>Sulit memahami cara belajar diri atau anak</strong><p>Sudah mencoba berbagai metode, tetapi konsistensi dan semangat cepat turun.</p></div></article><article><b>02</b><div><strong>Niat baik sering salah diterima</strong><p>Komunikasi dengan pasangan, anak, atau rekan mudah berubah menjadi salah paham.</p></div></article><article><b>03</b><div><strong>Belum yakin kekuatan mana yang perlu dikembangkan</strong><p>Banyak pilihan tersedia, tetapi belum memiliki bahasa untuk membaca pola diri.</p></div></article></div></div></section>
 
@@ -44,6 +47,8 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
       const submittedAt = new Date().toISOString();
       const payload: Record<string,string> = {
         lead_id: crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
+        funnel_stage: 'tes',
+        lead_source: params.get('utm_source') || 'website',
         name: String(data.get('name') || '').trim(),
         phone: cleanPhone(String(data.get('phone') || '')),
         city: String(data.get('city') || '').trim(),

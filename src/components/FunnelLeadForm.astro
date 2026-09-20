@@ -1,0 +1,95 @@
+---
+import { site } from '../data/site';
+interface Props {
+  id?: string;
+  stage: 'wsl1' | 'promotor';
+  title: string;
+  description: string;
+  buttonLabel: string;
+  buttonHint: string;
+  redirectPath: string;
+  storageKey: string;
+}
+const { id = 'daftar', stage, title, description, buttonLabel, buttonHint, redirectPath, storageKey } = Astro.props;
+const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
+---
+<div class="funnel-form-card" id={id}>
+  <span class="funnel-form-label">Konsultasi awal tanpa kewajiban mendaftar</span>
+  <h2>{title}</h2>
+  <p>{description}</p>
+  <form data-funnel-form data-stage={stage} data-webhook={webhookUrl} data-wa={site.whatsapp} data-redirect={redirectPath} data-storage={storageKey} novalidate>
+    <div class="funnel-field"><label for={`${stage}-name`}>Nama lengkap</label><input id={`${stage}-name`} name="name" autocomplete="name" required placeholder="Nama Anda" /></div>
+    <div class="funnel-field"><label for={`${stage}-phone`}>Nomor WhatsApp aktif</label><input id={`${stage}-phone`} name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="9" placeholder="Contoh: 081333362649" /></div>
+    <div class="funnel-field"><label for={`${stage}-city`}>Kota atau kabupaten</label><input id={`${stage}-city`} name="city" autocomplete="address-level2" required placeholder="Kota tempat tinggal" /></div>
+    <slot />
+    <div class="funnel-hp" aria-hidden="true"><label>Alamat situs<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <label class="funnel-consent"><input name="consent" type="checkbox" required /><span>Saya bersedia dihubungi melalui WhatsApp untuk informasi {stage === 'wsl1' ? 'WSL 1' : 'program promotor'} dan telah membaca <a href="/privasi/" target="_blank">kebijakan privasi</a>.</span></label>
+    <button class="funnel-submit" type="submit"><span>{buttonLabel}</span><small>{buttonHint}</small></button>
+    <p class="funnel-status" aria-live="polite"></p>
+  </form>
+  <div class="funnel-trust"><span>✓ Data seperlunya</span><span>✓ Ditindaklanjuti tim</span><span>✓ Belum ada pembayaran</span></div>
+</div>
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-funnel-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.funnel-status');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const params = new URLSearchParams(window.location.search);
+    const trackingKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'];
+    const cleanPhone = (value: string) => {
+      let digits = value.replace(/\D/g, '');
+      if (digits.startsWith('0')) digits = `62${digits.slice(1)}`;
+      if (!digits.startsWith('62')) digits = `62${digits}`;
+      return digits;
+    };
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const data = new FormData(form);
+      if (String(data.get('website') || '')) return;
+      const submittedAt = new Date().toISOString();
+      const payload: Record<string,string> = {
+        lead_id: crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
+        funnel_stage: form.dataset.stage || '',
+        lead_source: params.get('utm_source') || 'website',
+        name: String(data.get('name') || '').trim(),
+        phone: cleanPhone(String(data.get('phone') || '')),
+        city: String(data.get('city') || '').trim(),
+        consent: data.get('consent') ? 'true' : 'false',
+        consent_at: submittedAt,
+        submitted_at: submittedAt,
+        source_page: window.location.pathname,
+        landing_variant: params.get('variant') || 'utama',
+      };
+      data.forEach((value, key) => {
+        if (!['website','consent','name','phone','city'].includes(key)) payload[key] = String(value).trim();
+      });
+      trackingKeys.forEach((key) => payload[key] = params.get(key) || '');
+      if (!payload.need) payload.need = payload.learning_goal || payload.promoter_goal || form.dataset.stage || '';
+      if (!payload.participant_count) payload.participant_count = '1';
+      button?.setAttribute('disabled','true');
+      const buttonText = button?.querySelector('span');
+      if (buttonText) buttonText.textContent = 'Mengirim data…';
+      if (status) status.textContent = '';
+      const trackedWindow = window as typeof window & { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void };
+      trackedWindow.dataLayer?.push({ event:`lead_${payload.funnel_stage}_submit`, ...payload });
+      trackedWindow.fbq?.('track','Lead',{ content_name: payload.funnel_stage });
+      const webhook = form.dataset.webhook || '';
+      let webhookStatus = webhook ? 'failed' : 'not_configured';
+      if (webhook) {
+        try {
+          const controller = new AbortController();
+          const timer = window.setTimeout(() => controller.abort(), 7000);
+          const response = await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
+          window.clearTimeout(timer);
+          if (!response.ok) throw new Error('Webhook rejected');
+          webhookStatus = 'sent';
+        } catch { webhookStatus = 'failed'; }
+      }
+      sessionStorage.setItem(form.dataset.storage || 'stifinLead',JSON.stringify({...payload,webhook_status:webhookStatus}));
+      window.location.href = form.dataset.redirect || '/';
+    });
+  });
+</script>
+<style is:global>
+  .funnel-form-card{padding:clamp(24px,3.5vw,38px);border:1px solid #c9d9ce;border-radius:24px;background:white;box-shadow:0 28px 80px rgba(4,63,43,.16)}.funnel-form-label{display:inline-flex;padding:7px 10px;border-radius:8px;background:var(--green-100);color:var(--green-800);font-size:.7rem;font-weight:850}.funnel-form-card h2{margin:18px 0 8px;font-size:clamp(1.65rem,3vw,2.35rem)}.funnel-form-card>p{font-size:.9rem}.funnel-field{margin-top:15px}.funnel-field label{display:block;margin-bottom:6px;color:var(--ink);font-size:.82rem;font-weight:800}.funnel-field input,.funnel-field select,.funnel-field textarea{width:100%;min-height:48px;padding:11px 13px;border:1px solid #c9d5cd;border-radius:10px;background:white;color:var(--ink);font:inherit}.funnel-field textarea{min-height:92px;resize:vertical}.funnel-field input:focus,.funnel-field select:focus,.funnel-field textarea:focus{border-color:var(--green-700);outline:3px solid rgba(13,133,89,.12)}.funnel-consent{display:flex;gap:9px;align-items:flex-start;margin:17px 0;color:var(--muted);font-size:.76rem}.funnel-consent input{margin-top:4px}.funnel-consent a{text-decoration:underline}.funnel-submit{display:flex;width:100%;min-height:56px;align-items:center;justify-content:center;flex-direction:column;border:0;border-radius:12px;background:var(--green-950);color:white;font-weight:850;box-shadow:0 12px 28px rgba(4,63,43,.2)}.funnel-submit small{color:#bdd6cc;font-size:.68rem;font-weight:600}.funnel-submit:disabled{cursor:wait;opacity:.72}.funnel-status{margin:10px 0 0;color:#a44222;font-size:.78rem}.funnel-trust{display:flex;flex-wrap:wrap;gap:7px 12px;margin-top:14px;color:var(--muted);font-size:.7rem}.funnel-hp{position:absolute;left:-9999px}
+</style>
