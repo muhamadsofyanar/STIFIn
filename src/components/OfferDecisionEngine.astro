@@ -1,0 +1,82 @@
+---
+import { offers } from '../data/offers';
+import { site } from '../data/site';
+---
+<section class="offer-engine" data-whatsapp={site.whatsapp}>
+  <div class="engine-head"><span class="eyebrow">Asisten pemilihan layanan</span><h2>Tiga jawaban untuk menemukan pintu yang paling masuk akal.</h2><p>Rekomendasi ini membantu merapikan pilihan. Anda tetap dapat memeriksa semua layanan dan memutuskan sendiri.</p></div>
+  <form class="decision-form" novalidate>
+    <fieldset data-question="position"><legend>1. Posisi Anda sekarang</legend><div class="choices"><label><input type="radio" name="position" value="belum-tes" required /><span>Belum pernah Tes STIFIn</span></label><label><input type="radio" name="position" value="sudah-tes" /><span>Sudah tes, ingin mendalami</span></label><label><input type="radio" name="position" value="sudah-wsl" /><span>Sudah mengikuti WSL 1</span></label><label><input type="radio" name="position" value="lembaga" /><span>Mewakili sekolah, komunitas, atau tim</span></label></div></fieldset>
+    <fieldset data-question="goal"><legend>2. Fokus kebutuhan Anda</legend><div class="choices"><label><input type="radio" name="goal" value="diri" required /><span>Diri, karier, atau arah hidup</span></label><label><input type="radio" name="goal" value="keluarga" /><span>Anak, pasangan, atau keluarga</span></label><label><input type="radio" name="goal" value="tim" /><span>Tim, sekolah, atau komunitas</span></label><label><input type="radio" name="goal" value="promotor" /><span>Menjajaki jalur promotor</span></label></div></fieldset>
+    <fieldset data-question="readiness"><legend>3. Langkah yang Anda inginkan</legend><div class="choices"><label><input type="radio" name="readiness" value="jadwal" required /><span>Ingin mencari jadwal</span></label><label><input type="radio" name="readiness" value="diskusi" /><span>Ingin berdiskusi dahulu</span></label><label><input type="radio" name="readiness" value="belajar" /><span>Ingin membaca dan belajar</span></label></div></fieldset>
+    <button class="button" type="submit">Tampilkan Rekomendasi Saya</button><p class="form-hint">Tidak perlu memasukkan nomor WhatsApp untuk melihat rekomendasi.</p>
+  </form>
+
+  <div class="recommendation" data-recommendation hidden aria-live="polite">
+    {offers.map((offer) => <article data-offer-result={offer.id} hidden>
+      <div class="recommendation-copy"><span class="result-label">Rekomendasi awal</span><small>{offer.kicker}</small><h3>{offer.label}</h3><p>{offer.promise}</p><div class="result-actions"><a class="button secondary" href={offer.detailHref}>{offer.detailLabel}</a><button class="text-button" type="button" data-reset>Ulangi pilihan</button></div></div>
+      <form class="booking-form" data-offer={offer.id} data-offer-label={offer.label} data-stage={offer.stage}>
+        <span class="booking-kicker">Langkah 1 dari percakapan</span><h3>Minta tim menyiapkan pilihan yang tersedia.</h3><p>Isi singkat agar pertanyaan tentang lokasi, waktu, dan kebutuhan Anda tidak perlu diulang dari awal.</p>
+        <div class="booking-grid"><label>Nama lengkap<input name="name" autocomplete="name" required /></label><label>Nomor WhatsApp<input name="phone" autocomplete="tel" inputmode="tel" placeholder="0812…" required /></label><label>Kota / kabupaten<input name="city" autocomplete="address-level2" required /></label><label>Jumlah peserta<input name="participants" type="number" min="1" max="500" value="1" required /></label><label>Waktu yang diharapkan<select name="timing" required><option value="">Pilih waktu</option><option>Secepatnya</option><option>Dalam 7 hari</option><option>Dalam 30 hari</option><option>Masih menyesuaikan</option></select></label><label>Kebutuhan utama<textarea name="note" rows="3" placeholder="Contoh: ingin memahami pola belajar anak"></textarea></label></div>
+        <label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia membuka percakapan WhatsApp mengenai layanan ini dan menyetujui <a href="/privasi/">kebijakan privasi</a>.</span></label>
+        <button class="button" type="submit">Kirim Permintaan melalui WhatsApp</button><small>Biaya, jadwal, lokasi, dan ketersediaan dikonfirmasi oleh tim sebelum Anda memutuskan.</small>
+      </form>
+    </article>)}
+  </div>
+</section>
+
+<script>
+  type TrackedWindow = Window & typeof globalThis & { dataLayer?: Array<Record<string, unknown>>; fbq?: (action:string,event:string,data:Record<string,unknown>)=>void };
+  const root = document.querySelector<HTMLElement>('.offer-engine');
+  if (root) {
+    const decision = root.querySelector<HTMLFormElement>('.decision-form')!;
+    const result = root.querySelector<HTMLElement>('[data-recommendation]')!;
+    const trackedWindow = window as TrackedWindow;
+    const chooseOffer = (position:string, goal:string) => {
+      if (position === 'lembaga' || goal === 'tim') return 'tes-kelompok';
+      if (position === 'sudah-wsl' || goal === 'promotor') return 'promotor';
+      if (position === 'sudah-tes') return 'wsl-1';
+      if (goal === 'keluarga') return 'tes-keluarga';
+      return 'tes-individu';
+    };
+    decision.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!decision.reportValidity()) return;
+      const data = new FormData(decision);
+      const position = String(data.get('position') || '');
+      const goal = String(data.get('goal') || '');
+      const readiness = String(data.get('readiness') || '');
+      const offer = chooseOffer(position, goal);
+      result.hidden = false;
+      root.querySelectorAll<HTMLElement>('[data-offer-result]').forEach((panel) => panel.hidden = panel.dataset.offerResult !== offer);
+      const url = new URL(location.href); url.searchParams.set('layanan', offer); history.replaceState({},'',url);
+      trackedWindow.dataLayer?.push({event:'offer_recommendation_view',offer_id:offer,position,goal,readiness});
+      result.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    root.querySelectorAll<HTMLButtonElement>('[data-reset]').forEach((button) => button.addEventListener('click', () => { decision.reset(); result.hidden = true; history.replaceState({},'',location.pathname); decision.scrollIntoView({behavior:'smooth'}); }));
+    root.querySelectorAll<HTMLFormElement>('.booking-form').forEach((form) => form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const message = [
+        'Assalamu’alaikum, saya sudah memilih layanan di stifinmulia.com.',
+        `Layanan: ${form.dataset.offerLabel}`,
+        `Nama: ${String(data.get('name') || '').trim()}`,
+        `WhatsApp: ${String(data.get('phone') || '').trim()}`,
+        `Kota/kabupaten: ${String(data.get('city') || '').trim()}`,
+        `Jumlah peserta: ${String(data.get('participants') || '1')}`,
+        `Waktu yang diharapkan: ${String(data.get('timing') || '')}`,
+        `Kebutuhan: ${String(data.get('note') || '').trim() || 'Akan dijelaskan saat percakapan'}`,
+        'Mohon bantu informasikan pilihan jadwal, lokasi, biaya resmi, dan langkah berikutnya.'
+      ].join('\n');
+      trackedWindow.dataLayer?.push({event:'offer_booking_submit',offer_id:form.dataset.offer,funnel_stage:form.dataset.stage});
+      trackedWindow.fbq?.('track','Lead',{content_name:`offer-${form.dataset.offer}`});
+      location.href = `https://wa.me/${root.dataset.whatsapp}?text=${encodeURIComponent(message)}`;
+    }));
+    const initial = new URLSearchParams(location.search).get('layanan');
+    if (initial && root.querySelector(`[data-offer-result="${CSS.escape(initial)}"]`)) { result.hidden=false; root.querySelectorAll<HTMLElement>('[data-offer-result]').forEach((panel)=>panel.hidden=panel.dataset.offerResult!==initial); }
+  }
+</script>
+
+<style>
+  .offer-engine{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow)}.engine-head{padding:clamp(30px,5vw,58px);border-bottom:1px solid var(--line);background:linear-gradient(145deg,#fff,#eef5ef)}.engine-head p{max-width:760px}.decision-form{display:grid;gap:34px;padding:clamp(28px,5vw,58px)}fieldset{padding:0;border:0}legend{margin-bottom:16px;color:var(--green-950);font-family:var(--font-display);font-size:1.35rem;font-weight:700}.choices{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.choices label{position:relative}.choices input{position:absolute;opacity:0}.choices span{display:flex;min-height:74px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:13px;background:#fbfcfa;font-size:.86rem;font-weight:800;cursor:pointer;transition:.2s ease}.choices input:checked+span{border-color:var(--green-700);background:var(--green-100);box-shadow:inset 0 0 0 1px var(--green-700)}.choices input:focus-visible+span{outline:3px solid rgba(131,169,71,.35);outline-offset:2px}.decision-form>.button{width:fit-content}.form-hint{margin:-22px 0 0;color:var(--muted);font-size:.76rem}.recommendation{scroll-margin-top:100px;border-top:1px solid var(--line)}.recommendation>article{display:grid;grid-template-columns:.85fr 1.15fr}.recommendation-copy{padding:clamp(30px,5vw,58px);background:var(--cream)}.recommendation-copy small,.booking-kicker{display:block;color:var(--green-700);font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.recommendation-copy h3,.booking-form h3{margin:11px 0;font-family:var(--font-display);font-size:clamp(1.65rem,3vw,2.25rem)}.result-label{display:inline-flex;margin-bottom:24px;padding:7px 11px;border-radius:999px;background:var(--amber-500);color:#1c2b22;font-size:.7rem;font-weight:900}.result-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}.text-button{border:0;background:transparent;color:var(--green-800);font-weight:850}.booking-form{padding:clamp(30px,5vw,58px);background:var(--green-950);color:#fff}.booking-form>p,.booking-form>small{color:#c4d9d1}.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:25px 0}.booking-grid label{display:grid;gap:6px;color:#d9e7e1;font-size:.76rem;font-weight:800}.booking-grid input,.booking-grid select,.booking-grid textarea{width:100%;min-height:48px;padding:10px 12px;border:1px solid #789a8c;border-radius:10px;background:#fff;color:var(--ink)}.booking-grid textarea{resize:vertical}.consent{display:grid;grid-template-columns:auto 1fr;gap:9px;margin-bottom:18px;color:#d5e3dd;font-size:.75rem}.consent input{margin-top:4px}.consent a{text-decoration:underline}.booking-form>.button{background:var(--amber-500);color:#17241d}.booking-form>small{display:block;margin-top:12px}.recommendation [hidden]{display:none}@media(max-width:900px){.choices{grid-template-columns:1fr 1fr}.recommendation>article{grid-template-columns:1fr}}@media(max-width:580px){.choices,.booking-grid{grid-template-columns:1fr}.decision-form>.button,.result-actions>*{width:100%;text-align:center}.choices span{min-height:58px}}
+</style>

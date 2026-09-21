@@ -14,6 +14,7 @@ export async function GET() {
 > Situs edukasi dan layanan untuk mengenal STIFIn, mengikuti Tes STIFIn, melanjutkan WSL 1, serta mempelajari jalur promotor. Dikelola oleh Muhamad Sofyan AR dan berbasis layanan di Bandung dengan jaringan lintas wilayah.
 
 ## Halaman utama
+- [Pilih Layanan](https://stifinmulia.com/pilih-layanan/): membandingkan Tes STIFIn individual, keluarga, kelompok, WSL 1, dan jalur promotor; menyediakan rekomendasi tiga pertanyaan serta permintaan jadwal terstruktur.
 - [Langkah Berikutnya](https://stifinmulia.com/langkah-selanjutnya/): memilih jalur Tes STIFIn, WSL 1, atau promotor berdasarkan posisi dan kesiapan pengguna.
 - [Temukan Langkah Saya](https://stifinmulia.com/perjalanan/): empat pertanyaan singkat yang menghasilkan jalur personal, bacaan pilihan, dan rekomendasi langkah berikutnya.
 - [Apakah Tes STIFIn Cocok untuk Saya?](https://stifinmulia.com/apakah-tes-stifin-cocok-untuk-saya/): pusat keputusan untuk menilai kecocokan, memahami batas penggunaan, dan membedakan tes, penjelasan hasil, WSL 1, serta promotor.

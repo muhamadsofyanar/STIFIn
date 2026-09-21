@@ -1,4 +1,6 @@
-# STIFIn Mulia Website v2.4.0
+# STIFIn Mulia Website v2.5.0
+
+Versi 2.5 menambahkan **Offer & Booking Engine** di `/pilih-layanan/`. Pengunjung dapat membandingkan Tes STIFIn individual, program anak dan keluarga, program kelompok atau lembaga, WSL 1, serta jalur promotor. Asisten tiga pertanyaan memberi rekomendasi awal tanpa meminta nomor WhatsApp. Setelah pengunjung memilih tindak lanjut, formulir mengirimkan nama, kota, jumlah peserta, waktu yang diharapkan, dan kebutuhan ke WhatsApp pusat. Biaya, jadwal, lokasi, dan ketersediaan tetap dikonfirmasi oleh tim agar website tidak menampilkan informasi yang belum dipastikan.
 
 Versi 2.4 menambahkan **Proof & Personalization Engine**. Halaman `/bukti/` menyatukan testimoni bernama, dokumentasi kegiatan, data jaringan tersinkron, sumber materi, standar editorial, dan batas klaim dalam satu pusat kepercayaan. Pengunjung dapat menyaring bukti berdasarkan kebutuhan diri, anak, keluarga, karier, tim, atau promotor. Hasil “Temukan Langkah Saya” kini menampilkan testimoni dan panduan yang sesuai dengan jawaban pengguna. Form berbagi pengalaman membuka WhatsApp dan menegaskan bahwa publikasi nama, foto, atau cerita tetap memerlukan persetujuan terpisah.
 
@@ -34,7 +36,7 @@ Versi 1.3.1 memperkeras sinkronisasi jaringan: nilai lokasi kosong seperti `-` d
 
 ## WhatsApp langsung dan pengukuran opsional
 
-Versi 2.3 tidak memakai n8n atau webhook. Journey Engine serta form Tes, WSL 1, dan Promotor langsung membuka WhatsApp pusat dengan ringkasan pengunjung.
+Versi 2.5 tidak memakai n8n atau webhook. Offer & Booking Engine, Journey Engine, serta form Tes, WSL 1, dan Promotor langsung membuka WhatsApp pusat dengan ringkasan pengunjung.
 
 Meta Pixel tetap opsional:
 
@@ -42,7 +44,7 @@ Meta Pixel tetap opsional:
 PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
 ```
 
-Folder `automation` tetap disertakan sebagai arsip fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.3.
+Folder `automation` tetap disertakan sebagai arsip fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.5.
 
 ## Menjalankan secara lokal
 
