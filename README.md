@@ -1,4 +1,6 @@
-# STIFIn Mulia Website v1.9.0
+# STIFIn Mulia Website v2.0.0
+
+Versi 2.0 menambahkan **Journey Engine** di `/perjalanan/`. Pengunjung menjawab empat pertanyaan singkat, menerima rekomendasi berdasarkan kebutuhan, melihat tiga bacaan pilihan, lalu dapat meneruskan konteksnya ke WhatsApp dan funnel StarSender. Journey Engine membawa atribusi UTM, `fbclid`, `gclid`, persetujuan kontak, suhu lead, audiens, kesiapan, dan waktu mulai. Jalur diri, anak, keluarga, karier, dan tim diarahkan ke funnel Tes; jalur promotor diarahkan ke funnel Calon Promotor.
 
 Versi 1.9 menjadikan website sebagai pusat **Knowledge, Trust & Discovery** yang melengkapi `app.stifinmulia.com`. Pengunjung dapat memulai dari kebutuhan diri, anak, keluarga, karier, tim, atau promotor; mencari dan menyaring artikel; memahami istilah melalui kamus; serta membaca artikel dengan daftar isi, progress bar, dan tombol berbagi. Halaman Tentang diperkuat dengan alasan nyata memilih STIFIn Mulia. Portal aplikasi ditautkan sebagai ruang operasional tanpa menduplikasi fungsi CRM di website publik.
 
@@ -33,7 +35,7 @@ PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
 
 `PUBLIC_STIFIN_LEAD_WEBHOOK_URL` menerima `POST` JSON berisi ID lead, nama, WhatsApp, kota, kebutuhan, jumlah peserta, persetujuan kontak, waktu persetujuan, halaman sumber, varian landing page, UTM, `fbclid`, dan `gclid`. Webhook n8n harus mengizinkan permintaan dari `https://stifinmulia.com`. Setelah data diproses, halaman mengarahkan calon peserta ke `/terima-kasih-tes/` dan menyiapkan pesan WhatsApp pusat.
 
-Panduan terbaru tersedia di `automation/PANDUAN-V1.4-GROWTH-FUNNEL.md`. Impor `automation/STIFIn-02-Multi-Funnel-ke-StarSender.json` ke n8n, isi tiga ID campaign, pasangkan credential Account API StarSender, uji, lalu aktifkan workflow sebelum redeploy website. Nonaktifkan workflow v1.3 karena keduanya menggunakan path webhook `stifin-lead`.
+Panduan funnel tersedia di `automation/PANDUAN-V1.4-GROWTH-FUNNEL.md`, sedangkan field dan pengujian Journey Engine tersedia di `automation/PANDUAN-V2-JOURNEY-ENGINE.md`. Impor `automation/STIFIn-02-Multi-Funnel-ke-StarSender.json` ke n8n, isi tiga ID campaign, pasangkan credential Account API StarSender, uji, lalu aktifkan workflow sebelum redeploy website. Nonaktifkan workflow v1.3 karena keduanya menggunakan path webhook `stifin-lead`.
 
 Jika webhook belum diisi, formulir tetap melanjutkan calon peserta ke halaman terima kasih dan WhatsApp, tetapi lead belum tersimpan ke CRM. Pixel juga hanya aktif bila ID Meta Pixel sudah diisi.
 
@@ -101,7 +103,7 @@ Secara default seluruh kode cabang harus berhasil. Jika respons kosong, format A
 
 ### Autentikasi API
 
-Jika API resmi mewajibkan autentikasi, atur `STIFIN_API_AUTH_HEADER` sebagai Build Variable. Simpan nilai token sebagai Docker Build Secret dengan id `STIFIN_API_AUTH_VALUE`. Dockerfile memasang secret tersebut hanya pada langkah build dan skrip membacanya dari `/run/secrets/STIFIN_API_AUTH_VALUE`.
+API yang saat ini digunakan belum memakai autentikasi, sehingga build produksi tidak bergantung pada Docker Build Secret. Jika API resmi kelak mewajibkan autentikasi, jangan menaruh token di GitHub atau sebagai nilai bawaan Dockerfile; aktifkan kembali mekanisme secret file dan atur `STIFIN_API_AUTH_HEADER` sesuai dokumentasi resmi.
 
 Jangan menulis token di `.env`, source code, GitHub, log deployment, atau chat.
 

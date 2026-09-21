@@ -1,0 +1,140 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { journeyProfiles } from '../data/journey-engine';
+import { site } from '../data/site';
+interface Props { articles: CollectionEntry<'articles'>[] }
+const { articles } = Astro.props;
+const articleMap = new Map(articles.map((article) => [article.id, article]));
+const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
+---
+<section class="journey-engine" data-webhook={webhookUrl} data-whatsapp={site.whatsapp}>
+  <div class="journey-progress" aria-label="Kemajuan pertanyaan"><span data-progress-bar></span></div>
+  <form class="journey-questions" novalidate>
+    <div class="journey-step active" data-step="0">
+      <span class="step-kicker">Pertanyaan 1 dari 4</span><h2>Apa yang paling ingin Anda pahami sekarang?</h2><p>Pilih yang paling terasa dekat. Anda dapat mengubah jawaban kapan saja.</p>
+      <div class="choice-grid needs">{journeyProfiles.map((profile) => <button type="button" data-value={profile.id}><strong>{profile.label}</strong><span>{profile.summary}</span></button>)}</div>
+    </div>
+    <div class="journey-step" data-step="1" hidden>
+      <span class="step-kicker">Pertanyaan 2 dari 4</span><h2>Siapa yang paling ingin Anda bantu?</h2><div class="choice-grid compact"><button type="button" data-value="diri">Diri saya</button><button type="button" data-value="anak">Anak</button><button type="button" data-value="pasangan-keluarga">Pasangan atau keluarga</button><button type="button" data-value="tim-komunitas">Tim atau komunitas</button></div>
+    </div>
+    <div class="journey-step" data-step="2" hidden>
+      <span class="step-kicker">Pertanyaan 3 dari 4</span><h2>Langkah seperti apa yang paling nyaman untuk Anda?</h2><div class="choice-grid compact"><button type="button" data-value="belajar">Saya ingin belajar dahulu</button><button type="button" data-value="konsultasi">Saya ingin bertanya kepada tim</button><button type="button" data-value="jadwal">Saya ingin mencari jadwal tes</button><button type="button" data-value="promotor">Saya serius menjajaki promotor</button></div>
+    </div>
+    <div class="journey-step" data-step="3" hidden>
+      <span class="step-kicker">Pertanyaan 4 dari 4</span><h2>Kapan Anda ingin mulai bergerak?</h2><div class="choice-grid compact"><button type="button" data-value="hari-ini">Hari ini</button><button type="button" data-value="7-hari">Dalam 7 hari</button><button type="button" data-value="30-hari">Dalam 30 hari</button><button type="button" data-value="eksplorasi">Masih mengeksplorasi</button></div>
+    </div>
+    <div class="step-actions"><button class="back-button" type="button" data-back hidden>← Kembali</button><span data-step-label>1/4</span></div>
+  </form>
+
+  <div class="journey-results" hidden>
+    {journeyProfiles.map((profile) => <article class="result-panel" data-result={profile.id} hidden>
+      <div class="result-top"><div><span class="result-badge" data-temperature>Rekomendasi personal</span><span class="step-kicker">Jalur {profile.label}</span><h2>{profile.title}</h2><p class="lead">{profile.summary}</p></div><div class="why-box"><strong>Mengapa langkah ini relevan?</strong><p>{profile.whyTest}</p></div></div>
+      <div class="result-body"><div><span class="step-kicker">Mulai dengan tiga bacaan ini</span><div class="reading-list">{profile.articleIds.map((id, index) => { const article = articleMap.get(id); return article && <a href={`/artikel/${article.id}/`}><small>{String(index + 1).padStart(2, '0')} · {article.data.readingTime} menit</small><strong>{article.data.title}</strong><span>Baca panduan →</span></a>; })}</div></div>
+      <div class="lead-card"><span class="step-kicker">Simpan jalur dan minta bantuan</span><h3>Biarkan tim membantu langkah berikutnya.</h3><p>Isi data singkat. Rekomendasi dan jawaban Anda ikut terbawa agar percakapan tidak perlu dimulai dari nol.</p><form class="journey-lead-form" data-profile={profile.id} data-label={profile.label} data-stage={profile.stage} data-tag={profile.tag}>
+        <label>Nama lengkap<input name="name" autocomplete="name" required /></label>
+        <label>Nomor WhatsApp<input name="phone" autocomplete="tel" inputmode="tel" placeholder="0812…" required /></label>
+        <label>Kota / kabupaten<input name="city" autocomplete="address-level2" required /></label>
+        <label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia dihubungi melalui WhatsApp mengenai kebutuhan yang saya pilih dan menyetujui <a href="/privasi/">kebijakan privasi</a>.</span></label>
+        <button class="button" type="submit">Kirim dan Lanjut ke WhatsApp</button><span class="form-status" aria-live="polite"></span>
+      </form></div></div>
+      <div class="result-actions"><a class="button secondary" href={profile.primary.href}>{profile.primary.label}</a><button type="button" class="share-button" data-share>Salin tautan hasil</button><button type="button" class="reset-button" data-reset>Ulangi pertanyaan</button></div>
+      <p class="result-note">Rekomendasi ini disusun dari jawaban Anda sebagai panduan edukasi, bukan diagnosis medis atau psikologis dan bukan penentu tunggal keputusan hidup.</p>
+    </article>)}
+  </div>
+</section>
+
+<script>
+  type JourneyState = { journey: string; audience: string; readiness: string; timeframe: string };
+  type TrackedWindow = Window & typeof globalThis & {
+    dataLayer?: Array<Record<string, unknown>>;
+    fbq?: (action: string, event: string, data: Record<string, unknown>) => void;
+  };
+  const root = document.querySelector<HTMLElement>('.journey-engine');
+  if (root) {
+    const questionForm = root.querySelector<HTMLFormElement>('.journey-questions')!;
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+    const results = root.querySelector<HTMLElement>('.journey-results')!;
+    const backButton = root.querySelector<HTMLButtonElement>('[data-back]')!;
+    const stepLabel = root.querySelector<HTMLElement>('[data-step-label]')!;
+    const progressBar = root.querySelector<HTMLElement>('[data-progress-bar]')!;
+    const trackedWindow = window as TrackedWindow;
+    const state: JourneyState = { journey: '', audience: '', readiness: '', timeframe: '' };
+    const keys: Array<keyof JourneyState> = ['journey', 'audience', 'readiness', 'timeframe'];
+    let current = 0;
+    const showStep = (index: number) => {
+      current = Math.max(0, Math.min(3, index));
+      steps.forEach((step, i) => { step.hidden = i !== current; step.classList.toggle('active', i === current); });
+      backButton.hidden = current === 0;
+      stepLabel.textContent = `${current + 1}/4`;
+      progressBar.style.width = `${(current + 1) * 25}%`;
+      questionForm.hidden = false; results.hidden = true;
+    };
+    const temperature = () => state.timeframe === 'hari-ini' || state.readiness === 'jadwal' || state.readiness === 'promotor' ? 'Siap ditindaklanjuti' : state.timeframe === '7-hari' || state.readiness === 'konsultasi' ? 'Siap berkonsultasi' : 'Mulai dengan belajar';
+    const showResult = () => {
+      questionForm.hidden = true; results.hidden = false;
+      root.querySelectorAll<HTMLElement>('[data-result]').forEach((panel) => { panel.hidden = panel.dataset.result !== state.journey; });
+      const temperatureBadge = root.querySelector<HTMLElement>(`[data-result="${state.journey}"] [data-temperature]`);
+      if (temperatureBadge) temperatureBadge.textContent = temperature();
+      const url = new URL(window.location.href);
+      url.search = '';
+      keys.forEach((key) => url.searchParams.set(key, state[key]));
+      history.replaceState({}, '', url);
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      trackedWindow.dataLayer?.push({ event: 'journey_result_view', ...state, lead_temperature: temperature() });
+    };
+    root.querySelectorAll<HTMLButtonElement>('[data-step] button[data-value]').forEach((button) => button.addEventListener('click', () => {
+      const stepElement = button.closest<HTMLElement>('[data-step]');
+      if (!stepElement) return;
+      const step = Number(stepElement.dataset.step);
+      state[keys[step]] = button.dataset.value || '';
+      stepElement.querySelectorAll<HTMLButtonElement>('button[data-value]').forEach((item) => item.classList.toggle('selected', item === button));
+      if (step < 3) showStep(step + 1); else showResult();
+    }));
+    backButton.addEventListener('click', () => showStep(current - 1));
+    root.querySelectorAll<HTMLButtonElement>('[data-reset]').forEach((button) => button.addEventListener('click', () => { keys.forEach((key) => state[key] = ''); history.replaceState({}, '', location.pathname); showStep(0); root.scrollIntoView({ behavior: 'smooth' }); }));
+    root.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((button) => button.addEventListener('click', async () => { try { await navigator.clipboard.writeText(location.href); button.textContent = 'Tautan tersalin ✓'; } catch { button.textContent = 'Salin URL dari browser'; } }));
+    const params = new URLSearchParams(location.search);
+    const journeyParam = params.get('journey') || '';
+    const validProfile = Boolean(journeyParam && root.querySelector(`[data-result="${CSS.escape(journeyParam)}"]`));
+    if (validProfile && keys.slice(1).every((key) => params.get(key))) { keys.forEach((key) => state[key] = params.get(key) || ''); showResult(); } else showStep(0);
+
+    const attributionKey = 'stifinAttribution';
+    let attribution: Record<string, string> = {};
+    try { attribution = JSON.parse(localStorage.getItem(attributionKey) || '{}'); } catch {}
+    if (!Object.keys(attribution).length) {
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach((key) => { const value = params.get(key); if (value) attribution[key] = value; });
+      attribution.first_landing_page = location.pathname; attribution.first_seen_at = new Date().toISOString();
+      localStorage.setItem(attributionKey, JSON.stringify(attribution));
+    }
+    root.querySelectorAll<HTMLFormElement>('.journey-lead-form').forEach((form) => form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>('.form-status');
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const lead: Record<string, unknown> = {
+        lead_id: `journey-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+        funnel_stage: form.dataset.stage, lead_source: attribution.utm_source || 'website-journey',
+        name: String(data.get('name') || '').trim(), phone: String(data.get('phone') || '').trim(), city: String(data.get('city') || '').trim(),
+        need: form.dataset.label, participant_count: '1', journey_id: form.dataset.profile, journey_label: form.dataset.label, journey_tag: form.dataset.tag,
+        lead_temperature: temperature(), audience: state.audience, readiness: state.readiness, timeframe: state.timeframe,
+        answers_summary: `${form.dataset.label} | ${state.audience} | ${state.readiness} | ${state.timeframe}`,
+        profession: form.dataset.stage === 'promotor' ? 'Belum diisi' : '', stifin_status: form.dataset.stage === 'promotor' ? 'Belum dikonfirmasi' : '', wsl_status: form.dataset.stage === 'promotor' ? 'Belum dikonfirmasi' : '',
+        consent: data.get('consent') === 'on', consent_at: new Date().toISOString(), submitted_at: new Date().toISOString(),
+        source_page: location.pathname, landing_variant: 'personalized-journey-v2', ...attribution,
+      };
+      if (status) status.textContent = 'Mengirim data…';
+      let webhookStatus = 'not_configured';
+      const webhook = root.dataset.webhook;
+      if (webhook) { try { const response = await fetch(webhook, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(lead) }); webhookStatus = response.ok ? 'sent' : `http_${response.status}`; } catch { webhookStatus = 'failed'; } }
+      lead.webhook_status = webhookStatus;
+      sessionStorage.setItem('stifinJourneyLead', JSON.stringify(lead));
+      trackedWindow.dataLayer?.push({ event:'lead_journey_submit', funnel_stage:lead.funnel_stage, journey_id:lead.journey_id, lead_temperature:lead.lead_temperature });
+      trackedWindow.fbq?.('track','Lead',{ content_name:`journey-${lead.journey_id}` });
+      location.href = '/terima-kasih-perjalanan/';
+    }));
+  }
+</script>
+
+<style>
+  .journey-engine{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow)}.journey-progress{height:7px;background:#e5ece7}.journey-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--lime-500),var(--green-800));transition:width .3s ease}.journey-questions{padding:clamp(28px,6vw,70px)}.journey-step{animation:enter .28s ease}.journey-step[hidden],.journey-results[hidden],.result-panel[hidden]{display:none}.journey-step h2{max-width:800px;margin-bottom:12px}.step-kicker{display:block;margin-bottom:12px;color:var(--green-700);font-size:.76rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:32px}.choice-grid button{min-height:128px;padding:23px;border:1px solid var(--line);border-radius:16px;background:#fbfcfa;color:var(--ink);text-align:left;transition:.2s ease}.choice-grid button:hover,.choice-grid button.selected{border-color:var(--green-700);background:var(--green-100);transform:translateY(-2px)}.choice-grid strong,.choice-grid span{display:block}.choice-grid strong{font-size:1.05rem}.choice-grid span{margin-top:7px;color:var(--muted);font-size:.84rem}.choice-grid.compact button{min-height:76px;font-weight:800}.step-actions{display:flex;align-items:center;justify-content:space-between;margin-top:25px;color:var(--muted);font-size:.82rem}.back-button,.share-button,.reset-button{border:0;background:transparent;color:var(--green-800);font-weight:800}.result-panel{padding:clamp(28px,6vw,68px)}.result-top{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,6vw,70px);align-items:end}.result-badge{display:inline-flex;margin-bottom:20px;padding:8px 12px;border-radius:999px;background:#e5efcc;color:var(--green-950);font-size:.76rem;font-weight:900}.why-box{padding:26px;border-left:4px solid var(--amber-500);border-radius:0 16px 16px 0;background:var(--cream)}.why-box p{margin:8px 0 0}.result-body{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:50px}.reading-list{display:grid;gap:9px}.reading-list a{display:grid;padding:20px;border:1px solid var(--line);border-radius:14px}.reading-list small{color:var(--green-700);font-weight:850}.reading-list strong{margin:8px 0;font-family:var(--font-display);font-size:1.18rem}.reading-list span{color:var(--green-800);font-size:.82rem;font-weight:800}.lead-card{padding:clamp(25px,4vw,40px);border-radius:20px;background:var(--green-950);color:#fff}.lead-card p{color:#c5d9d1}.journey-lead-form{display:grid;gap:12px;margin-top:25px}.journey-lead-form label:not(.consent){display:grid;gap:5px;font-size:.78rem;font-weight:800}.journey-lead-form input:not([type=checkbox]){width:100%;min-height:48px;padding:10px 12px;border:1px solid #7a9a8c;border-radius:10px;background:#fff;color:var(--ink)}.consent{display:grid;grid-template-columns:auto 1fr;gap:9px;color:#d4e2dc;font-size:.75rem}.consent input{margin-top:5px}.consent a{text-decoration:underline}.lead-card .button{background:var(--amber-500);color:#17241d}.form-status{font-size:.76rem}.result-actions{display:flex;flex-wrap:wrap;align-items:center;gap:13px;margin-top:30px}.result-note{margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);font-size:.78rem}.journey-results{scroll-margin-top:100px}@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@media(max-width:800px){.choice-grid,.result-top,.result-body{grid-template-columns:1fr}.choice-grid button{min-height:auto}.result-top{align-items:start}}@media(max-width:560px){.result-actions .button,.result-actions button{width:100%;min-height:46px}.share-button,.reset-button{border:1px solid var(--line);border-radius:10px}}
+</style>

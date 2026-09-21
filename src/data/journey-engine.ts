@@ -1,0 +1,51 @@
+export const journeyProfiles = [
+  {
+    id: 'diri', label: 'Mengenal diri', tag: 'journey-diri', stage: 'tes',
+    title: 'Kenali pola diri sebelum menyusun langkah berikutnya.',
+    summary: 'Anda sedang mencari bahasa yang lebih jelas untuk memahami kekuatan, cara bergerak, dan pola yang selama ini terasa berulang.',
+    whyTest: 'Tes STIFIn dapat menjadi peta awal untuk membahas kecenderungan diri. Hasilnya paling bermanfaat ketika diterjemahkan ke satu situasi nyata, bukan berhenti sebagai label.',
+    articleIds: ['lima-mesin-kecerdasan-sebagai-peta-awal', 'apa-yang-dibawa-pulang-setelah-tes-stifin', 'rencana-30-hari-setelah-tes'],
+    primary: { label: 'Diskusikan langkah tes saya', href: '/ikut-tes-stifin/?tujuan=diri#daftar' },
+  },
+  {
+    id: 'anak', label: 'Anak dan belajar', tag: 'journey-anak', stage: 'tes',
+    title: 'Temukan pendekatan belajar yang lebih mudah diterima anak.',
+    summary: 'Anda ingin melihat anak secara lebih utuh—bukan sekadar menilai rajin, malas, cepat, atau lambat dari satu cara belajar.',
+    whyTest: 'Tes dapat menjadi bahan percakapan untuk mencoba pendekatan belajar dan komunikasi yang lebih sesuai. Kemajuan anak tetap perlu diamati dari kebiasaan dan hasil nyata.',
+    articleIds: ['anak-sulit-belajar-atau-cara-belajarnya-belum-tepat', 'strategi-belajar-lima-pintu', 'mendampingi-anak-tanpa-memberi-label'],
+    primary: { label: 'Bahas kebutuhan anak saya', href: '/ikut-tes-stifin/?tujuan=anak#daftar' },
+  },
+  {
+    id: 'keluarga', label: 'Pasangan dan keluarga', tag: 'journey-keluarga', stage: 'tes',
+    title: 'Bangun percakapan yang lebih nyambung di rumah.',
+    summary: 'Anda tidak sedang mencari siapa yang salah. Anda ingin memahami mengapa perhatian, pesan, dan keputusan dapat diterima secara berbeda.',
+    whyTest: 'Pemetaan kecenderungan dapat membantu keluarga mencoba bahasa dan pendekatan yang berbeda. Ia menjadi alat dialog, bukan alasan untuk membenarkan perilaku atau memberi cap.',
+    articleIds: ['memahami-pasangan-tanpa-saling-melabeli', 'chemistry-keluarga-bahasa-kasih', 'parenting-amati-sebelum-mengoreksi'],
+    primary: { label: 'Mulai percakapan keluarga', href: '/ikut-tes-stifin/?tujuan=keluarga#daftar' },
+  },
+  {
+    id: 'karier', label: 'Karier dan profesi', tag: 'journey-karier', stage: 'tes',
+    title: 'Susun arah karier dari pola diri dan bukti kemampuan.',
+    summary: 'Anda ingin bekerja dan bertumbuh dengan arah yang lebih sadar, tanpa menjadikan hasil pemetaan sebagai vonis profesi.',
+    whyTest: 'Hasil tes dapat membantu membentuk hipotesis tentang cara kerja dan kontribusi. Keputusan karier tetap dipertemukan dengan kompetensi, pengalaman, nilai hidup, dan peluang.',
+    articleIds: ['memilih-profesi-tanpa-menjadikan-hasil-tes-vonis', 'profesi-wadah-kontribusi', 'finansial-peta-diri-dan-sistem'],
+    primary: { label: 'Petakan pertanyaan karier saya', href: '/ikut-tes-stifin/?tujuan=karier#daftar' },
+  },
+  {
+    id: 'tim', label: 'Tim dan bisnis', tag: 'journey-tim-bisnis', stage: 'tes',
+    title: 'Rapikan peran, komunikasi, dan ritme kerja tim.',
+    summary: 'Anda ingin perbedaan dalam tim menjadi sumber kontribusi, bukan sumber salah paham dan pekerjaan yang terus tersendat.',
+    whyTest: 'Pemahaman pola dapat memperkaya cara memimpin dan membagi peran. Standar kerja, kompetensi, target, dan evaluasi tetap menjadi dasar pengelolaan tim.',
+    articleIds: ['membangun-tim-dengan-peran-yang-jelas', 'memimpin-orang-berbeda-tanpa-kehilangan-standar', 'bisnis-start-run-grow'],
+    primary: { label: 'Bahas penerapan untuk tim', href: '/kerja-sama/' },
+  },
+  {
+    id: 'promotor', label: 'Menjadi promotor', tag: 'journey-promotor', stage: 'promotor',
+    title: 'Ubah minat belajar menjadi layanan yang bertumbuh.',
+    summary: 'Anda ingin menjalankan kegiatan yang bermanfaat, menambah penghasilan, dan bertumbuh bersama jaringan—dengan gambaran pekerjaan yang nyata.',
+    whyTest: 'Jalur promotor dimulai dari belajar, mengalami manfaat, dan siap melayani. Tim membantu Anda memahami proses, kebutuhan awal, serta langkah menuju peserta pertama.',
+    articleIds: ['cek-kesiapan-menjadi-promotor-stifin', 'cara-mendapatkan-10-peserta-tes-pertama', 'gaji-laba-rating-cinta-bahagia'],
+    primary: { label: 'Bahas kesiapan jadi promotor', href: '/gabung-promotor/#daftar' },
+  },
+] as const;
+
