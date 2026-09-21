@@ -18,7 +18,7 @@ const headings = {
 ---
 <section class:list={['authority-proof', { compact }]}>
   <div class="authority-container">
-    <div class="authority-head"><div><span>{headings[mode][0]}</span><h2>{headings[mode][1]}</h2></div><a href="/testimoni/">Lihat semua testimoni →</a></div>
+    <div class="authority-head"><div><span>{headings[mode][0]}</span><h2>{headings[mode][1]}</h2></div><a href="/bukti/">Periksa Pusat Bukti →</a></div>
     <div class="authority-grid">
       {items.map((item) => <article class="authority-card">
         <div class="person"><img src={item.image} width="600" height="600" alt={`Foto ${item.name}`} loading="lazy" decoding="async" style={`object-position:${item.objectPosition}`} /><div><h3>{item.name}</h3><p>{item.role}</p></div></div>

@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CentralProof from '../components/CentralProof.astro';
-import AuthorityProof from '../components/AuthorityProof.astro';
+import ProofNavigator from '../components/ProofNavigator.astro';
 import VisitorConcierge from '../components/VisitorConcierge.astro';
 import NeedDiscovery from '../components/NeedDiscovery.astro';
 const allArticles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
@@ -29,7 +29,7 @@ const stages = [
 
   <NeedDiscovery articles={allArticles} compact={true} />
 
-  <AuthorityProof mode="home" />
+  <ProofNavigator compact />
   <CentralProof mode="home" />
 
   <section class="section soft"><div class="container"><div class="section-head"><div><span class="eyebrow">Satu perjalanan pertumbuhan</span><h2>Dari mengenal diri sampai membantu orang lain</h2><p class="lead">Anda tidak harus memutuskan semuanya hari ini. Mulai dari tes, alami manfaatnya, lalu lanjutkan sesuai kesiapan.</p></div></div><div class="growth-path">{stages.map((stage) => <article><span>{stage.number}</span><small>{stage.label}</small><h3>{stage.title}</h3><p>{stage.text}</p></article>)}</div></div></section>

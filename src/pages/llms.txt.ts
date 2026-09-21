@@ -22,6 +22,7 @@ export async function GET() {
 - [WSL 1](https://stifinmulia.com/wsl-1/): pembelajaran dasar setelah mengenal hasil tes.
 - [Menjadi promotor](https://stifinmulia.com/jadi-promotor/): peran, proses belajar, dan peluang aktivitas promotor.
 - [Kamus istilah](https://stifinmulia.com/istilah-stifin/): definisi istilah STIFIn dan penerapannya.
+- [Pusat Bukti](https://stifinmulia.com/bukti/): testimoni bernama, dokumentasi kegiatan, data jaringan, transparansi sumber, dan batas klaim.
 - [Standar editorial](https://stifinmulia.com/standar-editorial/): sumber, peninjauan, pembaruan, penggunaan AI, dan koreksi.
 - [Tentang STIFIn Mulia](https://stifinmulia.com/tentang/): pengelola, posisi jaringan, dan nilai layanan.
 

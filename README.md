@@ -1,4 +1,6 @@
-# STIFIn Mulia Website v2.3.0
+# STIFIn Mulia Website v2.4.0
+
+Versi 2.4 menambahkan **Proof & Personalization Engine**. Halaman `/bukti/` menyatukan testimoni bernama, dokumentasi kegiatan, data jaringan tersinkron, sumber materi, standar editorial, dan batas klaim dalam satu pusat kepercayaan. Pengunjung dapat menyaring bukti berdasarkan kebutuhan diri, anak, keluarga, karier, tim, atau promotor. Hasil “Temukan Langkah Saya” kini menampilkan testimoni dan panduan yang sesuai dengan jawaban pengguna. Form berbagi pengalaman membuka WhatsApp dan menegaskan bahwa publikasi nama, foto, atau cerita tetap memerlukan persetujuan terpisah.
 
 Versi 2.3 menambahkan **Knowledge Authority & AI Discovery Engine**. Delapan panduan pilar menghubungkan fondasi STIFIn, proses tes, belajar dan parenting, keluarga, profesi dan finansial, bisnis dan kepemimpinan, WSL 1 dan promotor, serta Ruang Tafsir Al-Qamar. Sembilan belas istilah prioritas kini mempunyai halaman mandiri dengan arti, fungsi, cara penggunaan, kekeliruan, hubungan konsep, dan bacaan penerapan. Artikel dihubungkan ke panduan induk, structured data diperluas, dan `llms.txt` memuat peta pengetahuan yang mudah ditemukan mesin pencari serta asisten AI.
 
