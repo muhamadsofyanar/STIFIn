@@ -47,6 +47,11 @@ const websiteSchema = {
   name: site.name,
   inLanguage: 'id-ID',
   publisher: { '@id': new URL('/#organization', Astro.site).toString() },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${new URL('/artikel/', Astro.site).toString()}?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
 };
 const schemas = [organizationSchema, websiteSchema, ...(Array.isArray(pageSchema) ? pageSchema : pageSchema ? [pageSchema] : [])];
 ---

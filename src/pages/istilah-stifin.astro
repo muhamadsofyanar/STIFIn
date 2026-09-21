@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { glossary } from '../data/knowledge';
+
+const definedTerms = glossary.map((item) => ({ '@type': 'DefinedTerm', name: item.term, description: item.meaning }));
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: 'Kamus Istilah STIFIn',
+  description: 'Penjelasan ringkas istilah dasar yang digunakan dalam pembelajaran STIFIn.',
+  hasDefinedTerm: definedTerms,
+};
+---
+<BaseLayout title="Kamus Istilah STIFIn | STIFIn Mulia" description="Pahami istilah dasar STIFIn, Mesin Kecerdasan, personaliti genetik, WSL 1, dan promotor dengan bahasa yang ringkas." schema={schema}>
+  <PageHero eyebrow="Kamus STIFIn Mulia" title="Istilah boleh khas. Penjelasannya harus tetap mudah dipahami." description="Gunakan halaman ini sebagai teman membaca artikel dan mengikuti penjelasan hasil. Definisi disajikan ringkas agar Anda memahami konteks sebelum mempelajarinya lebih dalam." />
+  <section class="section-tight glossary-tools"><div class="container"><label for="term-search"><span>Cari istilah</span><input id="term-search" type="search" placeholder="Contoh: Mesin Kecerdasan, WSL 1, promotor…" autocomplete="off" /></label><p id="term-count" aria-live="polite">{glossary.length} istilah tersedia</p></div></section>
+  <section class="section"><div class="container glossary-grid" id="glossary-list">{glossary.map((item, index) => <article data-term={`${item.term} ${item.meaning}`.toLowerCase()}><span>{String(index + 1).padStart(2, '0')}</span><h2>{item.term}</h2><p>{item.meaning}</p></article>)}</div><div class="container empty" id="term-empty" hidden>Tidak ditemukan. Coba kata yang lebih singkat atau lihat seluruh istilah.</div></section>
+  <section class="section-tight context"><div class="container context-grid"><div><span class="eyebrow">Cara menggunakan kamus</span><h2>Definisi adalah pintu masuk, bukan seluruh pembelajaran.</h2></div><div><p>Istilah di halaman ini membantu Anda mengikuti pembahasan dengan lebih nyaman. Untuk memahami hubungan antarkonsep dan penerapannya, lanjutkan ke artikel, penjelasan hasil, atau WSL 1.</p><div class="actions"><a class="button" href="/artikel/">Jelajahi Pusat Pengetahuan</a><a class="button secondary" href="/wsl-1/">Pelajari WSL 1</a></div></div></div></section>
+  <script>
+    const input = document.querySelector<HTMLInputElement>('#term-search');
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-term]')];
+    const count = document.querySelector<HTMLElement>('#term-count');
+    const empty = document.querySelector<HTMLElement>('#term-empty');
+    input?.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => { const show = !query || card.dataset.term?.includes(query); card.hidden = !show; if (show) visible += 1; });
+      if (count) count.textContent = `${visible} istilah ditemukan`;
+      if (empty) empty.hidden = visible > 0;
+    });
+  </script>
+</BaseLayout>
+<style>
+  .glossary-tools{position:sticky;z-index:10;top:78px;border-block:1px solid var(--line);background:rgba(247,248,244,.96);backdrop-filter:blur(16px)}.glossary-tools .container{display:flex;align-items:end;justify-content:space-between;gap:25px}.glossary-tools label{display:grid;width:min(680px,100%);gap:8px}.glossary-tools label span{color:var(--green-800);font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.1em}.glossary-tools input{width:100%;padding:15px 17px;border:1px solid #bfcfc3;border-radius:12px;background:#fff;color:var(--ink)}.glossary-tools p{margin:0;font-size:.86rem}.glossary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.glossary-grid article{padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow-soft)}.glossary-grid article[hidden]{display:none}.glossary-grid span{display:grid;width:40px;height:40px;place-items:center;border-radius:50%;background:var(--green-100);color:var(--green-800);font-size:.78rem;font-weight:900}.glossary-grid h2{margin:24px 0 12px;font-size:1.65rem}.empty{padding:50px;border:1px dashed var(--line);border-radius:var(--radius);text-align:center}.context{background:linear-gradient(145deg,#e7f1e9,#f5f7f1)}.context-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px}.context-grid h2{max-width:600px}@media(max-width:850px){.glossary-grid{grid-template-columns:1fr 1fr}.context-grid{grid-template-columns:1fr;gap:25px}}@media(max-width:600px){.glossary-tools{position:static}.glossary-tools .container{align-items:stretch;flex-direction:column}.glossary-grid{grid-template-columns:1fr}}
+</style>

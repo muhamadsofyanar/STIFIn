@@ -1,4 +1,6 @@
-# STIFIn Mulia Website v1.8.0
+# STIFIn Mulia Website v1.9.0
+
+Versi 1.9 menjadikan website sebagai pusat **Knowledge, Trust & Discovery** yang melengkapi `app.stifinmulia.com`. Pengunjung dapat memulai dari kebutuhan diri, anak, keluarga, karier, tim, atau promotor; mencari dan menyaring artikel; memahami istilah melalui kamus; serta membaca artikel dengan daftar isi, progress bar, dan tombol berbagi. Halaman Tentang diperkuat dengan alasan nyata memilih STIFIn Mulia. Portal aplikasi ditautkan sebagai ruang operasional tanpa menduplikasi fungsi CRM di website publik.
 
 Website resmi STIFIn Mulia berbasis Astro. Proyek dibuat mobile-first, statis, cepat, dan siap dibangun melalui Docker di Coolify.
 

@@ -4,7 +4,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CentralProof from '../components/CentralProof.astro';
 import AuthorityProof from '../components/AuthorityProof.astro';
 import VisitorConcierge from '../components/VisitorConcierge.astro';
-const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0,3);
+import NeedDiscovery from '../components/NeedDiscovery.astro';
+const allArticles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const articles = allArticles.slice(0,3);
 const stages = [
   { number: '01', label: 'Mulai dari tes', title: 'Kenali pola diri', text: 'Tes menjadi pintu masuk untuk mengenali Mesin Kecerdasan dan personaliti genetik Anda.' },
   { number: '02', label: 'Pahami hasil', title: 'Hubungkan dengan hidup nyata', text: 'Bawa pertanyaan tentang belajar, keluarga, pekerjaan, bisnis, atau relasi ke sesi penjelasan.' },
@@ -20,6 +22,8 @@ const stages = [
   <VisitorConcierge />
 
   <section class="section movement"><div class="container movement-grid"><div><span class="eyebrow">Mengapa gerakan ini hadir</span><h2>Banyak orang bekerja keras, tetapi belum memahami cara terbaik dirinya bergerak</h2></div><div><p class="lead">Ketika cara belajar, cara berkomunikasi, atau arah profesi terasa selalu dipaksakan, masalahnya belum tentu kurang kemampuan. Bisa jadi pendekatan yang dipakai tidak selaras dengan pola diri.</p><p>Gerakan 100 Tes STIFIn mengajak keluarga, pendidik, profesional, dan calon promotor memulai dari satu fondasi: mengenali diri sebelum menentukan strategi. Target 100 bukan sekadar angka; setiap peserta diharapkan pulang membawa satu pemahaman baru dan satu langkah yang dapat dijalankan.</p><a class="text-link" href="/tes-stifin/">Pelajari proses Tes STIFIn →</a></div></div></section>
+
+  <NeedDiscovery articles={allArticles} compact={true} />
 
   <AuthorityProof mode="home" />
   <CentralProof mode="home" />

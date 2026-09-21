@@ -15,6 +15,7 @@ export const site = {
   youtube: 'https://www.youtube.com/@STIFInMulia',
   facebook: 'https://www.facebook.com/stifinmulia',
   telegram: 'https://t.me/stifinmulia',
+  portal: 'https://app.stifinmulia.com',
 } as const;
 
 export function waLink(message: string) {

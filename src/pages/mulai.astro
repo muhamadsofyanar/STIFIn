@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import NeedDiscovery from '../components/NeedDiscovery.astro';
+
+const articles = await getCollection('articles', ({ data }) => !data.draft);
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Mulai dari Kebutuhan Anda',
+  description: 'Temukan panduan STIFIn Mulia berdasarkan kebutuhan diri, anak, keluarga, karier, tim, atau peluang promotor.',
+  url: new URL('/mulai/', Astro.site).toString(),
+};
+---
+<BaseLayout title="Mulai dari Kebutuhan Anda | STIFIn Mulia" description="Pilih situasi yang sedang Anda hadapi dan temukan panduan STIFIn, bacaan, serta langkah lanjut yang relevan." schema={schema}>
+  <PageHero eyebrow="Navigasi berdasarkan kebutuhan" title="Ceritakan situasinya. Temukan pintu belajar yang paling dekat." description="Anda tidak perlu menguasai istilah STIFIn untuk mulai. Pilih kebutuhan yang sedang terasa nyata; kami merapikan bacaan dan langkah berikutnya untuk Anda." />
+  <section class="section-tight orientation"><div class="container proof-strip"><div><strong>Mulai dari masalah nyata</strong><span>Bukan dari istilah yang belum Anda kenal.</span></div><div><strong>Baca secara bertahap</strong><span>Setiap jalur berisi tiga bacaan pilihan.</span></div><div><strong>Ambil satu tindakan</strong><span>Lanjutkan ke tes, diskusi, kelas, atau kerja sama.</span></div></div></section>
+  <NeedDiscovery articles={articles} />
+  <section class="section"><div class="container next-step"><div><span class="eyebrow">Masih ingin melihat semuanya?</span><h2>Jelajahi pusat pengetahuan atau pahami istilah dasarnya.</h2><p>Kedua halaman ini membantu Anda melihat keseluruhan peta tanpa kehilangan konteks.</p></div><div class="next-links"><a href="/artikel/"><small>35+ panduan</small><strong>Pusat Pengetahuan</strong><span>Cari berdasarkan kata dan tema →</span></a><a href="/istilah-stifin/"><small>Bahasa dasar</small><strong>Kamus Istilah STIFIn</strong><span>Pahami istilah tanpa bahasa yang rumit →</span></a></div></div></section>
+</BaseLayout>
+<style>
+  .orientation{background:#fff;border-bottom:1px solid var(--line)}.next-step{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:start}.next-links{display:grid;grid-template-columns:1fr 1fr;gap:16px}.next-links a{display:flex;min-height:220px;flex-direction:column;padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow-soft);transition:.2s ease}.next-links a:hover{transform:translateY(-4px);border-color:var(--green-700)}.next-links small{color:var(--green-700);font-weight:850}.next-links strong{margin:24px 0 10px;font-family:var(--font-display);font-size:1.5rem}.next-links span{margin-top:auto;color:var(--green-800);font-weight:800}@media(max-width:780px){.next-step,.next-links{grid-template-columns:1fr}.next-step{gap:30px}}
+</style>

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Callout from '../../components/Callout.astro';
+import ArticleReadingTools from '../../components/ArticleReadingTools.astro';
 export async function getStaticPaths() {
   const articles = await getCollection('articles', ({ data }) => !data.draft);
   return articles.map((article) => ({ params: { id: article.id }, props: { article } }));
@@ -36,11 +37,20 @@ const articleSchema = {
   author: { '@type': 'Organization', name: 'Tim Edukasi STIFIn Mulia', url: new URL('/tentang/', Astro.site).toString() },
   publisher: { '@id': new URL('/#organization', Astro.site).toString() },
 };
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Pusat Pengetahuan', item: new URL('/artikel/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 3, name: article.data.title, item: articleUrl },
+  ],
+};
 ---
-<BaseLayout title={`${article.data.title} | STIFIn Mulia`} description={article.data.description} schema={articleSchema} ogType="article">
+<BaseLayout title={`${article.data.title} | STIFIn Mulia`} description={article.data.description} schema={[articleSchema, breadcrumbSchema]} ogType="article">
   <article>
     <header class="article-hero"><div class="container"><a class="back" href="/artikel/">← Kembali ke pusat edukasi</a><span class="eyebrow">{article.data.category}</span><h1>{article.data.title}</h1><p class="lead">{article.data.description}</p><div class="meta"><span>{article.data.readingTime} menit baca</span><span>Diperbarui {updated}</span><span>Tim Edukasi STIFIn Mulia</span></div></div></header>
-    <div class="container article-body"><div class="prose"><div class="audience"><strong>Panduan ini untuk:</strong> {article.data.audience}</div><div class="key-answer"><span>Inti pembahasan</span><p>{article.data.keyAnswer}</p></div><Content /></div><aside><strong>Supaya manfaatnya terasa</strong><p>Pilih satu gagasan yang paling dekat dengan situasi Anda, lalu praktikkan satu langkah kecil dan amati perubahannya.</p><hr/><strong>Lanjutkan dengan pendampingan</strong><p>Bawa hasil tes dan pertanyaan Anda ke sesi penjelasan agar penerapannya lebih personal untuk belajar, keluarga, pekerjaan, atau relasi.</p></aside></div>
+    <div class="container article-body"><div class="prose"><div class="audience"><strong>Panduan ini untuk:</strong> {article.data.audience}</div><div class="key-answer"><span>Inti pembahasan</span><p>{article.data.keyAnswer}</p></div><Content /></div><ArticleReadingTools /></div>
   </article>
   <section class="related"><div class="container"><span class="eyebrow">Lanjutkan belajar</span><h2>Bacaan yang saling melengkapi</h2><div class="related-grid">{related.map((entry) => <a href={`/artikel/${entry.id}/`}><small>{entry.data.category}</small><strong>{entry.data.title}</strong><span>{entry.data.readingTime} menit baca →</span></a>)}</div></div></section>
   <Callout title={isTafsir ? 'Lanjutkan membaca dengan tertib dan bertahap' : conversion.title} text={isTafsir ? 'Jelajahi rangkaian Ruang Tafsir Al-Qamar dan catat satu pelajaran yang ingin Anda jaga dalam tindakan.' : conversion.text} message={isTafsir ? 'Assalamu’alaikum, saya membaca Ruang Tafsir Al-Qamar dan ingin bertanya tentang: ...' : conversion.message} />
