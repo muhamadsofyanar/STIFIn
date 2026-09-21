@@ -7,24 +7,22 @@ interface Props {
   description: string;
   buttonLabel: string;
   buttonHint: string;
-  redirectPath: string;
   storageKey: string;
 }
-const { id = 'daftar', stage, title, description, buttonLabel, buttonHint, redirectPath, storageKey } = Astro.props;
-const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
+const { id = 'daftar', stage, title, description, buttonLabel, buttonHint, storageKey } = Astro.props;
 ---
 <div class="funnel-form-card" id={id}>
   <span class="funnel-form-label">Konsultasi awal tanpa kewajiban mendaftar</span>
   <h2>{title}</h2>
   <p>{description}</p>
-  <form data-funnel-form data-stage={stage} data-webhook={webhookUrl} data-wa={site.whatsapp} data-redirect={redirectPath} data-storage={storageKey} novalidate>
+  <form data-funnel-form data-stage={stage} data-wa={site.whatsapp} data-storage={storageKey} novalidate>
     <div class="funnel-field"><label for={`${stage}-name`}>Nama lengkap</label><input id={`${stage}-name`} name="name" autocomplete="name" required placeholder="Nama Anda" /></div>
     <div class="funnel-field"><label for={`${stage}-phone`}>Nomor WhatsApp aktif</label><input id={`${stage}-phone`} name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="9" placeholder="Contoh: 081333362649" /></div>
     <div class="funnel-field"><label for={`${stage}-city`}>Kota atau kabupaten</label><input id={`${stage}-city`} name="city" autocomplete="address-level2" required placeholder="Kota tempat tinggal" /></div>
     <slot />
     <div class="funnel-hp" aria-hidden="true"><label>Alamat situs<input name="website" tabindex="-1" autocomplete="off" /></label></div>
     <label class="funnel-consent"><input name="consent" type="checkbox" required /><span>Saya bersedia dihubungi melalui WhatsApp untuk informasi {stage === 'wsl1' ? 'WSL 1' : 'program promotor'} dan telah membaca <a href="/privasi/" target="_blank">kebijakan privasi</a>.</span></label>
-    <button class="funnel-submit" type="submit"><span>{buttonLabel}</span><small>{buttonHint}</small></button>
+    <button class="funnel-submit" type="submit"><span>{buttonLabel}</span><small>{buttonHint} · lanjut ke WhatsApp</small></button>
     <p class="funnel-status" aria-live="polite"></p>
   </form>
   <div class="funnel-trust"><span>✓ Data seperlunya</span><span>✓ Ditindaklanjuti tim</span><span>✓ Belum ada pembayaran</span></div>
@@ -47,10 +45,12 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
       const data = new FormData(form);
       if (String(data.get('website') || '')) return;
       const submittedAt = new Date().toISOString();
+      let attribution: Record<string,string> = {};
+      try { attribution = JSON.parse(localStorage.getItem('stifinAttributionV22') || '{}'); } catch {}
       const payload: Record<string,string> = {
         lead_id: crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
         funnel_stage: form.dataset.stage || '',
-        lead_source: params.get('utm_source') || 'website',
+        lead_source: params.get('utm_source') || attribution.utm_source || 'website',
         name: String(data.get('name') || '').trim(),
         phone: cleanPhone(String(data.get('phone') || '')),
         city: String(data.get('city') || '').trim(),
@@ -63,30 +63,38 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
       data.forEach((value, key) => {
         if (!['website','consent','name','phone','city'].includes(key)) payload[key] = String(value).trim();
       });
-      trackingKeys.forEach((key) => payload[key] = params.get(key) || '');
+      trackingKeys.forEach((key) => payload[key] = params.get(key) || attribution[key] || '');
       if (!payload.need) payload.need = payload.learning_goal || payload.promoter_goal || form.dataset.stage || '';
       if (!payload.participant_count) payload.participant_count = '1';
       button?.setAttribute('disabled','true');
       const buttonText = button?.querySelector('span');
-      if (buttonText) buttonText.textContent = 'Mengirim data…';
+      if (buttonText) buttonText.textContent = 'Menyiapkan WhatsApp…';
       if (status) status.textContent = '';
       const trackedWindow = window as typeof window & { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void };
       trackedWindow.dataLayer?.push({ event:`lead_${payload.funnel_stage}_submit`, ...payload });
       trackedWindow.fbq?.('track','Lead',{ content_name: payload.funnel_stage });
-      const webhook = form.dataset.webhook || '';
-      let webhookStatus = webhook ? 'failed' : 'not_configured';
-      if (webhook) {
-        try {
-          const controller = new AbortController();
-          const timer = window.setTimeout(() => controller.abort(), 7000);
-          const response = await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
-          window.clearTimeout(timer);
-          if (!response.ok) throw new Error('Webhook rejected');
-          webhookStatus = 'sent';
-        } catch { webhookStatus = 'failed'; }
-      }
-      sessionStorage.setItem(form.dataset.storage || 'stifinLead',JSON.stringify({...payload,webhook_status:webhookStatus}));
-      window.location.href = form.dataset.redirect || '/';
+      sessionStorage.setItem(form.dataset.storage || 'stifinLead',JSON.stringify(payload));
+      const fields: Record<string,string> = {
+        profession: 'Pekerjaan/kegiatan', stifin_status: 'Status tes', wsl_status: 'Status WSL 1', network: 'Jaringan',
+        promoter_goal: 'Tujuan promotor', promoter_readiness: 'Kesiapan', stifin_result: 'Hasil Tes STIFIn',
+        learning_goal: 'Tujuan belajar', main_question: 'Pertanyaan utama', preferred_time: 'Waktu pilihan',
+      };
+      const stageTitle = payload.funnel_stage === 'wsl1' ? 'minat WSL 1' : 'konsultasi jalur Promotor STIFIn';
+      const message = [
+        `Assalamu’alaikum, saya sudah mengisi form ${stageTitle} di stifinmulia.com.`,
+        `ID prospek: ${payload.lead_id}`,
+        `Nama: ${payload.name}`,
+        `WhatsApp: ${payload.phone}`,
+        `Kota/kabupaten: ${payload.city}`,
+        ...Object.entries(fields).filter(([key]) => payload[key]).map(([key,label]) => `${label}: ${payload[key]}`),
+        `Sumber: ${payload.lead_source}${payload.utm_campaign ? ` / ${payload.utm_campaign}` : ''}`,
+        `Halaman asal: ${payload.source_page}`,
+        payload.funnel_stage === 'wsl1' ? 'Mohon informasi jadwal dan langkah persiapan WSL 1.' : 'Mohon dibantu memetakan langkah promotor yang paling sesuai untuk saya.',
+      ].join('\n');
+      const progressionWindow = window as typeof window & { stifinProgression?: { advance: (stage:string,data?:Record<string,unknown>) => void } };
+      progressionWindow.stifinProgression?.advance(payload.funnel_stage, { lead_id: payload.lead_id, form_submitted: true });
+      trackedWindow.dataLayer?.push({ event:'whatsapp_open', funnel_stage:payload.funnel_stage, lead_id:payload.lead_id, page_path:window.location.pathname });
+      window.location.href = `https://wa.me/${form.dataset.wa || ''}?text=${encodeURIComponent(message)}`;
     });
   });
 </script>

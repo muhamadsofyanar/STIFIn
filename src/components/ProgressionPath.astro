@@ -1,0 +1,30 @@
+---
+interface Props {
+  current: 'tes' | 'wsl1' | 'promotor';
+  compact?: boolean;
+}
+
+const { current, compact = false } = Astro.props;
+const stages = [
+  { id: 'tes', number: '01', label: 'Tes STIFIn', text: 'Kenali pola diri dan terima penjelasan hasil.', href: '/ikut-tes-stifin/#daftar' },
+  { id: 'wsl1', number: '02', label: 'WSL 1', text: 'Dalami konsep dan hubungkan dengan kehidupan nyata.', href: '/ikut-wsl-1/#daftar' },
+  { id: 'promotor', number: '03', label: 'Promotor', text: 'Belajar melayani, bertumbuh, dan memperluas manfaat.', href: '/gabung-promotor/#daftar' },
+] as const;
+---
+
+<nav class:list={['progression-path', { compact }]} aria-label="Perjalanan pertumbuhan STIFIn">
+  <div class="campaign-container progression-inner">
+    <div class="progression-intro"><small>Perjalanan Anda</small><strong>Mulai dari tahap yang paling sesuai sekarang</strong></div>
+    <ol>
+      {stages.map((item) => <li class:list={{ active: item.id === current, complete: stages.findIndex((entry) => entry.id === current) > stages.findIndex((entry) => entry.id === item.id) }}>
+        <a href={item.href} data-funnel-stage={item.id} aria-current={item.id === current ? 'step' : undefined}>
+          <span>{item.number}</span><div><strong>{item.label}</strong>{!compact && <small>{item.text}</small>}</div>
+        </a>
+      </li>)}
+    </ol>
+  </div>
+</nav>
+
+<style>
+  .progression-path{border-bottom:1px solid var(--line);background:#fff}.progression-inner{display:grid;grid-template-columns:.68fr 1.32fr;gap:28px;align-items:center;padding-block:17px}.progression-intro small,.progression-intro strong{display:block}.progression-intro small{color:var(--green-700);font-size:.67rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.progression-intro strong{margin-top:3px;font-size:.85rem}.progression-path ol{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0;padding:0;list-style:none}.progression-path a{display:flex;min-height:58px;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:11px;background:#f8faf7}.progression-path a>span{position:relative;display:grid;width:34px;height:34px;flex:0 0 34px;place-items:center;border-radius:9px;background:#e7efe9;color:var(--green-800);font-size:.67rem;font-weight:900}.progression-path a strong,.progression-path a small{display:block}.progression-path a strong{font-size:.8rem}.progression-path a small{margin-top:2px;color:var(--muted);font-size:.61rem;line-height:1.35}.progression-path li.active a{border-color:var(--green-800);background:var(--green-950);color:#fff}.progression-path li.active a>span{background:#d7a93f;color:#17241d}.progression-path li.active a small{color:#c4d7cf}.progression-path li.complete a>span{background:#dce9bd}.progression-path li.complete a>span::after{content:'✓';position:absolute}.progression-path li.complete a>span{font-size:0}.compact .progression-inner{padding-block:12px}.compact a{min-height:50px}@media(max-width:850px){.progression-inner{grid-template-columns:1fr}.progression-intro{display:none}.progression-path ol{gap:5px}.progression-path a{align-items:center;justify-content:center;flex-direction:column;text-align:center}.progression-path a div small{display:none}}@media(max-width:500px){.progression-path a{min-height:66px;padding:7px 4px}.progression-path a>span{width:27px;height:27px;flex-basis:27px}.progression-path a strong{font-size:.68rem}}
+</style>

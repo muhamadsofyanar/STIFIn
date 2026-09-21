@@ -2,16 +2,17 @@
 import CampaignLayout from '../layouts/CampaignLayout.astro';
 import CentralProof from '../components/CentralProof.astro';
 import AuthorityProof from '../components/AuthorityProof.astro';
+import ProgressionPath from '../components/ProgressionPath.astro';
 import { site } from '../data/site';
-const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
 ---
-<CampaignLayout title="Ikuti Tes STIFIn | STIFIn Mulia" description="Isi data singkat untuk memperoleh jadwal Tes STIFIn di kota Anda bersama STIFIn Mulia.">
+<CampaignLayout title="Ikuti Tes STIFIn | STIFIn Mulia" description="Isi data singkat untuk memperoleh jadwal Tes STIFIn di kota Anda bersama STIFIn Mulia." funnelStage="tes">
+  <ProgressionPath current="tes" compact />
   <section class="ad-hero"><div class="campaign-container hero-grid"><div class="hero-copy"><span class="campaign-kicker">Tes STIFIn untuk diri dan keluarga</span><h1>Kenali pola diri agar langkah Anda tidak terus dimulai dari tebakan.</h1><p class="hero-lead">Melalui pemindaian sepuluh sidik jari, Anda memperoleh hasil Mesin Kecerdasan dan personaliti genetik, kemudian mendapatkan penjelasan untuk menghubungkannya dengan belajar, keluarga, profesi, dan relasi.</p><ul class="hero-points"><li>Proses tes dilakukan langsung oleh promotor.</li><li>Hasil dibahas agar tidak berhenti sebagai nama tipe.</li><li>Jadwal dapat dibantu melalui jaringan di berbagai kota.</li></ul><div class="process-proof"><img src="/images/kegiatan/pelaksanaan-tes.webp" width="1200" height="800" alt="Pelaksanaan Tes STIFIn secara langsung" /><div><small>Proses nyata</small><strong>Tes langsung, hasil personal, dan penjelasan yang dapat ditanyakan.</strong></div></div></div>
-    <div class="form-card" id="daftar"><span class="form-label">Cek jadwal tanpa kewajiban membayar</span><h2>Di kota mana Anda ingin mengikuti tes?</h2><p>Isi data singkat. Tim STIFIn Mulia akan menghubungi Anda melalui WhatsApp.</p><form id="ad-lead-form" data-webhook={webhookUrl} data-wa={site.whatsapp} novalidate><div class="field"><label for="lead-name">Nama lengkap</label><input id="lead-name" name="name" autocomplete="name" required placeholder="Nama Anda" /></div><div class="field"><label for="lead-phone">Nomor WhatsApp aktif</label><input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="9" placeholder="Contoh: 081333362649" /></div><div class="field"><label for="lead-city">Kota atau kabupaten</label><input id="lead-city" name="city" autocomplete="address-level2" required placeholder="Contoh: Bandung" /></div><div class="field"><label for="lead-need">Tes ini untuk</label><select id="lead-need" name="need" required><option value="">Pilih kebutuhan</option><option>Diri sendiri</option><option>Anak</option><option>Pasangan</option><option>Keluarga</option><option>Kelompok atau lembaga</option></select></div><div class="field"><label for="lead-count">Jumlah calon peserta</label><select id="lead-count" name="participant_count" required><option value="1">1 orang</option><option value="2">2 orang</option><option value="3-5">3–5 orang</option><option value="6-10">6–10 orang</option><option value="11+">Lebih dari 10 orang</option></select></div><div class="hp-field" aria-hidden="true"><label>Alamat situs<input name="website" tabindex="-1" autocomplete="off" /></label></div><label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia dihubungi melalui WhatsApp mengenai jadwal Tes STIFIn dan telah membaca <a href="/privasi/" target="_blank">kebijakan privasi</a>.</span></label><button class="conversion-button" type="submit"><span>Dapatkan Jadwal Tes</span><small>Data Anda dikirim dengan aman</small></button><p id="form-status" class="form-status" aria-live="polite"></p></form><div class="form-trust"><span>✓ Bukan pembayaran</span><span>✓ Jadwal dikonfirmasi</span><span>✓ Satu pintu layanan</span></div></div></div></section>
+    <div class="form-card" id="daftar"><span class="form-label">Cek jadwal tanpa kewajiban membayar</span><h2>Di kota mana Anda ingin mengikuti tes?</h2><p>Isi data singkat. Ringkasannya langsung dibuka di WhatsApp STIFIn Mulia.</p><form id="ad-lead-form" data-wa={site.whatsapp} novalidate><div class="field"><label for="lead-name">Nama lengkap</label><input id="lead-name" name="name" autocomplete="name" required placeholder="Nama Anda" /></div><div class="field"><label for="lead-phone">Nomor WhatsApp aktif</label><input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="9" placeholder="Contoh: 081333362649" /></div><div class="field"><label for="lead-city">Kota atau kabupaten</label><input id="lead-city" name="city" autocomplete="address-level2" required placeholder="Contoh: Bandung" /></div><div class="field"><label for="lead-need">Tes ini untuk</label><select id="lead-need" name="need" required><option value="">Pilih kebutuhan</option><option>Diri sendiri</option><option>Anak</option><option>Pasangan</option><option>Keluarga</option><option>Kelompok atau lembaga</option></select></div><div class="field"><label for="lead-count">Jumlah calon peserta</label><select id="lead-count" name="participant_count" required><option value="1">1 orang</option><option value="2">2 orang</option><option value="3-5">3–5 orang</option><option value="6-10">6–10 orang</option><option value="11+">Lebih dari 10 orang</option></select></div><div class="hp-field" aria-hidden="true"><label>Alamat situs<input name="website" tabindex="-1" autocomplete="off" /></label></div><label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia membuka percakapan WhatsApp mengenai jadwal Tes STIFIn dan telah membaca <a href="/privasi/" target="_blank">kebijakan privasi</a>.</span></label><button class="conversion-button" type="submit"><span>Dapatkan Jadwal Tes</span><small>Ringkasan siap dikirim melalui WhatsApp</small></button><p id="form-status" class="form-status" aria-live="polite"></p></form><div class="form-trust"><span>✓ Bukan pembayaran</span><span>✓ Jadwal dikonfirmasi</span><span>✓ Satu pintu layanan</span></div></div></div></section>
 
   <section class="confidence"><div class="campaign-container confidence-grid"><div><strong>Proses yang jelas</strong><span>Dari pengecekan jadwal sampai penjelasan hasil.</span></div><div><strong>Untuk kebutuhan nyata</strong><span>Belajar, keluarga, profesi, bisnis, atau relasi.</span></div><div><strong>Tidak berhenti pada hasil</strong><span>Dapat dilanjutkan melalui pembelajaran WSL 1.</span></div></div></section>
 
-  <section class="campaign-section need-section"><div class="campaign-container"><div class="campaign-heading"><span class="campaign-kicker">Apa yang paling ingin Anda pahami?</span><h2>Tes yang sama dapat membuka percakapan yang berbeda.</h2><p>Pilih situasi yang paling dekat. Tim akan menggunakan jawaban Anda untuk menyiapkan penjelasan dan tindak lanjut yang lebih relevan.</p></div><div class="need-grid"><a href="#daftar"><span>01</span><h3>Diri dan arah hidup</h3><p>Saya ingin mengenali kekuatan, pola kerja, dan arah pengembangan diri.</p><b>Pilih kebutuhan ini →</b></a><a href="#daftar"><span>02</span><h3>Anak dan cara belajar</h3><p>Saya ingin mendampingi anak tanpa terus memaksa dengan satu cara.</p><b>Pilih kebutuhan ini →</b></a><a href="#daftar"><span>03</span><h3>Pasangan dan keluarga</h3><p>Saya ingin memahami perbedaan cara berpikir, merespons, dan berkomunikasi.</p><b>Pilih kebutuhan ini →</b></a><a href="#daftar"><span>04</span><h3>Profesi dan bisnis</h3><p>Saya ingin membaca pola diri sebagai bahan menyusun strategi kerja yang lebih sadar.</p><b>Pilih kebutuhan ini →</b></a></div><div class="need-reading"><strong>Masih ingin memahami sebelum mengisi form?</strong><a href="/artikel/sebelum-tes-stifin-pertanyaan-yang-perlu-dijawab/">Baca 7 pertanyaan penting sebelum Tes STIFIn</a><a href="/artikel/apa-yang-dibawa-pulang-setelah-tes-stifin/">Lihat apa yang Anda bawa pulang setelah tes</a></div></div></section>
+  <section class="campaign-section need-section"><div class="campaign-container"><div class="campaign-heading"><span class="campaign-kicker">Apa yang paling ingin Anda pahami?</span><h2>Tes yang sama dapat membuka percakapan yang berbeda.</h2><p>Pilih situasi yang paling dekat. Pilihan Anda otomatis disiapkan di formulir agar langkah berikutnya lebih cepat.</p></div><div class="need-grid"><a href="#daftar" data-select-need="Diri sendiri"><span>01</span><h3>Diri dan arah hidup</h3><p>Saya ingin mengenali kekuatan, pola kerja, dan arah pengembangan diri.</p><b>Pilih kebutuhan ini →</b></a><a href="#daftar" data-select-need="Anak"><span>02</span><h3>Anak dan cara belajar</h3><p>Saya ingin mendampingi anak tanpa terus memaksa dengan satu cara.</p><b>Pilih kebutuhan ini →</b></a><a href="#daftar" data-select-need="Keluarga"><span>03</span><h3>Pasangan dan keluarga</h3><p>Saya ingin memahami perbedaan cara berpikir, merespons, dan berkomunikasi.</p><b>Pilih kebutuhan ini →</b></a><a href="#daftar" data-select-need="Diri sendiri"><span>04</span><h3>Profesi dan bisnis</h3><p>Saya ingin membaca pola diri sebagai bahan menyusun strategi kerja yang lebih sadar.</p><b>Pilih kebutuhan ini →</b></a></div><div class="need-reading"><strong>Masih ingin memahami sebelum mengisi form?</strong><a href="/artikel/sebelum-tes-stifin-pertanyaan-yang-perlu-dijawab/">Baca 7 pertanyaan penting sebelum Tes STIFIn</a><a href="/artikel/apa-yang-dibawa-pulang-setelah-tes-stifin/">Lihat apa yang Anda bawa pulang setelah tes</a></div></div></section>
 
   <AuthorityProof mode="test" compact />
   <CentralProof mode="test" />
@@ -49,10 +50,12 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
       const data = new FormData(form);
       if (String(data.get('website') || '')) return;
       const submittedAt = new Date().toISOString();
+      let attribution: Record<string,string> = {};
+      try { attribution = JSON.parse(localStorage.getItem('stifinAttributionV22') || '{}'); } catch {}
       const payload: Record<string,string> = {
         lead_id: crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
         funnel_stage: 'tes',
-        lead_source: params.get('utm_source') || 'website',
+        lead_source: params.get('utm_source') || attribution.utm_source || 'website',
         name: String(data.get('name') || '').trim(),
         phone: cleanPhone(String(data.get('phone') || '')),
         city: String(data.get('city') || '').trim(),
@@ -64,28 +67,34 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
         landing_variant: params.get('variant') || 'utama',
         submitted_at: submittedAt,
       };
-      trackingKeys.forEach((key) => payload[key] = params.get(key) || '');
+      trackingKeys.forEach((key) => payload[key] = params.get(key) || attribution[key] || '');
       button?.setAttribute('disabled','true');
-      if (button) button.querySelector('span')!.textContent = 'Mengirim data…';
+      if (button) button.querySelector('span')!.textContent = 'Menyiapkan WhatsApp…';
       if (status) status.textContent = '';
       const trackedWindow = window as typeof window & { dataLayer?: Array<Record<string, unknown>>; fbq?: (...args: unknown[]) => void };
-      trackedWindow.dataLayer?.push({ event:'lead_form_submit', ...payload });
+      trackedWindow.dataLayer?.push({ event:'lead_tes_submit', ...payload });
       trackedWindow.fbq?.('track','Lead');
-      const webhook = form.dataset.webhook || '';
-      let webhookStatus = webhook ? 'failed' : 'not_configured';
-      if (webhook) {
-        try {
-          const controller = new AbortController();
-          const timer = window.setTimeout(() => controller.abort(), 7000);
-          const response = await fetch(webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
-          window.clearTimeout(timer);
-          if (!response.ok) throw new Error('Webhook rejected');
-          webhookStatus = 'sent';
-        } catch { webhookStatus = 'failed'; }
-      }
-      sessionStorage.setItem('stifinLead',JSON.stringify({...payload,webhook_status:webhookStatus}));
-      window.location.href = '/terima-kasih-tes/';
+      sessionStorage.setItem('stifinLead',JSON.stringify(payload));
+      const progressionWindow = window as typeof window & { stifinProgression?: { advance: (stage:string,data?:Record<string,unknown>) => void } };
+      progressionWindow.stifinProgression?.advance('tes', { lead_id: payload.lead_id, form_submitted: true });
+      const message = [
+        'Assalamu’alaikum, saya ingin mendapatkan jadwal Tes STIFIn.',
+        `ID prospek: ${payload.lead_id}`,
+        `Nama: ${payload.name}`,
+        `WhatsApp: ${payload.phone}`,
+        `Kota/kabupaten: ${payload.city}`,
+        `Tes untuk: ${payload.need}`,
+        `Jumlah peserta: ${payload.participant_count}`,
+        `Sumber: ${payload.lead_source}${payload.utm_campaign ? ` / ${payload.utm_campaign}` : ''}`,
+        'Mohon informasi jadwal, lokasi, dan biaya yang tersedia.',
+      ].join('\n');
+      trackedWindow.dataLayer?.push({ event:'whatsapp_open', funnel_stage:'tes', lead_id:payload.lead_id, page_path:window.location.pathname });
+      window.location.href = `https://wa.me/${form.dataset.wa || ''}?text=${encodeURIComponent(message)}`;
     });
+    document.querySelectorAll<HTMLElement>('[data-select-need]').forEach((item) => item.addEventListener('click', () => {
+      const select = document.querySelector<HTMLSelectElement>('#lead-need');
+      if (select) select.value = item.dataset.selectNeed || '';
+    }));
   </script>
 </CampaignLayout>
 <style>

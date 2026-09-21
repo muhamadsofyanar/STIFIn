@@ -6,7 +6,7 @@ const links = [
   { label: 'Tes di Kota Saya', short: 'Cari Kota', href: '/jaringan-promotor/' },
   { label: 'Lanjut ke WSL 1', short: 'WSL 1', href: '/wsl-1/' },
   { label: 'Menjadi Promotor', short: 'Jadi Promotor', href: '/jadi-promotor/' },
-  { label: 'Temukan Langkah Saya', short: 'Mulai', href: '/perjalanan/' },
+  { label: 'Langkah Berikutnya', short: 'Pilih Jalur', href: '/langkah-selanjutnya/' },
   { label: 'Belajar STIFIn', short: 'Pusat Ilmu', href: '/artikel/' },
   { label: 'Tentang Kami', short: 'Tentang', href: '/tentang/' },
 ];
@@ -17,7 +17,7 @@ const links = [
     <button class="menu-button" aria-label="Buka menu" aria-expanded="false" aria-controls="main-nav"><span class="menu-label">Menu</span><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <nav id="main-nav" class="nav" aria-label="Navigasi utama">
       {links.map(({ label, short, href }) => <a class:list={{ active: path.startsWith(href) }} href={href}><span class="desktop-label">{short}</span><span class="mobile-label">{label}</span></a>)}
-      <a class="button" href="/ikut-tes-stifin/#daftar"><span class="desktop-label">Mulai Tes</span><span class="mobile-label">Saya Mau Tes</span></a>
+      <a class="button" data-funnel-stage="tes" href="/ikut-tes-stifin/#daftar"><span class="desktop-label">Mulai Tes</span><span class="mobile-label">Saya Mau Tes</span></a>
     </nav>
   </div>
   <button class="nav-backdrop" aria-label="Tutup menu" tabindex="-1"></button>

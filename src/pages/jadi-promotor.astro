@@ -6,7 +6,7 @@ import CentralProof from '../components/CentralProof.astro';
 import AuthorityProof from '../components/AuthorityProof.astro';
 import { waLink } from '../data/site';
 ---
-<BaseLayout title="Peluang Jadi Promotor STIFIn | STIFIn Mulia" description="Pelajari manfaat, modal program, margin layanan, pembelajaran, dan pendampingan untuk membangun profesi sebagai Promotor STIFIn.">
+<BaseLayout title="Peluang Jadi Promotor STIFIn | STIFIn Mulia" description="Pelajari manfaat, modal program, margin layanan, pembelajaran, dan pendampingan untuk membangun profesi sebagai Promotor STIFIn." funnelStage="promotor">
   <PageHero eyebrow="Peluang Profesi Promotor STIFIn" title="Belajar STIFIn, membantu lebih banyak orang, dan membangun penghasilan dari setiap tes" description="Promotor mengenalkan STIFIn, melayani tes, dan menumbuhkan pasar di lingkungannya. Anda memperoleh pembelajaran, alat, sistem kerja, jaringan, serta margin dari layanan yang dijalankan.">
     <div class="actions"><a class="button" data-wa-intent="promotor-hero" href="/gabung-promotor/#daftar">Saya Tertarik Jadi Promotor</a><a class="button secondary" href="#simulasi">Lihat Simulasi Penghasilan</a></div>
     <p class="microcopy">Ceritakan profesi dan kota Anda. Tim akan membantu menjelaskan jalur belajar, modal program, dan cara memulai layanan pertama.</p>
@@ -28,7 +28,7 @@ import { waLink } from '../data/site';
 
   <section class="section"><div class="container split"><div><span class="eyebrow">30 hari pertama</span><h2>Mulai dari pasar yang sudah dekat dengan Anda</h2><p class="lead">Anda tidak harus langsung membuat acara besar. Mulailah dari percakapan, edukasi, dan layanan yang relevan bagi orang-orang di sekitar Anda.</p></div><ul class="check-list"><li><strong>Petakan relasi</strong><br />Kenali keluarga, sekolah, komunitas, perusahaan, atau audiens yang paling dekat.</li><li><strong>Bangun percakapan</strong><br />Gunakan konten dan sesi pengenalan untuk membuka minat secara alami.</li><li><strong>Jadwalkan tes pertama</strong><br />Kumpulkan peserta, tentukan lokasi, lalu berikan pengalaman layanan yang baik.</li><li><strong>Tumbuhkan dari rekomendasi</strong><br />Lanjutkan edukasi dan jaga hubungan agar manfaat menyebar dari satu peserta ke peserta lain.</li></ul></div></section>
 
-  <Callout title="Siap melihat peluang Anda sebagai Promotor STIFIn?" text="Ceritakan profesi, kota, dan jaringan yang sudah Anda miliki. Tim akan membantu memetakan langkah awal yang paling masuk akal." message="Assalamu’alaikum, saya tertarik menjadi Promotor STIFIn. Nama: ... Kota: ... Pekerjaan/kegiatan: ... Jaringan atau komunitas yang saya miliki: ..." />
+  <Callout title="Siap melihat peluang Anda sebagai Promotor STIFIn?" text="Ceritakan profesi, kota, dan jaringan yang sudah Anda miliki. Tim akan membantu memetakan langkah awal yang paling masuk akal." message="Assalamu’alaikum, saya tertarik menjadi Promotor STIFIn. Nama: ... Kota: ... Pekerjaan/kegiatan: ... Jaringan atau komunitas yang saya miliki: ..." stage="promotor" secondaryHref="/gabung-promotor/#daftar" secondaryLabel="Isi Peta Kesiapan" />
   <script>
     const price = document.querySelector('#test-price');
     const volume = document.querySelector('#test-volume');

@@ -1,8 +1,9 @@
 ---
 import '../styles/global.css';
 import { site } from '../data/site';
-interface Props { title: string; description: string; pixelEvent?: 'PageView' | 'Lead' }
-const { title, description, pixelEvent = 'PageView' } = Astro.props;
+import ProgressionTracker from '../components/ProgressionTracker.astro';
+interface Props { title: string; description: string; pixelEvent?: 'PageView' | 'Lead'; funnelStage?: 'awareness' | 'tes' | 'wsl1' | 'promotor' }
+const { title, description, pixelEvent = 'PageView', funnelStage = 'awareness' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID || '';
 ---
@@ -28,9 +29,10 @@ const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID || '';
       fbq('track', pixelEvent);
     </script>}
   </head>
-  <body class="campaign-body">
+  <body class="campaign-body" data-funnel-stage={funnelStage}>
+    <ProgressionTracker stage={funnelStage} />
     <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
-    <header class="campaign-header"><div class="campaign-container header-inner"><div class="campaign-brand"><img src="/images/brand-stifin-mulia-mark.webp" width="48" height="48" alt="Logo STIFIn Mulia" /><div><strong>STIFIn Mulia</strong><small>Kenali · Tumbuh · Berdampak</small></div></div><a class="header-contact" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Bantuan WhatsApp</a></div></header>
+    <header class="campaign-header"><div class="campaign-container header-inner"><a class="campaign-brand" href="/"><img src="/images/brand-stifin-mulia-mark.webp" width="48" height="48" alt="Logo STIFIn Mulia" /><div><strong>STIFIn Mulia</strong><small>Kenali · Tumbuh · Berdampak</small></div></a><a class="header-contact" data-funnel-stage={funnelStage} href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Bantuan WhatsApp</a></div></header>
     <main id="main-content"><slot /></main>
     <footer class="campaign-footer"><div class="campaign-container"><strong>STIFIn Mulia</strong><span> · </span><a href="/privasi/">Kebijakan Privasi</a><p>© {new Date().getFullYear()} STIFIn Mulia. Informasi jadwal dan biaya dikonfirmasi sebelum pelaksanaan.</p></div></footer>
   </body>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Langkah Berikutnya bersama STIFIn Mulia',
+  description: 'Pilih langkah yang sesuai: mengikuti Tes STIFIn, mendalami hasil melalui WSL 1, atau menjajaki jalur promotor.',
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Tes STIFIn', url: new URL('/ikut-tes-stifin/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'WSL 1', url: new URL('/ikut-wsl-1/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: 'Promotor STIFIn', url: new URL('/gabung-promotor/', Astro.site).toString() },
+    ],
+  },
+};
+---
+
+<BaseLayout title="Langkah Berikutnya | STIFIn Mulia" description="Pilih jalur Tes STIFIn, WSL 1, atau Promotor sesuai posisi dan kebutuhan Anda sekarang." schema={schema}>
+  <section class="next-hero"><div class="container next-hero-grid"><div><span class="eyebrow">Tidak perlu melompat terlalu jauh</span><h1>Pilih langkah yang sesuai dengan posisi Anda sekarang.</h1><p class="lead">Anda tidak harus langsung menjadi promotor. Mulailah dari tahap yang sudah siap dijalani, lalu bertumbuh setelah memperoleh pengalaman dan pemahaman yang cukup.</p></div><div class="quick-check" data-quick-check><span>Cek dalam satu pertanyaan</span><h2>Manakah yang paling menggambarkan Anda?</h2><div class="quick-options"><button type="button" data-result="tes">Saya belum Tes STIFIn</button><button type="button" data-result="wsl1">Saya sudah tes, ingin memahami hasil</button><button type="button" data-result="promotor">Saya sudah belajar dan ingin melayani</button><button type="button" data-result="journey">Saya masih belum yakin</button></div><div class="quick-result" hidden aria-live="polite"><small>Langkah yang disarankan</small><strong data-result-title></strong><p data-result-text></p><a class="button" data-result-link data-funnel-stage="awareness" href="/perjalanan/">Lanjutkan</a></div></div></div></section>
+
+  <section class="section pathway"><div class="container"><div class="section-head"><div><span class="eyebrow">Satu perjalanan, tiga tahap nyata</span><h2>Setiap tahap mempunyai tujuan yang berbeda.</h2><p class="lead">Pilih berdasarkan kondisi Anda, bukan karena merasa harus mengikuti semua tahap sekaligus.</p></div></div><div class="path-cards">
+    <article><span class="number">01</span><small>Pintu masuk</small><h3>Tes STIFIn</h3><p>Dapatkan hasil Mesin Kecerdasan dan personaliti genetik melalui pemindaian sepuluh sidik jari, lalu bahas maknanya bersama promotor.</p><ul><li>Cocok bila belum pernah tes</li><li>Ingin memahami diri, anak, keluarga, atau profesi</li><li>Memerlukan jadwal di kota Anda</li></ul><a class="button" data-funnel-stage="tes" href="/ikut-tes-stifin/#daftar">Cek Jadwal Tes</a></article>
+    <article class="featured"><span class="number">02</span><small>Dari hasil menuju pemahaman</small><h3>WSL 1</h3><p>Pelajari fondasi konsep agar hasil tes tidak berhenti sebagai nama tipe dan dapat dihubungkan dengan situasi kehidupan nyata.</p><ul><li>Cocok bila sudah tes</li><li>Ingin memahami perbedaan lima Mesin Kecerdasan</li><li>Menjadi fondasi sebelum jalur promotor</li></ul><a class="button" data-funnel-stage="wsl1" href="/ikut-wsl-1/#daftar">Cari Jadwal WSL 1</a></article>
+    <article><span class="number">03</span><small>Dari manfaat menuju pelayanan</small><h3>Promotor</h3><p>Pelajari jalur untuk mengedukasi, melayani peserta tes, melakukan tindak lanjut, dan membangun kegiatan di jaringan Anda.</p><ul><li>Cocok bila siap belajar dan melayani</li><li>Ingin menambah layanan atau penghasilan</li><li>Siap membahas investasi dan pendampingan</li></ul><a class="button" data-funnel-stage="promotor" href="/gabung-promotor/#daftar">Petakan Peluang Promotor</a></article>
+  </div></div></section>
+
+  <section class="section bridge"><div class="container bridge-grid"><div><span class="eyebrow">Belum yakin memilih?</span><h2>Biarkan kebutuhan Anda yang menentukan pintu masuknya.</h2><p class="lead">Jawab empat pertanyaan singkat untuk mendapatkan jalur personal, bacaan pilihan, serta tindakan yang sesuai dengan kesiapan Anda.</p><a class="button" data-funnel-stage="awareness" href="/perjalanan/">Temukan Langkah Saya</a></div><div class="bridge-steps"><div><b>1</b><span>Pilih kebutuhan terdekat</span></div><div><b>2</b><span>Tentukan untuk siapa</span></div><div><b>3</b><span>Pilih kesiapan dan waktu</span></div><div><b>4</b><span>Dapatkan rekomendasi</span></div></div></div></section>
+
+  <script>
+    const recommendations: Record<string,{title:string;text:string;href:string;stage:string;label:string}> = {
+      tes: { title:'Mulai dari Tes STIFIn', text:'Tim membantu mengecek jadwal, lokasi, dan biaya di kota Anda.', href:'/ikut-tes-stifin/#daftar', stage:'tes', label:'Cek Jadwal Tes' },
+      wsl1: { title:'Lanjutkan melalui WSL 1', text:'Bawa hasil tes dan pertanyaan yang paling ingin Anda pahami.', href:'/ikut-wsl-1/#daftar', stage:'wsl1', label:'Cari Jadwal WSL 1' },
+      promotor: { title:'Petakan jalur Promotor', text:'Ceritakan profesi, jaringan, status tes, dan kesiapan Anda.', href:'/gabung-promotor/#daftar', stage:'promotor', label:'Cek Peluang Promotor' },
+      journey: { title:'Temukan jalur personal Anda', text:'Jawab empat pertanyaan singkat tanpa harus langsung mendaftar.', href:'/perjalanan/', stage:'awareness', label:'Temukan Langkah Saya' },
+    };
+    const check = document.querySelector<HTMLElement>('[data-quick-check]');
+    const result = check?.querySelector<HTMLElement>('.quick-result');
+    check?.querySelectorAll<HTMLButtonElement>('[data-result]').forEach((button) => button.addEventListener('click', () => {
+      const recommendation = recommendations[button.dataset.result || 'journey'];
+      check.querySelectorAll('[data-result]').forEach((item) => item.classList.toggle('selected', item === button));
+      const title = check.querySelector<HTMLElement>('[data-result-title]');
+      const text = check.querySelector<HTMLElement>('[data-result-text]');
+      const link = check.querySelector<HTMLAnchorElement>('[data-result-link]');
+      if (title) title.textContent = recommendation.title;
+      if (text) text.textContent = recommendation.text;
+      if (link) { link.href = recommendation.href; link.dataset.funnelStage = recommendation.stage; link.textContent = recommendation.label; }
+      if (result) result.hidden = false;
+    }));
+  </script>
+</BaseLayout>
+
+<style>
+  .next-hero{padding:clamp(65px,9vw,120px) 0;background:radial-gradient(circle at 84% 12%,rgba(215,169,63,.2),transparent 25rem),linear-gradient(145deg,#f8faf6,#e4efe6)}.next-hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:clamp(40px,7vw,90px);align-items:center}.next-hero h1{font-size:clamp(2.65rem,6vw,5rem);line-height:1.02;text-wrap:balance}.quick-check{padding:clamp(24px,4vw,40px);border:1px solid #c7d8cc;border-radius:24px;background:#fff;box-shadow:var(--shadow)}.quick-check>span{color:var(--green-700);font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.quick-check h2{margin:10px 0 20px;font-size:1.55rem}.quick-options{display:grid;gap:9px}.quick-options button{padding:14px 16px;border:1px solid var(--line);border-radius:11px;background:#f8faf7;color:var(--ink);text-align:left;font:inherit;font-weight:750}.quick-options button:hover,.quick-options button.selected{border-color:var(--green-700);background:var(--green-100)}.quick-result{margin-top:18px;padding:18px;border-radius:13px;background:var(--green-950);color:#fff}.quick-result small,.quick-result strong{display:block}.quick-result small{color:#cfe0ae}.quick-result strong{margin:6px 0;font-family:var(--font-display);font-size:1.25rem}.quick-result p{color:#c4d8d0;font-size:.85rem}.quick-result .button{margin-top:12px;background:#d7a93f;color:#17241d}.pathway{background:#fff}.path-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.path-cards article{display:flex;min-height:520px;flex-direction:column;padding:clamp(25px,3vw,34px);border:1px solid var(--line);border-radius:20px;background:#f8faf7;box-shadow:var(--shadow-soft)}.path-cards article.featured{background:var(--green-950);color:#fff;transform:translateY(-12px)}.path-cards .number{display:grid;width:46px;height:46px;place-items:center;border-radius:13px;background:var(--green-100);color:var(--green-800);font-weight:900}.path-cards .featured .number{background:#d7a93f;color:#17241d}.path-cards small{margin-top:24px;color:var(--green-700);font-weight:850;text-transform:uppercase}.path-cards .featured small{color:#cfe0ae}.path-cards h3{font-size:2rem}.path-cards .featured p,.path-cards .featured li{color:#c4d8d0}.path-cards ul{display:grid;gap:10px;padding-left:20px}.path-cards .button{margin-top:auto}.path-cards .featured .button{background:#d7a93f;color:#17241d}.bridge{background:linear-gradient(145deg,#e9f2ea,#dfece3)}.bridge-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,8vw,100px);align-items:center}.bridge-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bridge-steps div{display:flex;gap:13px;align-items:center;padding:20px;border:1px solid #c5d5c9;border-radius:13px;background:#fff}.bridge-steps b{display:grid;width:34px;height:34px;flex:0 0 34px;place-items:center;border-radius:9px;background:var(--green-950);color:#fff}@media(max-width:850px){.next-hero-grid,.bridge-grid{grid-template-columns:1fr}.path-cards{grid-template-columns:1fr}.path-cards article{min-height:auto}.path-cards article.featured{transform:none}.path-cards .button{margin-top:25px}}@media(max-width:520px){.bridge-steps{grid-template-columns:1fr}}
+</style>
+

@@ -1,4 +1,6 @@
-# STIFIn Mulia Website v2.1.0
+# STIFIn Mulia Website v2.2.0
+
+Versi 2.2 menambahkan **Progression Engine**. Halaman `/langkah-selanjutnya/` membantu pengunjung memilih Tes STIFIn, WSL 1, atau Promotor berdasarkan posisi mereka. Form tiga jalur sekarang langsung membuka WhatsApp dengan ID prospek, data kualifikasi, sumber kampanye, dan halaman asal. Atribusi UTM tetap tersimpan ketika pengunjung berpindah halaman. Seluruh fitur berjalan tanpa n8n, webhook, atau environment baru.
 
 Versi 2.1 menambahkan **Conversion & Trust Center** di `/apakah-tes-stifin-cocok-untuk-saya/`. Halaman ini membantu pengunjung menilai kapan tes relevan, kapan sebaiknya belajar dahulu, memahami batas penggunaan, membandingkan Tes STIFIn–penjelasan hasil–WSL 1–promotor, serta menjawab 12 keberatan umum. Journey Engine kini membuka ringkasan langsung di WhatsApp dan tidak membutuhkan webhook atau n8n.
 
@@ -26,9 +28,9 @@ Versi 1.4 membentuk growth funnel lengkap Tes → WSL 1 → Promotor. Halaman `/
 
 Versi 1.3.1 memperkeras sinkronisasi jaringan: nilai lokasi kosong seperti `-` dan `NULL` tidak lagi ditampilkan sebagai provinsi, variasi nama field API dibaca lebih toleran, kode cabang yang merespons tanpa data dilaporkan saat build, dan halaman kota tetap rapi ketika API tidak menyediakan provinsi.
 
-## WhatsApp langsung dan integrasi opsional
+## WhatsApp langsung dan pengukuran opsional
 
-Versi 2.1 dapat dipakai tanpa n8n. Journey Engine langsung membuka WhatsApp pusat dengan ringkasan jawaban pengunjung. Untuk penggunaan saat ini, `PUBLIC_STIFIN_LEAD_WEBHOOK_URL` boleh dikosongkan atau tidak dibuat.
+Versi 2.2 tidak memakai n8n atau webhook. Journey Engine serta form Tes, WSL 1, dan Promotor langsung membuka WhatsApp pusat dengan ringkasan pengunjung.
 
 Meta Pixel tetap opsional:
 
@@ -36,7 +38,7 @@ Meta Pixel tetap opsional:
 PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
 ```
 
-Folder `automation` tetap disertakan sebagai fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.1. Form iklan versi lama tetap mempunyai fallback WhatsApp bila webhook tidak diisi.
+Folder `automation` tetap disertakan sebagai arsip fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.2.
 
 ## Menjalankan secara lokal
 

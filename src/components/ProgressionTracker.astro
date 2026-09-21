@@ -1,0 +1,100 @@
+---
+interface Props {
+  stage?: 'awareness' | 'tes' | 'wsl1' | 'promotor';
+}
+
+const { stage = 'awareness' } = Astro.props;
+---
+
+<script is:inline define:vars={{ stage }}>
+  (() => {
+    const ATTRIBUTION_KEY = 'stifinAttributionV22';
+    const JOURNEY_KEY = 'stifinProgressionV22';
+    const TRACKING_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
+    const params = new URLSearchParams(window.location.search);
+    const now = new Date().toISOString();
+    const read = (key) => {
+      try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch { return {}; }
+    };
+    const write = (key, value) => {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+    };
+
+    const storedAttribution = read(ATTRIBUTION_KEY);
+    const incoming = {};
+    TRACKING_KEYS.forEach((key) => {
+      const value = params.get(key);
+      if (value) incoming[key] = value;
+    });
+    const attribution = {
+      ...storedAttribution,
+      ...incoming,
+      first_landing_page: storedAttribution.first_landing_page || window.location.pathname,
+      first_seen_at: storedAttribution.first_seen_at || now,
+      first_referrer: storedAttribution.first_referrer || document.referrer || 'direct',
+      last_landing_page: window.location.pathname,
+      last_seen_at: now,
+      landing_variant: params.get('variant') || storedAttribution.landing_variant || 'utama',
+    };
+    write(ATTRIBUTION_KEY, attribution);
+
+    const progression = read(JOURNEY_KEY);
+    const visits = Array.isArray(progression.visits) ? progression.visits.slice(-9) : [];
+    if (!visits.length || visits[visits.length - 1]?.path !== window.location.pathname) {
+      visits.push({ path: window.location.pathname, stage, at: now });
+    }
+    const updatedProgression = {
+      ...progression,
+      current_stage: stage,
+      last_page: window.location.pathname,
+      updated_at: now,
+      visits,
+    };
+    write(JOURNEY_KEY, updatedProgression);
+
+    window.stifinProgression = {
+      attribution,
+      current: updatedProgression,
+      track(eventName, data = {}) {
+        const detail = { event: eventName, funnel_stage: stage, page_path: window.location.pathname, ...data };
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(detail);
+        window.dispatchEvent(new CustomEvent('stifin:conversion', { detail }));
+      },
+      advance(nextStage, data = {}) {
+        const current = read(JOURNEY_KEY);
+        const next = { ...current, current_stage: nextStage, updated_at: new Date().toISOString(), ...data };
+        write(JOURNEY_KEY, next);
+        this.track(`progression_${nextStage}`, data);
+      },
+    };
+
+    window.stifinProgression.track('funnel_stage_view', { stage });
+
+    document.addEventListener('click', (event) => {
+      const clicked = event.target instanceof Element ? event.target : null;
+      const target = clicked?.closest('[data-funnel-stage]');
+      if (target) {
+        const nextStage = target.getAttribute('data-funnel-stage') || 'awareness';
+        window.stifinProgression.advance(nextStage, {
+          cta_label: (target.textContent || '').trim().slice(0, 100),
+          cta_href: target.getAttribute('href') || '',
+        });
+      }
+      const whatsAppLink = clicked?.closest('a[href*="wa.me/"]');
+      if (whatsAppLink) {
+        const url = new URL(whatsAppLink.href);
+        let message = url.searchParams.get('text') || 'Assalamu’alaikum, saya ingin mengetahui layanan STIFIn Mulia.';
+        if (!message.includes('Halaman asal:')) message += `\nHalaman asal: ${window.location.pathname}`;
+        if (attribution.utm_campaign && !message.includes('Kampanye:')) message += `\nKampanye: ${attribution.utm_campaign}`;
+        if (!message.includes('Sumber:')) message += `\nSumber: ${attribution.utm_source || 'website'}`;
+        url.searchParams.set('text', message);
+        whatsAppLink.href = url.toString();
+        window.stifinProgression.track('whatsapp_click', {
+          intent: whatsAppLink.dataset.waIntent || (whatsAppLink.textContent || '').trim(),
+          next_stage: whatsAppLink.dataset.funnelStage || stage,
+        });
+      }
+    }, { capture: true });
+  })();
+</script>
