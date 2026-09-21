@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { pillars, priorityTerms } from '../data/knowledge-architecture';
 
 export async function GET() {
   const articles = await getCollection('articles', ({ data }) => !data.draft);
@@ -6,6 +7,8 @@ export async function GET() {
     .sort((a, b) => a.data.title.localeCompare(b.data.title, 'id'))
     .map((article) => `- [${article.data.title}](https://stifinmulia.com/artikel/${article.id}/): ${article.data.keyAnswer}`)
     .join('\n');
+  const pillarLines = pillars.map((pillar) => `- [${pillar.title}](https://stifinmulia.com/panduan/${pillar.slug}/): ${pillar.keyAnswer}`).join('\n');
+  const termLines = priorityTerms.map((term) => `- [${term.term}](https://stifinmulia.com/istilah/${term.slug}/)`).join('\n');
   const body = `# STIFIn Mulia
 
 > Situs edukasi dan layanan untuk mengenal STIFIn, mengikuti Tes STIFIn, melanjutkan WSL 1, serta mempelajari jalur promotor. Dikelola oleh Muhamad Sofyan AR dan berbasis layanan di Bandung dengan jaringan lintas wilayah.
@@ -21,6 +24,12 @@ export async function GET() {
 - [Kamus istilah](https://stifinmulia.com/istilah-stifin/): definisi istilah STIFIn dan penerapannya.
 - [Standar editorial](https://stifinmulia.com/standar-editorial/): sumber, peninjauan, pembaruan, penggunaan AI, dan koreksi.
 - [Tentang STIFIn Mulia](https://stifinmulia.com/tentang/): pengelola, posisi jaringan, dan nilai layanan.
+
+## Panduan utama
+${pillarLines}
+
+## Istilah prioritas
+${termLines}
 
 ## Artikel
 ${articleLines}

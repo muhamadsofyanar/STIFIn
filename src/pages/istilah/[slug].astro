@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Callout from '../../components/Callout.astro';
+import { glossary } from '../../data/knowledge';
+import { pillars, priorityTerms } from '../../data/knowledge-architecture';
+
+export async function getStaticPaths() {
+  return priorityTerms.map((detail) => ({ params: { slug: detail.slug }, props: { detail } }));
+}
+const { detail } = Astro.props;
+const definition = glossary.find((item) => item.term === detail.term)?.meaning || '';
+const pillar = pillars.find((item) => item.slug === detail.pillarSlug);
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+const articles = detail.articleIds.map((id: string) => allArticles.find((entry) => entry.id === id)).filter(Boolean);
+const related = detail.related.map((term: string) => {
+  const target = priorityTerms.find((item) => item.term === term);
+  const item = glossary.find((entry) => entry.term === term);
+  return { term, meaning: item?.meaning || '', href: target ? `/istilah/${target.slug}/` : `/istilah-stifin/?q=${encodeURIComponent(term)}` };
+});
+const pageUrl = new URL(`/istilah/${detail.slug}/`, Astro.site).toString();
+const termSchema = { '@context': 'https://schema.org', '@type': 'DefinedTerm', name: detail.term, description: definition, inDefinedTermSet: new URL('/istilah-stifin/', Astro.site).toString(), url: pageUrl };
+const breadcrumbSchema = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Beranda', item: new URL('/', Astro.site).toString() },
+  { '@type': 'ListItem', position: 2, name: 'Kamus Istilah STIFIn', item: new URL('/istilah-stifin/', Astro.site).toString() },
+  { '@type': 'ListItem', position: 3, name: detail.term, item: pageUrl },
+] };
+---
+<BaseLayout title={`${detail.term}: Arti, Fungsi, dan Cara Menggunakannya | STIFIn Mulia`} description={`${definition} Pelajari fungsi, penggunaan, kekeliruan yang perlu dihindari, dan istilah terkait.`} schema={[termSchema, breadcrumbSchema]}>
+  <article>
+    <header class="term-hero"><div class="container"><a href="/istilah-stifin/">← Kembali ke kamus</a><span>{detail.group}</span><h1>{detail.term}</h1><p>{definition}</p></div></header>
+    <section class="section"><div class="container term-layout"><div class="term-body"><section><span class="eyebrow">Mengapa istilah ini penting</span><h2>Fungsinya dalam pembelajaran STIFIn</h2><p>{detail.why}</p></section><section><span class="eyebrow">Cara menggunakan</span><h2>Dari definisi menuju tindakan</h2><p>{detail.use}</p><div class="practice"><strong>Contoh pertanyaan yang membantu</strong><p>“Dalam situasi apa istilah {detail.term} membantu saya melihat pola, dan perubahan kecil apa yang dapat saya uji?”</p></div></section><section><span class="eyebrow">Jaga konteksnya</span><h2>Kekeliruan yang perlu dihindari</h2><p>{detail.avoid}</p></section><div class="editorial"><strong>Catatan editorial</strong><p>Definisi disusun dari materi pembelajaran STIFIn, ditulis ulang dalam bahasa pembaca, dan ditempatkan sebagai bahan edukasi—bukan diagnosis, ramalan, atau pengganti keputusan profesional.</p></div></div><aside><strong>Ringkasnya</strong><p>{definition}</p>{pillar && <a href={`/panduan/${pillar.slug}/`}>Baca dalam panduan utuh →</a>}</aside></div></section>
+  </article>
+  <section class="section soft"><div class="container"><div class="section-head"><div><span class="eyebrow">Hubungan konsep</span><h2>Istilah yang sebaiknya dipahami bersama</h2></div></div><div class="related-terms">{related.map((item: any) => <a href={item.href}><h3>{item.term}</h3><p>{item.meaning || 'Lihat definisi dan konteks istilah ini di kamus STIFIn Mulia.'}</p><strong>Lihat istilah →</strong></a>)}</div></div></section>
+  {articles.length > 0 && <section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Lihat dalam penerapan</span><h2>Bacaan yang menggunakan istilah ini</h2></div></div><div class="articles">{articles.map((entry: any) => <a href={`/artikel/${entry.id}/`}><small>{entry.data.category}</small><h3>{entry.data.title}</h3><p>{entry.data.keyAnswer}</p><strong>Baca artikel →</strong></a>)}</div></div></section>}
+  <Callout title="Ingin memahami istilah ini dalam konteks hasil Anda?" text="Sampaikan apakah Anda belum tes, sudah menerima hasil, atau ingin melanjutkan ke WSL 1. Tim membantu menunjukkan langkah yang paling relevan." message={`Assalamu’alaikum, saya membaca istilah ${detail.term} di STIFIn Mulia. Saya ingin memahami kaitannya dengan: ...`} secondaryHref="/langkah-selanjutnya/" secondaryLabel="Pilih Langkah Berikutnya" />
+</BaseLayout>
+
+<style>
+  .term-hero{padding:clamp(75px,9vw,120px) 0;border-bottom:1px solid var(--line);background:linear-gradient(115deg,#f8f8f4 0 70%,#e5efe7 70%)}.term-hero a{display:block;margin-bottom:35px;color:var(--green-800);font-weight:800}.term-hero>div>span{color:var(--green-800);font-size:.8rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.term-hero h1{margin:18px 0;font-size:clamp(3rem,8vw,6rem)}.term-hero p{max-width:880px;color:var(--ink);font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.65rem);font-weight:700;line-height:1.5}.term-layout{display:grid;grid-template-columns:minmax(0,760px) 290px;gap:70px;align-items:start}.term-body section{margin-bottom:65px}.term-body h2{font-size:clamp(1.8rem,4vw,2.6rem)}.term-body p{font-size:1.07rem;line-height:1.85}.practice{margin-top:25px;padding:24px;border-left:4px solid var(--lime-500);background:var(--cream)}.practice p{margin:7px 0 0;font-family:var(--font-display);font-size:1.15rem;font-weight:700}.editorial{padding:24px;border:1px solid var(--line);border-radius:var(--radius-sm);background:#eef4ef}.editorial p{margin:7px 0 0;font-size:.9rem}.term-layout aside{position:sticky;top:105px;padding:25px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow-soft)}.term-layout aside p{font-size:.9rem}.term-layout aside a{color:var(--green-800);font-weight:800}.related-terms,.articles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.related-terms a,.articles a{display:flex;min-height:240px;flex-direction:column;padding:26px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow-soft)}.related-terms h3,.articles h3{margin:12px 0;font-family:var(--font-display);font-size:1.4rem}.related-terms strong,.articles strong{margin-top:auto;color:var(--green-800)}.articles small{color:var(--muted)}@media(max-width:850px){.term-layout{grid-template-columns:1fr}.term-layout aside{position:static}.related-terms,.articles{grid-template-columns:1fr 1fr}}@media(max-width:600px){.related-terms,.articles{grid-template-columns:1fr}}
+</style>

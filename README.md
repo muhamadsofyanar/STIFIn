@@ -1,4 +1,6 @@
-# STIFIn Mulia Website v2.2.0
+# STIFIn Mulia Website v2.3.0
+
+Versi 2.3 menambahkan **Knowledge Authority & AI Discovery Engine**. Delapan panduan pilar menghubungkan fondasi STIFIn, proses tes, belajar dan parenting, keluarga, profesi dan finansial, bisnis dan kepemimpinan, WSL 1 dan promotor, serta Ruang Tafsir Al-Qamar. Sembilan belas istilah prioritas kini mempunyai halaman mandiri dengan arti, fungsi, cara penggunaan, kekeliruan, hubungan konsep, dan bacaan penerapan. Artikel dihubungkan ke panduan induk, structured data diperluas, dan `llms.txt` memuat peta pengetahuan yang mudah ditemukan mesin pencari serta asisten AI.
 
 Versi 2.2 menambahkan **Progression Engine**. Halaman `/langkah-selanjutnya/` membantu pengunjung memilih Tes STIFIn, WSL 1, atau Promotor berdasarkan posisi mereka. Form tiga jalur sekarang langsung membuka WhatsApp dengan ID prospek, data kualifikasi, sumber kampanye, dan halaman asal. Atribusi UTM tetap tersimpan ketika pengunjung berpindah halaman. Seluruh fitur berjalan tanpa n8n, webhook, atau environment baru.
 
@@ -30,7 +32,7 @@ Versi 1.3.1 memperkeras sinkronisasi jaringan: nilai lokasi kosong seperti `-` d
 
 ## WhatsApp langsung dan pengukuran opsional
 
-Versi 2.2 tidak memakai n8n atau webhook. Journey Engine serta form Tes, WSL 1, dan Promotor langsung membuka WhatsApp pusat dengan ringkasan pengunjung.
+Versi 2.3 tidak memakai n8n atau webhook. Journey Engine serta form Tes, WSL 1, dan Promotor langsung membuka WhatsApp pusat dengan ringkasan pengunjung.
 
 Meta Pixel tetap opsional:
 
@@ -38,7 +40,7 @@ Meta Pixel tetap opsional:
 PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
 ```
 
-Folder `automation` tetap disertakan sebagai arsip fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.2.
+Folder `automation` tetap disertakan sebagai arsip fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.3.
 
 ## Menjalankan secara lokal
 

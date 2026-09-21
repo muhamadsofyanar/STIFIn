@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Callout from '../../components/Callout.astro';
+import { pillars } from '../../data/knowledge-architecture';
+
+export async function getStaticPaths() {
+  return pillars.map((pillar) => ({ params: { slug: pillar.slug }, props: { pillar } }));
+}
+const { pillar } = Astro.props;
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+const articles = pillar.articleIds.map((id: string) => allArticles.find((entry) => entry.id === id)).filter(Boolean);
+const pageUrl = new URL(`/panduan/${pillar.slug}/`, Astro.site).toString();
+const webpageSchema = {
+  '@context': 'https://schema.org', '@type': 'WebPage', name: pillar.title, description: pillar.description, abstract: pillar.keyAnswer,
+  url: pageUrl, inLanguage: 'id-ID', isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
+  about: { '@type': 'Thing', name: pillar.eyebrow },
+  author: { '@type': 'Organization', name: 'Tim Edukasi STIFIn Mulia' },
+  reviewedBy: { '@type': 'Person', name: 'Muhamad Sofyan AR', url: new URL('/penulis/muhamad-sofyan-ar/', Astro.site).toString() },
+  dateModified: '2026-09-21',
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: pillar.faq.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) };
+const breadcrumbSchema = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Beranda', item: new URL('/', Astro.site).toString() },
+  { '@type': 'ListItem', position: 2, name: 'Panduan', item: new URL('/panduan/', Astro.site).toString() },
+  { '@type': 'ListItem', position: 3, name: pillar.title, item: pageUrl },
+] };
+---
+<BaseLayout title={`${pillar.title} | STIFIn Mulia`} description={pillar.description} schema={[webpageSchema, faqSchema, breadcrumbSchema]} funnelStage={pillar.cta.stage}>
+  <article>
+    <header class="pillar-hero"><div class="container"><a class="back" href="/panduan/">← Semua panduan</a><span class="eyebrow">{pillar.eyebrow}</span><h1>{pillar.title}</h1><p class="lead">{pillar.description}</p><div class="audience"><strong>Panduan ini untuk</strong><span>{pillar.audience}</span></div></div></header>
+    <section class="section-tight answer"><div class="container answer-grid"><div><span>Jawaban ringkas</span><p>{pillar.keyAnswer}</p></div><aside><strong>Yang Anda dapatkan</strong><p>{pillar.promise}</p></aside></div></section>
+    <div class="container reading-layout"><nav class="toc" aria-label="Daftar isi"><strong>Dalam panduan ini</strong>{pillar.sections.map((section, index) => <a href={`#bagian-${index + 1}`}>{index + 1}. {section.title}</a>)}<a href="#pertanyaan">Pertanyaan umum</a><a href="#bacaan">Bacaan lanjutan</a></nav><div class="pillar-prose">{pillar.sections.map((section, index) => <section id={`bagian-${index + 1}`}><span class="section-number">Bagian {String(index + 1).padStart(2, '0')}</span><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>)}<div class="source-note"><strong>Dasar pengembangan</strong><p>{pillar.sourceNote}</p><a href="/standar-editorial/">Lihat cara kami mengolah dan meninjau materi →</a></div></div></div>
+  </article>
+
+  <section class="section essentials"><div class="container"><div class="section-head"><div><span class="eyebrow">Pegangan praktis</span><h2>Tiga hal yang perlu dibawa pulang</h2></div></div><div class="essential-grid">{pillar.essentials.map((item, index) => <div><span>{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.text}</p></div>)}</div></div></section>
+
+  <section class="section faq" id="pertanyaan"><div class="container narrow"><span class="eyebrow">Pertanyaan yang sering muncul</span><h2>Jawaban yang perlu jelas sebelum melangkah</h2><div class="faq-list">{pillar.faq.map((item) => <details><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div></div></section>
+
+  <section class="section related" id="bacaan"><div class="container"><div class="section-head"><div><span class="eyebrow">Perdalam satu per satu</span><h2>Artikel yang membangun panduan ini</h2></div><a href="/artikel/">Semua artikel →</a></div><div class="article-grid">{articles.map((entry: any) => <a href={`/artikel/${entry.id}/`}><small>{entry.data.category} · {entry.data.readingTime} menit</small><h3>{entry.data.title}</h3><p>{entry.data.keyAnswer}</p><strong>Baca selengkapnya →</strong></a>)}</div></div></section>
+
+  <Callout title={pillar.cta.title} text={pillar.cta.text} message={pillar.cta.message} stage={pillar.cta.stage} secondaryHref={pillar.cta.href} secondaryLabel={pillar.cta.label} />
+</BaseLayout>
+
+<style>
+  .pillar-hero{padding:clamp(75px,9vw,125px) 0;background:radial-gradient(circle at 85% 15%,rgba(131,169,71,.14),transparent 20rem),linear-gradient(115deg,#f8f8f4,#e5efe7);border-bottom:1px solid var(--line)}.back{display:block;margin-bottom:36px;color:var(--green-800);font-weight:800}.pillar-hero h1{max-width:1050px;font-size:clamp(2.6rem,6vw,5rem);text-wrap:balance}.audience{display:flex;max-width:840px;gap:14px;margin-top:30px;padding-top:20px;border-top:1px solid #cad8ce}.audience span{color:var(--muted)}.answer{border-bottom:1px solid var(--line);background:white}.answer-grid{display:grid;grid-template-columns:1.5fr .5fr;gap:55px;align-items:start}.answer-grid>div>span{display:block;margin-bottom:12px;color:var(--green-800);font-size:.78rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.answer-grid>div>p{margin:0;color:var(--ink);font-family:var(--font-display);font-size:clamp(1.25rem,2.4vw,1.65rem);font-weight:700;line-height:1.5}.answer aside{padding:20px;border-left:3px solid var(--lime-500);background:var(--cream)}.answer aside p{margin:7px 0 0;font-size:.9rem}.reading-layout{display:grid;grid-template-columns:250px minmax(0,760px);gap:80px;padding-top:85px;padding-bottom:80px}.toc{position:sticky;top:105px;display:grid;align-self:start;padding:24px;border:1px solid var(--line);border-radius:var(--radius-sm);background:white}.toc strong{margin-bottom:14px}.toc a{padding:9px 0;border-bottom:1px solid #edf0ed;color:var(--muted);font-size:.85rem}.toc a:hover{color:var(--green-800)}.pillar-prose section{scroll-margin-top:105px;margin-bottom:75px}.section-number{color:var(--green-800);font-size:.78rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.pillar-prose h2{margin:14px 0 26px;font-size:clamp(2rem,4.5vw,3rem)}.pillar-prose p{font-size:1.08rem;line-height:1.85}.source-note{padding:25px;border:1px solid #c8d8cc;border-radius:var(--radius-sm);background:#f0f5f0}.source-note p{margin:8px 0 10px;font-size:.91rem}.source-note a{color:var(--green-800);font-weight:800}.essentials{background:linear-gradient(145deg,#e7f1e9,#f5f7f2)}.essential-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.essential-grid>div{padding:30px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow-soft)}.essential-grid span{color:var(--green-800);font-weight:900}.essential-grid h3{margin:36px 0 12px}.narrow{max-width:850px}.faq-list{margin-top:38px;border-top:1px solid var(--line)}.faq-list details{border-bottom:1px solid var(--line)}.faq-list summary{padding:22px 36px 22px 0;font-weight:850;cursor:pointer}.faq-list p{padding:0 0 22px}.related{background:#f0f5f1}.article-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.article-grid a{display:flex;min-height:280px;flex-direction:column;padding:30px;border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:var(--shadow-soft)}.article-grid small{color:var(--muted)}.article-grid h3{margin:24px 0 12px;font-family:var(--font-display);font-size:1.5rem}.article-grid strong{margin-top:auto;color:var(--green-800)}@media(max-width:850px){.answer-grid,.reading-layout{grid-template-columns:1fr}.toc{position:static}.essential-grid{grid-template-columns:1fr}.reading-layout{gap:35px}.article-grid{grid-template-columns:1fr}}@media(max-width:600px){.audience{flex-direction:column}.pillar-prose p{font-size:1rem}.article-grid a{min-height:240px}}
+</style>
