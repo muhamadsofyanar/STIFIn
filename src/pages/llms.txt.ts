@@ -1,0 +1,32 @@
+import { getCollection } from 'astro:content';
+
+export async function GET() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  const articleLines = articles
+    .sort((a, b) => a.data.title.localeCompare(b.data.title, 'id'))
+    .map((article) => `- [${article.data.title}](https://stifinmulia.com/artikel/${article.id}/): ${article.data.keyAnswer}`)
+    .join('\n');
+  const body = `# STIFIn Mulia
+
+> Situs edukasi dan layanan untuk mengenal STIFIn, mengikuti Tes STIFIn, melanjutkan WSL 1, serta mempelajari jalur promotor. Dikelola oleh Muhamad Sofyan AR dan berbasis layanan di Bandung dengan jaringan lintas wilayah.
+
+## Halaman utama
+- [Tes STIFIn](https://stifinmulia.com/tes-stifin/): proses, manfaat, hasil, dan langkah pendaftaran.
+- [Cari layanan di kota Anda](https://stifinmulia.com/jaringan-promotor/): data wilayah dan promotor hasil sinkronisasi API.
+- [WSL 1](https://stifinmulia.com/wsl-1/): pembelajaran dasar setelah mengenal hasil tes.
+- [Menjadi promotor](https://stifinmulia.com/jadi-promotor/): peran, proses belajar, dan peluang aktivitas promotor.
+- [Kamus istilah](https://stifinmulia.com/istilah-stifin/): definisi istilah STIFIn dan penerapannya.
+- [Standar editorial](https://stifinmulia.com/standar-editorial/): sumber, peninjauan, pembaruan, penggunaan AI, dan koreksi.
+- [Tentang STIFIn Mulia](https://stifinmulia.com/tentang/): pengelola, posisi jaringan, dan nilai layanan.
+
+## Artikel
+${articleLines}
+
+## Catatan penggunaan
+- Konten STIFIn di situs ini adalah bahan edukasi dan bukan diagnosis medis atau psikologis.
+- Data wilayah berasal dari cabang yang berhasil tersinkron dan tidak boleh dianggap sebagai keseluruhan jaringan nasional.
+- Nomor pribadi, email, PassID, saldo, dan data sensitif promotor tidak dipublikasikan.
+- Konfirmasi jadwal, biaya, dan ketentuan terbaru dilakukan melalui WhatsApp pusat STIFIn Mulia.
+`;
+  return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+}

@@ -2,13 +2,13 @@
 import Brand from './Brand.astro';
 const path = Astro.url.pathname;
 const links = [
-  ['Tes STIFIn', '/tes-stifin/'],
-  ['Tes di Kota Saya', '/jaringan-promotor/'],
-  ['Lanjut ke WSL 1', '/wsl-1/'],
-  ['Menjadi Promotor', '/jadi-promotor/'],
-  ['Mulai dari Kebutuhan', '/mulai/'],
-  ['Belajar STIFIn', '/artikel/'],
-  ['Tentang Kami', '/tentang/'],
+  { label: 'Tes STIFIn', short: 'Tes STIFIn', href: '/tes-stifin/' },
+  { label: 'Tes di Kota Saya', short: 'Cari Kota', href: '/jaringan-promotor/' },
+  { label: 'Lanjut ke WSL 1', short: 'WSL 1', href: '/wsl-1/' },
+  { label: 'Menjadi Promotor', short: 'Jadi Promotor', href: '/jadi-promotor/' },
+  { label: 'Mulai dari Kebutuhan', short: 'Mulai', href: '/mulai/' },
+  { label: 'Belajar STIFIn', short: 'Pusat Ilmu', href: '/artikel/' },
+  { label: 'Tentang Kami', short: 'Tentang', href: '/tentang/' },
 ];
 ---
 <header class="header">
@@ -16,8 +16,8 @@ const links = [
     <Brand />
     <button class="menu-button" aria-label="Buka menu" aria-expanded="false" aria-controls="main-nav"><span class="menu-label">Menu</span><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <nav id="main-nav" class="nav" aria-label="Navigasi utama">
-      {links.map(([label, href]) => <a class:list={{ active: path.startsWith(href) }} href={href}>{label}</a>)}
-      <a class="button" href="/ikut-tes-stifin/#daftar">Saya Mau Tes</a>
+      {links.map(({ label, short, href }) => <a class:list={{ active: path.startsWith(href) }} href={href}><span class="desktop-label">{short}</span><span class="mobile-label">{label}</span></a>)}
+      <a class="button" href="/ikut-tes-stifin/#daftar"><span class="desktop-label">Mulai Tes</span><span class="mobile-label">Saya Mau Tes</span></a>
     </nav>
   </div>
   <button class="nav-backdrop" aria-label="Tutup menu" tabindex="-1"></button>
@@ -38,27 +38,29 @@ const links = [
   backdrop?.addEventListener('click', () => setMenu(false));
   nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setMenu(false); });
-  window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 1080) setMenu(false); });
 </script>
 <style>
   .header { position: sticky; z-index: 40; top: 0; border-bottom: 1px solid rgba(217,227,220,.9); background: rgba(247,248,244,.94); box-shadow:0 8px 30px rgba(4,63,43,.04); backdrop-filter: blur(18px); }
   .nav-wrap { position:relative;z-index:3;display: flex; min-height: 78px; align-items: center; justify-content: space-between; }
-  .nav { display: flex; align-items: center; gap: 19px; font-size: .88rem; font-weight: 700; }
-  .nav > a:not(.button) { position: relative; padding: 26px 0; }
+  .nav { display: flex; align-items: center; gap: clamp(10px,1.15vw,18px); font-size: clamp(.76rem,.78vw,.86rem); font-weight: 750; }
+  .nav > a:not(.button) { position: relative; padding: 26px 0; white-space:nowrap; }
   .nav > a:not(.button)::after { position: absolute; right: 0; bottom: 18px; left: 0; height: 2px; border-radius: 4px; background: var(--lime-500); content: ''; opacity: 0; transform: scaleX(.5); transition: .2s ease; }
   .nav > a.active::after, .nav > a:hover::after { opacity: 1; transform: scaleX(1); }
-  .nav .button { min-height: 42px; padding: 9px 17px; }
+  .nav .button { min-height: 42px; padding: 9px 15px;white-space:nowrap; }
+  .mobile-label{display:none}
   .menu-button { display: none; min-width:76px;height:44px;align-items:center;justify-content:center;gap:9px;padding:8px 11px;border:1px solid #cbdacf;border-radius:12px;background:white;color:var(--green-950);font-weight:800; }
   .menu-label{font-size:.76rem}.bars{display:block;width:19px}.bars i { display: block; height: 2px; margin: 4px 0; border-radius:2px;background: var(--green-950);transition:transform .2s ease,opacity .2s ease; }
   .menu-button[aria-expanded="true"] .bars i:nth-child(1){transform:translateY(6px) rotate(45deg)}.menu-button[aria-expanded="true"] .bars i:nth-child(2){opacity:0}.menu-button[aria-expanded="true"] .bars i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
   .nav-backdrop{display:none}
-  @media (max-width: 900px) {
+  @media (max-width: 1080px) {
     .menu-button { display: flex; }
     .nav { position: fixed; z-index:2; top: 78px; right: 0; bottom: 0; left:0; display: flex; width:100%;height:calc(100dvh - 78px);align-items: stretch; flex-direction: column; gap: 0; padding: 28px max(24px,calc((100vw - 720px)/2)) max(100px,env(safe-area-inset-bottom)); overflow-y: auto; background:linear-gradient(155deg,#fbfcf9 0 72%,#e7f0e9 72%);box-shadow:0 30px 60px rgba(4,63,43,.14);opacity:0;visibility:hidden;transform:translateY(-18px);transition:transform .25s ease,opacity .2s ease,visibility .2s ease; }
     .nav.open { opacity:1;visibility:visible;transform:translateX(0); }
     .nav::before{content:'Apa yang ingin Anda lakukan?';display:block;max-width:720px;width:100%;margin:0 auto;padding:10px 8px 22px;color:var(--green-800);font-family:var(--font-display);font-size:clamp(1.7rem,6vw,2.4rem);font-weight:700}
     .nav > a:not(.button) { width:100%;max-width:720px;margin:0 auto;padding:18px 8px; border-bottom: 1px solid var(--line); font-size:clamp(1.05rem,4vw,1.25rem); }
     .nav > a:not(.button)::after { display: none; }
+    .desktop-label{display:none}.mobile-label{display:inline}
     .nav .button { width:100%;max-width:720px;margin:28px auto 0; }
     .nav-backdrop{position:fixed;z-index:1;inset:78px 0 0;display:block;border:0;background:rgba(3,35,25,.46);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}.nav-backdrop.open{opacity:1;visibility:visible}
   }

@@ -74,6 +74,7 @@ const schemas = [organizationSchema, websiteSchema, ...(Array.isArray(pageSchema
     <meta name="theme-color" content="#063c32" />
     <link rel="icon" href="/icons/favicon.png" type="image/png" sizes="64x64" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Artikel STIFIn Mulia" href={new URL('/feed.xml', Astro.site)} />
     {schemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
     <title>{title}</title>
   </head>
