@@ -5,9 +5,8 @@ import { site } from '../data/site';
 interface Props { articles: CollectionEntry<'articles'>[] }
 const { articles } = Astro.props;
 const articleMap = new Map(articles.map((article) => [article.id, article]));
-const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
 ---
-<section class="journey-engine" data-webhook={webhookUrl} data-whatsapp={site.whatsapp}>
+<section class="journey-engine" data-whatsapp={site.whatsapp}>
   <div class="journey-progress" aria-label="Kemajuan pertanyaan"><span data-progress-bar></span></div>
   <form class="journey-questions" novalidate>
     <div class="journey-step active" data-step="0">
@@ -34,8 +33,8 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
         <label>Nama lengkap<input name="name" autocomplete="name" required /></label>
         <label>Nomor WhatsApp<input name="phone" autocomplete="tel" inputmode="tel" placeholder="0812…" required /></label>
         <label>Kota / kabupaten<input name="city" autocomplete="address-level2" required /></label>
-        <label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia dihubungi melalui WhatsApp mengenai kebutuhan yang saya pilih dan menyetujui <a href="/privasi/">kebijakan privasi</a>.</span></label>
-        <button class="button" type="submit">Kirim dan Lanjut ke WhatsApp</button><span class="form-status" aria-live="polite"></span>
+        <label class="consent"><input name="consent" type="checkbox" required /><span>Saya bersedia membuka percakapan WhatsApp mengenai kebutuhan yang saya pilih dan menyetujui <a href="/privasi/">kebijakan privasi</a>.</span></label>
+        <button class="button" type="submit">Buka Ringkasan di WhatsApp</button><span class="form-status" aria-live="polite"></span>
       </form></div></div>
       <div class="result-actions"><a class="button secondary" href={profile.primary.href}>{profile.primary.label}</a><button type="button" class="share-button" data-share>Salin tautan hasil</button><button type="button" class="reset-button" data-reset>Ulangi pertanyaan</button></div>
       <p class="result-note">Rekomendasi ini disusun dari jawaban Anda sebagai panduan edukasi, bukan diagnosis medis atau psikologis dan bukan penentu tunggal keputusan hidup.</p>
@@ -122,15 +121,17 @@ const webhookUrl = import.meta.env.PUBLIC_STIFIN_LEAD_WEBHOOK_URL || '';
         consent: data.get('consent') === 'on', consent_at: new Date().toISOString(), submitted_at: new Date().toISOString(),
         source_page: location.pathname, landing_variant: 'personalized-journey-v2', ...attribution,
       };
-      if (status) status.textContent = 'Mengirim data…';
-      let webhookStatus = 'not_configured';
-      const webhook = root.dataset.webhook;
-      if (webhook) { try { const response = await fetch(webhook, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(lead) }); webhookStatus = response.ok ? 'sent' : `http_${response.status}`; } catch { webhookStatus = 'failed'; } }
-      lead.webhook_status = webhookStatus;
+      if (status) status.textContent = 'Menyiapkan ringkasan WhatsApp…';
       sessionStorage.setItem('stifinJourneyLead', JSON.stringify(lead));
       trackedWindow.dataLayer?.push({ event:'lead_journey_submit', funnel_stage:lead.funnel_stage, journey_id:lead.journey_id, lead_temperature:lead.lead_temperature });
       trackedWindow.fbq?.('track','Lead',{ content_name:`journey-${lead.journey_id}` });
-      location.href = '/terima-kasih-perjalanan/';
+      const message = [
+        'Assalamu’alaikum, saya sudah mengikuti Temukan Langkah Saya di stifinmulia.com.',
+        `Nama: ${lead.name}`, `Kota/kabupaten: ${lead.city}`, `Kebutuhan: ${lead.journey_label}`,
+        `Untuk: ${lead.audience}`, `Kesiapan: ${lead.readiness}`, `Waktu mulai: ${lead.timeframe}`,
+        `Rekomendasi: ${lead.lead_temperature}`, 'Mohon bantu saya menentukan langkah berikutnya.'
+      ].join('\n');
+      location.href = `https://wa.me/${root.dataset.whatsapp}?text=${encodeURIComponent(message)}`;
     }));
   }
 </script>

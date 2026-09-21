@@ -12,6 +12,7 @@ export async function GET() {
 
 ## Halaman utama
 - [Temukan Langkah Saya](https://stifinmulia.com/perjalanan/): empat pertanyaan singkat yang menghasilkan jalur personal, bacaan pilihan, dan rekomendasi langkah berikutnya.
+- [Apakah Tes STIFIn Cocok untuk Saya?](https://stifinmulia.com/apakah-tes-stifin-cocok-untuk-saya/): pusat keputusan untuk menilai kecocokan, memahami batas penggunaan, dan membedakan tes, penjelasan hasil, WSL 1, serta promotor.
 - [Tes STIFIn](https://stifinmulia.com/tes-stifin/): proses, manfaat, hasil, dan langkah pendaftaran.
 - [Cari layanan di kota Anda](https://stifinmulia.com/jaringan-promotor/): data wilayah dan promotor hasil sinkronisasi API.
 - [WSL 1](https://stifinmulia.com/wsl-1/): pembelajaran dasar setelah mengenal hasil tes.

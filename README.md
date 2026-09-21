@@ -1,6 +1,8 @@
-# STIFIn Mulia Website v2.0.0
+# STIFIn Mulia Website v2.1.0
 
-Versi 2.0 menambahkan **Journey Engine** di `/perjalanan/`. Pengunjung menjawab empat pertanyaan singkat, menerima rekomendasi berdasarkan kebutuhan, melihat tiga bacaan pilihan, lalu dapat meneruskan konteksnya ke WhatsApp dan funnel StarSender. Journey Engine membawa atribusi UTM, `fbclid`, `gclid`, persetujuan kontak, suhu lead, audiens, kesiapan, dan waktu mulai. Jalur diri, anak, keluarga, karier, dan tim diarahkan ke funnel Tes; jalur promotor diarahkan ke funnel Calon Promotor.
+Versi 2.1 menambahkan **Conversion & Trust Center** di `/apakah-tes-stifin-cocok-untuk-saya/`. Halaman ini membantu pengunjung menilai kapan tes relevan, kapan sebaiknya belajar dahulu, memahami batas penggunaan, membandingkan Tes STIFIn–penjelasan hasil–WSL 1–promotor, serta menjawab 12 keberatan umum. Journey Engine kini membuka ringkasan langsung di WhatsApp dan tidak membutuhkan webhook atau n8n.
+
+Versi 2.0 menambahkan **Journey Engine** di `/perjalanan/`. Pengunjung menjawab empat pertanyaan singkat, menerima rekomendasi berdasarkan kebutuhan, melihat tiga bacaan pilihan, lalu dapat meneruskan konteksnya ke WhatsApp. Journey Engine membawa kebutuhan, audiens, kesiapan, dan waktu mulai ke dalam ringkasan percakapan.
 
 Versi 1.9 menjadikan website sebagai pusat **Knowledge, Trust & Discovery** yang melengkapi `app.stifinmulia.com`. Pengunjung dapat memulai dari kebutuhan diri, anak, keluarga, karier, tim, atau promotor; mencari dan menyaring artikel; memahami istilah melalui kamus; serta membaca artikel dengan daftar isi, progress bar, dan tombol berbagi. Halaman Tentang diperkuat dengan alasan nyata memilih STIFIn Mulia. Portal aplikasi ditautkan sebagai ruang operasional tanpa menduplikasi fungsi CRM di website publik.
 
@@ -24,20 +26,17 @@ Versi 1.4 membentuk growth funnel lengkap Tes → WSL 1 → Promotor. Halaman `/
 
 Versi 1.3.1 memperkeras sinkronisasi jaringan: nilai lokasi kosong seperti `-` dan `NULL` tidak lagi ditampilkan sebagai provinsi, variasi nama field API dibaca lebih toleran, kode cabang yang merespons tanpa data dilaporkan saat build, dan halaman kota tetap rapi ketika API tidak menyediakan provinsi.
 
-## Landing page iklan dan form lead
+## WhatsApp langsung dan integrasi opsional
 
-Atur dua variabel berikut sebagai **Build Variable** di Coolify:
+Versi 2.1 dapat dipakai tanpa n8n. Journey Engine langsung membuka WhatsApp pusat dengan ringkasan jawaban pengunjung. Untuk penggunaan saat ini, `PUBLIC_STIFIN_LEAD_WEBHOOK_URL` boleh dikosongkan atau tidak dibuat.
+
+Meta Pixel tetap opsional:
 
 ```text
-PUBLIC_STIFIN_LEAD_WEBHOOK_URL=https://n8n.rizqhub.id/webhook/stifin-lead
 PUBLIC_META_PIXEL_ID=ID-PIXEL-META-ANDA
 ```
 
-`PUBLIC_STIFIN_LEAD_WEBHOOK_URL` menerima `POST` JSON berisi ID lead, nama, WhatsApp, kota, kebutuhan, jumlah peserta, persetujuan kontak, waktu persetujuan, halaman sumber, varian landing page, UTM, `fbclid`, dan `gclid`. Webhook n8n harus mengizinkan permintaan dari `https://stifinmulia.com`. Setelah data diproses, halaman mengarahkan calon peserta ke `/terima-kasih-tes/` dan menyiapkan pesan WhatsApp pusat.
-
-Panduan funnel tersedia di `automation/PANDUAN-V1.4-GROWTH-FUNNEL.md`, sedangkan field dan pengujian Journey Engine tersedia di `automation/PANDUAN-V2-JOURNEY-ENGINE.md`. Impor `automation/STIFIn-02-Multi-Funnel-ke-StarSender.json` ke n8n, isi tiga ID campaign, pasangkan credential Account API StarSender, uji, lalu aktifkan workflow sebelum redeploy website. Nonaktifkan workflow v1.3 karena keduanya menggunakan path webhook `stifin-lead`.
-
-Jika webhook belum diisi, formulir tetap melanjutkan calon peserta ke halaman terima kasih dan WhatsApp, tetapi lead belum tersimpan ke CRM. Pixel juga hanya aktif bila ID Meta Pixel sudah diisi.
+Folder `automation` tetap disertakan sebagai fasilitas pengembangan mendatang, tetapi tidak perlu dikonfigurasi untuk menjalankan website v2.1. Form iklan versi lama tetap mempunyai fallback WhatsApp bila webhook tidak diisi.
 
 ## Menjalankan secara lokal
 
